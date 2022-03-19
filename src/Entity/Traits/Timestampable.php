@@ -13,30 +13,39 @@ use Doctrine\ORM\Mapping as ORM;
 trait Timestampable
 {
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?DateTime $createdAt = null;
+    private ?DateTime $createDate = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?DateTime $updatedAt = null;
+    private ?DateTime $lastUpdate = null;
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreateDate(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createDate;
     }
 
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(): void
+
+//    #[ORM\PrePersist]
+//    public function setCreateDateAtValue(): void
+//    {
+//        $this->createDate = new \DateTime();
+//    }
+    public function setCreateDate($createDate): void
     {
-        $this->createdAt = new \DateTime();
+        $this->createDate = $createDate;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getLastUpdate(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->lastUpdate;
     }
 
-    #[ORM\PreUpdate]
-    public function setUpdatedAtValue(): void
+//    #[ORM\PreUpdate]
+//    public function setLastUpdateAtValue(): void
+//    {
+//        $this->lastUpdate = new \DateTime();
+//    }
+    public function setLastUpdate($lastUpdate): void
     {
-        $this->updatedAt = new \DateTime();
+        $this->lastUpdate = $lastUpdate;
     }
 }
