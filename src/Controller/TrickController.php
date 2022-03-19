@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/trick')]
 class TrickController extends AbstractController
 {
     #[Route('/', name: 'app_trick_index', methods: ['GET'])]
@@ -21,8 +20,8 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_trick_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TrickRepository $trickRepository): Response
+    #[Route('/create', name: 'app_trick_create', methods: ['GET', 'POST'])]
+    public function create(Request $request, TrickRepository $trickRepository): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
@@ -42,8 +41,10 @@ class TrickController extends AbstractController
     #[Route('/{id}', name: 'app_trick_show', methods: ['GET'])]
     public function show(Trick $trick): Response
     {
+        $comments = $trick->getComments();
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'comments' => $comments,
         ]);
     }
 

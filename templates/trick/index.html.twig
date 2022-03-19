@@ -1,45 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick index{% endblock %}
+{% block title 'Index of Tricks' %}
 
 {% block body %}
-    <h1>Trick index</h1>
+    <h1>All the {{ tricks|length }} tricks </h1>
+    <a href="{{ path('app_trick_create') }}">Create new</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Level</th>
-                <th>MainPicture</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    {% if tricks|length > 0 %}
+
         {% for trick in tricks %}
-            <tr>
-                <td>{{ trick.id }}</td>
-                <td>{{ trick.name }}</td>
-                <td>{{ trick.description }}</td>
-                <td>{{ trick.level }}</td>
-                <td>{{ trick.mainPicture }}</td>
-                <td>{{ trick.createDate ? trick.createDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ trick.lastUpdate ? trick.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
+            <div>
+                <h2>{{ trick.name }}</h2>
+                <div>{{ trick.description }}</div>
+                <div>{{ trick.level }}</div>
+                <div><img src="#" alt="{{ trick.mainPicture }}"</div>
+                <div>{{ trick.createDate ? trick.createDate|date('Y-m-d H:i:s') : '' }}</div>
+                <div>{{ trick.lastUpdate ? trick.lastUpdate|date('Y-m-d H:i:s') : '' }}</div>
+                <div>
                     <a href="{{ path('app_trick_show', {'id': trick.id}) }}">show</a>
                     <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    {% else %}
+    {% endif %}
 
-    <a href="{{ path('app_trick_new') }}">Create new</a>
 {% endblock %}

@@ -16,8 +16,6 @@ class TrickType extends AbstractType
             ->add('description')
             ->add('level')
             ->add('mainPicture')
-            ->add('createDate')
-            ->add('lastUpdate')
         ;
     }
 
