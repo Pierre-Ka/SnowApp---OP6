@@ -4,10 +4,14 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\Timestampable;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Comment
 {
+    use Timestampable;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -19,12 +23,6 @@ class Comment
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private $trick;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $createDate;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $lastUpdate;
 
     public function getId(): ?int
     {
@@ -51,30 +49,6 @@ class Comment
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
-
-        return $this;
-    }
-
-    public function getCreateDate(): ?\DateTimeInterface
-    {
-        return $this->createDate;
-    }
-
-    public function setCreateDate(?\DateTimeInterface $createDate): self
-    {
-        $this->createDate = $createDate;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(?\DateTimeInterface $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }
