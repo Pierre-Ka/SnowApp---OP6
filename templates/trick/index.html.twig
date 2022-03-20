@@ -3,7 +3,7 @@
 {% block title 'Index of Tricks' %}
 
 {% block body %}
-    <h1>All the {{ tricks|length }} tricks </h1>
+    <h1>All the {{ all_tricks|length }} tricks </h1>
     <a href="{{ path('app_trick_create') }}">Create new</a>
 
     {% if tricks|length > 0 %}
@@ -17,12 +17,15 @@
                 <div>{{ trick.createDate ? trick.createDate|date('Y-m-d H:i:s') : '' }}</div>
                 <div>{{ trick.lastUpdate ? trick.lastUpdate|date('Y-m-d H:i:s') : '' }}</div>
                 <div>
-                    <a href="{{ path('app_trick_show', {'id': trick.id}) }}">show</a>
+                    <a href="{{ path('app_trick_show', {'id': trick.id, 'page': 1}) }}">show</a>
                     <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
                 </div>
             </div>
+            <p>
+                <a href=" {{ path('app_all_tricks') }}"> Voir tous les tricks </a>
+            </p>
         {% endfor %}
     {% else %}
+        <p> Pas encore de trick ! Soyons le premier  <a href="{{ path('app_trick_create') }}">à en créer un !</a></p>
     {% endif %}
-
 {% endblock %}
