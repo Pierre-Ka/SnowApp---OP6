@@ -42,7 +42,7 @@
 
     <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
 
-    {{ include('trick/_delete_form.html.twig') }}
+    {{ include('partials/_delete_form.html.twig') }}
 
     <div>
         {% if comments|length > 0 %}
@@ -54,4 +54,9 @@
             {% endfor %}
         {% endif %}
     </div>
+
+{% block paging %}
+    {{ include('partials/_paging.html.twig') }}
+{% endblock paging %}
+
 {% endblock %}
