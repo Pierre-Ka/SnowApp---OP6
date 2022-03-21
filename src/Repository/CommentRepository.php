@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -16,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommentRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 2;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comment::class);
@@ -45,6 +48,17 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    public function totalPaginationPages(Trick $trick)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->andWhere('c.trick = :trick')
+            ->setParameter('trick', $trick->getId())
+            ;
+        $total_row = $query->getQuery()->getSingleScalarResult();
+        $total_pagination_pages = ceil($total_row / self::PAGINATOR_PER_PAGE);
+        return $total_pagination_pages;
+    }
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */
@@ -60,7 +74,7 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+        */
 
     /*
     public function findOneBySomeField($value): ?Comment
