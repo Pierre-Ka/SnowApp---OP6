@@ -24,28 +24,28 @@ trait Timestampable
     }
 
 
-//    #[ORM\PrePersist]
-//    public function setCreateDateAtValue(): void
-//    {
-//        $this->createDate = new \DateTime();
-//    }
-    public function setCreateDate($createDate): void
+    #[ORM\PrePersist]
+    public function setCreateDateAtValue(): void
     {
-        $this->createDate = $createDate;
+        $this->createDate = new \DateTime();
     }
+//    public function setCreateDate($createDate): void
+//    {
+//        $this->createDate = $createDate;
+//    }
 
     public function getLastUpdate(): ?\DateTimeInterface
     {
         return $this->lastUpdate;
     }
 
-//    #[ORM\PreUpdate]
-//    public function setLastUpdateAtValue(): void
-//    {
-//        $this->lastUpdate = new \DateTime();
-//    }
-    public function setLastUpdate($lastUpdate): void
+    #[ORM\PreUpdate]
+    public function setLastUpdateAtValue(): void
     {
-        $this->lastUpdate = $lastUpdate;
+        $this->lastUpdate = new \DateTime();
     }
+//    public function setLastUpdate($lastUpdate): void
+//    {
+//        $this->lastUpdate = $lastUpdate;
+//    }
 }
