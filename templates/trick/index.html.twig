@@ -34,7 +34,7 @@
                                 <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
                                 <p class="pl-5 pb-3 text-muted" style="padding-left:25px;">
                                     <small>Submitted by [AUTHOR]</small>
-                                    <small>Group "[CATEGORY]"</small>
+                                    <small>Groupe : {{ trick.category.name }}</small>
                                     <small>Difficulté : {{ trick.level }}</small>
                                     <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">show</a>
                                     <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>

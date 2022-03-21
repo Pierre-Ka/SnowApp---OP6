@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,12 +21,74 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
         $trick_array = [];
-        for ( $i=0; $i<=50; $i++ )
+        $group_array = [];
+
+        $category1 = new Category() ;
+        $category1
+            ->setName('Straight airs');
+        $group_array[] = $category1;
+        $manager->persist($category1);
+        $manager->flush();
+
+        $category2 = new Category() ;
+        $category2
+            ->setName('Grabs');
+        $group_array[] = $category2;
+        $manager->persist($category2);
+        $manager->flush();
+
+        $category3 = new Category() ;
+        $category3
+            ->setName('Spins');
+        $group_array[] = $category3;
+        $manager->persist($category3);
+        $manager->flush();
+
+        $category4 = new Category() ;
+        $category4
+            ->setName('Flips');
+        $group_array[] = $category4;
+        $manager->persist($category4);
+        $manager->flush();
+
+        $category5 = new Category() ;
+        $category5
+            ->setName('Slides');
+        $group_array[] = $category5;
+        $manager->persist($category5);
+        $manager->flush();
+
+        $category6 = new Category() ;
+        $category6
+            ->setName('Stalls');
+        $group_array[] = $category6;
+        $manager->persist($category6);
+        $manager->flush();
+
+        $category7 = new Category() ;
+        $category7
+            ->setName('Tweak');
+        $group_array[] = $category7;
+        $manager->persist($category7);
+        $manager->flush();
+
+        $category8 = new Category() ;
+        $category8
+            ->setName('Autres');
+        $group_array[] = $category8;
+        $manager->persist($category8);
+        $manager->flush();
+
+
+
+        for ( $i=0; $i<=100; $i++ )
         {
+            shuffle($group_array);
             $trick = new Trick() ;
             $trick
-                ->setName($faker->sentence(4))
-                ->setDescription($faker->sentence(35))
+                ->setName($faker->sentence(3))
+                ->setDescription($faker->sentence(40))
+                ->setCategory($group_array[0])
                 ->setLevel($faker->numberBetween(1,5))
                 ->setCreateDate($faker->dateTimeThisDecade());
 
@@ -35,7 +98,7 @@ class AppFixtures extends Fixture
             $manager->flush();
         }
 
-        for ( $i=0; $i<=250; $i++ )
+        for ( $i=0; $i<=1000; $i++ )
         {
             $body= '<p>' . implode('</p><p>', $faker->paragraphs(3)) . '</p>';
             shuffle($trick_array);
