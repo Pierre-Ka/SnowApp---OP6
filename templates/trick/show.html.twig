@@ -54,9 +54,11 @@
             {% endfor %}
         {% endif %}
     </div>
-
-{% block paging %}
-    {{ include('partials/_paging.html.twig') }}
-{% endblock paging %}
+    
+    {% block paging %}
+        {{ include('partials/_paging.html.twig') }}
+    {% endblock paging %}
 
 {% endblock %}
+
+

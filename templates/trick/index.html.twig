@@ -1,31 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Index of Tricks' %}
+{% block title 'SnowTricks index' %}
 
 {% block body %}
-    <h1>All the {{ all_tricks|length }} tricks </h1>
-    <a href="{{ path('app_trick_create') }}">Create new</a>
-
-    {% if tricks|length > 0 %}
-
-        {% for trick in tricks %}
-            <div>
-                <h2>{{ trick.name }}</h2>
-                <div>{{ trick.description }}</div>
-                <div>{{ trick.level }}</div>
-                <div><img src="#" alt="{{ trick.mainPicture }}"</div>
-                <div>{{ trick.createDate ? trick.createDate|date('Y-m-d H:i:s') : '' }}</div>
-                <div>{{ trick.lastUpdate ? trick.lastUpdate|date('Y-m-d H:i:s') : '' }}</div>
-                <div>
-                    <a href="{{ path('app_trick_show', {'id': trick.id, 'page': 1}) }}">show</a>
-                    <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('assets/img/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Clean Blog</h1>
+                        <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                    </div>
                 </div>
             </div>
-            <p>
-                <a href=" {{ path('app_all_tricks') }}"> Voir tous les tricks </a>
-            </p>
-        {% endfor %}
-    {% else %}
-        <p> Pas encore de trick ! Soyons le premier  <a href="{{ path('app_trick_create') }}">à en créer un !</a></p>
-    {% endif %}
+        </div>
+    </header>
+    <div class="container">
+        {% if tricks|length > 0 %}
+            <h1 class="mb-4 text-center text-muted"> Toutes les {{ tricks|length }} figures </h1>
+            <a href="{{ path('app_trick_create') }}">Create new</a>
+            {% for row in tricks|batch(5) %}
+                <div class="row mb-5 justify-content-between">
+                    {% for trick in row %}
+                        <div class="col-md-2">
+                            <article class="pin bg-white rounded shadow" >
+                                <div class="mw-100 rounded-top overflow-hidden">
+                                    <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">
+                                        <img src="{{ (trick.mainPicture ? 1 : 0 ) }}" alt="{{ trick.name }}" class="w-100">
+                                    </a>
+                                </div>
+                                <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
+                                <p class="pl-5 pb-3 text-muted" style="padding-left:25px;">
+                                    <small>Submitted by [AUTHOR]</small>
+                                    <small>Group "[CATEGORY]"</small>
+                                    <small>Difficulté : {{ trick.level }}</small>
+                                    <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">show</a>
+                                    <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
+                                </p>
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+                <p>
+                    <a href=" {{ path('app_all_tricks') }}"> Voir tous les tricks </a>
+                </p>
+            {% endfor %}
+        {% else %}
+            <p class="h2 mt-5 text-center"> No Trick yet <a href="{{ path('app_trick_create') }}"> Be the First to create a Trick !</a> </p>
+        {% endif %}
+    </div>
 {% endblock %}
+
