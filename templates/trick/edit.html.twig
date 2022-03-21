@@ -3,11 +3,27 @@
 {% block title 'Edit Trick' %}
 
 {% block body %}
-    <h1>Edit Trick</h1>
+    <header class="masthead" style="background-image: url('../assets/img/snow2.jpg') ;
+                                                         max-height: 100px;
+                                                         z-index: 1;">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading mt-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="row">
+        <div class="blockcenter">
+            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
 
-    {{ include('trick/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_trick_index') }}">back to list</a>
-
-    {{ include('trick/_delete_form.html.twig') }}
+                <h1>Edit Trick</h1>
+                <span class="subheading"><strong> {{ trick.name }} </strong></span>
+                {{ include('partials/_form.html.twig', {'button_label': 'Update'}) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

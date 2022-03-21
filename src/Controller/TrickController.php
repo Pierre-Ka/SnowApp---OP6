@@ -16,7 +16,7 @@ class TrickController extends AbstractController
     #[Route('/', name: 'app_trick_index', methods: ['GET'])]
     public function index(TrickRepository $trickRepository): Response
     {
-        $tricks = $trickRepository->findBy([], ['createDate' => 'DESC' ], 15);
+        $tricks = $trickRepository->findBy([], ['createDate' => 'DESC' ], 12);
         return $this->render('trick/index.html.twig', [
             'all_tricks' => $trickRepository->findAll(),
             'tricks' => $tricks,

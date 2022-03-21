@@ -4,6 +4,33 @@
 * Copyright 2013-2021 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
+.blockcenter{
+  background-color: white;
+  z-index: 2;
+  position: relative ;
+  margin-top : -200px;
+}
+.bgcenter{
+  box-shadow: 4px 5px 3px grey;
+  background-color: gainsboro;
+}
+.alert {
+  padding: 10px;
+  color: white;
+  text-align:center;
+  margin: 0;
+  border: none;
+  border-radius: 0; }
+.alert .alert-success {
+   background-color : green;
+ }
+.alert .alert-error {
+   background-color : red;
+ }
+.alert .alert-info {
+   background-color : blue;
+ }
+
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -11122,7 +11149,7 @@ header.masthead {
   margin-bottom: 3rem;
   padding-top: calc(8rem + 57px);
   padding-bottom: 8rem;
-  background: no-repeat bottom bottom;
+  background: no-repeat center center;
   background-color: #6c757d;
   background-size: cover;
   background-attachment: scroll;

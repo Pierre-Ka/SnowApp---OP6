@@ -3,61 +3,50 @@
 {% block title 'Show Trick' %}
 
 {% block body %}
-    <h1>Trick</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ trick.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ trick.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ trick.description }}</td>
-            </tr>
-            <tr>
-                <th>Level</th>
-                <td>{{ trick.level }}</td>
-            </tr>
-            <tr>
-                <th>MainPicture</th>
-                <td>{{ trick.mainPicture }}</td>
-            </tr>
-            <tr>
-                <th>createDate</th>
-                <td>{{ trick.createDate ? trick.createDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>lastUpdate</th>
-                <td>{{ trick.lastUpdate ? trick.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_trick_index') }}">back to list</a>
-
-    <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
-
-    {{ include('partials/_delete_form.html.twig') }}
-
-    <div>
-        {% if comments|length > 0 %}
-            {% for comment in comments %}
-                <div>
-                    <h4> [AUTHOR] a écrit a {{ comment.createDate|date() }}</h4>
-                    <p> {{ comment.content|raw }} </p>
+    <header class="masthead" style="background-image: url('../assets/img/snow2.jpg') ;
+                                                         max-height: 100px;
+                                                         z-index: 1;">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading mt-1">
+                    </div>
                 </div>
-            {% endfor %}
-        {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="blockcenter">
+            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5" style="">
+                <h1> {{ trick.name }} </h1>
+                <span class="subheading"><strong> Group : [GROUP] </strong></span>
+                <div>{{ trick.description }}</div>
+                <div>{{ trick.level }}</div>
+                <div>{{ trick.mainPicture }}</div>
+                <div>{{ trick.createDate ? trick.createDate|date('Y-m-d H:i:s') : '' }}</div>
+                <div>{{ trick.lastUpdate ? trick.lastUpdate|date('Y-m-d H:i:s') : '' }}</div>
+                <a href="{{ path('app_trick_index') }}">back to list</a>
+                <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
+                {{ include('partials/_delete_form.html.twig') }}
+                <div>
+                    {% if comments|length > 0 %}
+                        <h4>Espace de discussion</h4>
+                        {% for comment in comments %}
+                            <div>
+                                <h6> [AUTHOR] a écrit a {{ comment.createDate|date() }}</h6>
+                                <p> {{ comment.content|raw }} </p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% block paging %}
+                    {{ include('partials/_paging.html.twig') }}
+                {% endblock paging %}
+
+            </div>
+        </div>
     </div>
-    
-    {% block paging %}
-        {{ include('partials/_paging.html.twig') }}
-    {% endblock paging %}
 
 {% endblock %}
 
