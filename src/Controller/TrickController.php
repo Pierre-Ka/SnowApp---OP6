@@ -20,6 +20,7 @@ class TrickController extends AbstractController
         return $this->render('trick/index.html.twig', [
             'all_tricks' => $trickRepository->findAll(),
             'tricks' => $tricks,
+            'isIndex' => true,
         ]);
     }
 
@@ -30,6 +31,7 @@ class TrickController extends AbstractController
         return $this->render('trick/index.html.twig', [
             'all_tricks' => $trickRepository->findAll(),
             'tricks' => $tricks,
+            'isIndex' => false,
         ]);
     }
 
