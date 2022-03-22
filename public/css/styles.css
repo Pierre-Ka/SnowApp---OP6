@@ -28,12 +28,15 @@
   border-radius: 0; }
 .alert .alert-success {
    background-color : green;
+  opacity: 1;
  }
 .alert .alert-error {
    background-color : red;
+  opacity: 1;
  }
 .alert .alert-info {
    background-color : blue;
+  opacity: 1;
  }
 
 /******** ARRAW DOWN *************/

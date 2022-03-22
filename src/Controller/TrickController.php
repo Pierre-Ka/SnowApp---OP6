@@ -44,9 +44,10 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trickRepository->add($trick);
-            return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
+            $id = $trick->getId();
+            $this->addFlash('success', 'Figure créée avec succès');
+            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('trick/new.html.twig', [
             'trick' => $trick,
             'form' => $form,
@@ -61,9 +62,10 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trickRepository->add($trick);
-            return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
+            $id = $trick->getId();
+            $this->addFlash('success', 'Figure modifiée avec succès');
+            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('trick/edit.html.twig', [
             'trick' => $trick,
             'form' => $form,
@@ -81,8 +83,8 @@ class TrickController extends AbstractController
         $comments = $commentRepository->findBy(
             ['trick' => $trick->getId()],
             ['createDate' => 'DESC' ],
-            2,
-            2 * ($actualPage - 1)
+            4,
+            4 * ($actualPage - 1)
         );
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
@@ -97,6 +99,7 @@ class TrickController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
             $trickRepository->remove($trick);
+            $this->addFlash('info', 'Pin successfully deleted');
         }
 
         return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
