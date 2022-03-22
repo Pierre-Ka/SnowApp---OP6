@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -20,12 +21,19 @@ class Trick
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'La figure doit avoir un nom')]
+    #[Assert\Length(min: 3, minMessage: 'Le nom n\'est pas assez long')]
     private $name;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: 'La figure doit avoir une description')]
+    #[Assert\Length(min: 10, minMessage: 'La description n\'est pas assez longue')]
     private $description;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: 'La figure doit avoir une niveau de difficulté compris entre 1 et 5')]
+    #[Assert\Positive(message: 'La figure doit avoir une niveau de difficulté compris entre 1 et 5')]
+    #[Assert\LessThan(6, message: 'La figure doit avoir une niveau de difficulté compris entre 1 et 5')]
     private $level;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -35,6 +43,7 @@ class Trick
     private $comments;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
+    #[Assert\NotBlank(message: 'La figure doit faire parti d\'un groupe de figure')]
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
@@ -53,7 +62,7 @@ class Trick
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -65,7 +74,7 @@ class Trick
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -77,7 +86,7 @@ class Trick
         return $this->level;
     }
 
-    public function setLevel(int $level): self
+    public function setLevel(?int $level): self
     {
         $this->level = $level;
 

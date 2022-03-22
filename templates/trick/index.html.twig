@@ -30,7 +30,7 @@
     </header>
     <div class="container">
         {% if tricks|length > 0 %}
-            <h1 id="tricks" class="text-center"> Toutes les {{ all_tricks|length }} figures </h1>
+            <h1 id="tricks" class="text-center"> Voir les {{ all_tricks|length }} figures du site </h1>
             <!-- Divider-->
             <hr class="my-4" />
 
@@ -45,13 +45,13 @@
                                     </a>
                                 </div>
                                 <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
-                                <p class="pl-5 pb-3 text-muted" style="padding-left:25px;">
-                                    <small>Submitted by [AUTHOR]</small>
-                                    <small>Groupe : {{ trick.category.name }}</small>
+                                <div class="pl-5 pb-3 text-muted" style="padding-left:25px;">
                                     <small>Difficulté : {{ trick.level }}</small>
-                                    <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">show</a>
-                                    <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
-                                </p>
+                                    <span class="m-2" style="float:right;">
+                                         <a href="{{ path('app_trick_edit', {'id': trick.id}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
+                                            {{ include('partials/_delete_form.html.twig') }}
+                                    </span>
+                                   </div>
                             </article>
                         </div>
                     {% endfor %}
