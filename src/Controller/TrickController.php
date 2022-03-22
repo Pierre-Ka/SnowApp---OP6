@@ -9,6 +9,7 @@ use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,8 +46,17 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $extension = $form['setPicture']->getData()->guessExtension();
+            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+            }
+            $file = $form['setPicture']->getData();
+            $setFileName = rand(1, 99999).'-'.$form['name']->getData().'.'.$extension ;
+            $file->move('../public/uploads/', $setFileName);
+            $trick->setMainPicture($setFileName);
+
             $trickRepository->add($trick);
-            $id = $trick->getId();
+
             $this->addFlash('success', 'Figure créée avec succès');
             return $this->redirectToRoute('app_trick_index',[], Response::HTTP_SEE_OTHER);
         }
@@ -63,7 +73,16 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $extension = $form['setPicture']->getData()->guessExtension();
+            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+            }
+            $file = $form['setPicture']->getData();
+            $setFileName = rand(1, 99999).'-'.$trick->getName().'.'.$extension ;
+            $file->move('../public/uploads/', $setFileName);
+            $trick->setMainPicture($setFileName);
             $trickRepository->add($trick);
+
             $id = $trick->getId();
             $this->addFlash('success', 'Figure modifiée avec succès');
             return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
@@ -80,11 +99,14 @@ class TrickController extends AbstractController
         $comment = new Comment ;
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
             $commentRepository->add($comment);
         }
+        if ($trick->getMainPicture()){
+            $pictureName = preg_replace('/ /','%20', $trick->getMainPicture());
+        }
+
 
         $maxPage = $commentRepository->totalPaginationPages($trick);
         $actualPage = $page ?? 1;
@@ -98,6 +120,7 @@ class TrickController extends AbstractController
             4 * ($actualPage - 1)
         );
         return $this->render('trick/show.html.twig', [
+            'pictureName' => $pictureName,
             'trick' => $trick,
             'comments' => $comments,
             'max_page' => $maxPage,
