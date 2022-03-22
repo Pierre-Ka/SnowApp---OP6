@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class TrickType extends AbstractType
 {
@@ -25,16 +26,30 @@ class TrickType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Categorie'
             ])
+            ->add('level', null, [
+                'label' => 'Niveau de difficulté de la figure ',
+                'help' => 'Sur une echelle de 1 à 5 ; facile = 1, difficile = 5'
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'attr' => [ 'rows' => 4,]
             ])
-            ->add('level', null, [
-                'label' => 'Niveau de difficulté de la figure'
-            ])
-            ->add('mainPicture', FileType::class, [
+            ->add('setPicture', FileType::class, [
                 'label' => 'Image Principale ( optionnelle )',
-                'required' => false
+                'help' => 'Formats : png, jpg, jpeg.   Taille : max 8Mo ',
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '9000k',       // 1024 kB = 1 MB, 8192 kB = 8 MB
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/jpg'
+                        ],
+                        'mimeTypesMessage' => 'Seuls les formats jpg, png et jpeg sont acceptés',
+                    ])
+                ],
             ])
         ;
     }

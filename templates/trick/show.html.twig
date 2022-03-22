@@ -15,15 +15,26 @@
             </div>
         </div>
     </header>
-
     <div class="row">
         <div class="blockcenter">
             <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
                 <h1 class="text-center pb-5"> {{ trick.name }} </h1>
-                <div class="w-100" style="background-image: url('../assets/img/essai.jpg');
-                                                         height: 400px;
-                                                         background-size: cover;
-position: relative;">
+                <div class="w-100" style="
+
+                                background-image: url(
+                        {% if trick.mainPicture %}
+                        {{ asset('uploads/'~pictureName) }}
+                        {% else %}
+                        {{ asset('assets/img/essai.jpg') }}
+                        {% endif %}
+                                    );
+                                height: 550px;
+                                background-size: cover;
+                                background-position-x: center;
+                                background-position-y: center;
+                                background-repeat: no-repeat;
+                                position: relative;
+                                        ">
                     <div>
                                            <span class="m-2" style="position: absolute;
                                               top : 0;
@@ -64,21 +75,17 @@ position: relative;">
                 <br/><br/><br/><br/>
 
                 <div class="text-center">
+                    <h3>Espace de discussion</h3>   <br/><br/>
+                    {# {% if users %} #}
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                            {{ include('partials/_form.html.twig', {'button_label': 'Valider'}) }}
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>      <br/><br/>
+                    {#  {% endif %} #}
                     {% if comments|length > 0 %}
-                        <h3>Espace de discussion</h3>
-                        <br/><br/>
-                        {#
-                            {% if users %} #}
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                {{ include('partials/_form.html.twig', {'button_label': 'Valider'}) }}
-                            </div>
-                            <div class="col-md-3"></div>
-                        </div><br/><br/>
-
-                           {#  {% endif %}
-                        #}
                         {% for comment in comments %}
                             <div class="">
                                 <div class="p-3">
