@@ -38,7 +38,7 @@
                 <div class="row mb-5 justify-content-between">
                     {% for trick in row %}
                         <div class="col-md-3">
-                            <article class="pin bg-white rounded shadow" >
+                            <article class="bg-white rounded shadow" style="height:350px; position: relative">
                                 <div class="mw-100 rounded-top overflow-hidden">
                                     <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">
                                         <img src="{{ (trick.mainPicture ? 1 : asset('assets/img/trick.jpg')) }}" alt="{{ trick.name }}" class="w-100">
@@ -46,8 +46,10 @@
                                 </div>
                                 <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
                                 <div class="pl-5 pb-3 text-muted" style="padding-left:25px;">
-                                    <small>Difficulté : {{ trick.level }}</small>
-                                    <span class="m-2" style="float:right;">
+                                    <small>Difficulté {% for i in 1..trick.level  %}
+                                            <span style="font-size: 1.1em;">★</span>
+                                        {% endfor %}</small>
+                                    <span class="m-2" style="position: absolute; bottom : 2%; right: 2%;">
                                          <a href="{{ path('app_trick_edit', {'id': trick.id}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
                                             {{ include('partials/_delete_form.html.twig') }}
                                     </span>
@@ -58,6 +60,7 @@
                 </div>
                 <!-- Divider-->
                 <hr class="my-4" />
+                <br/><br/>
             {% endfor %}
                 <!-- Pager-->
             {% if isIndex %}
