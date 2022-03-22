@@ -18,24 +18,76 @@
 
     <div class="row">
         <div class="blockcenter">
-            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5" style="">
-                <h1> {{ trick.name }} </h1>
-                <span class="subheading"><strong> Group : {{ trick.category.name }} </strong></span>
-                <div>{{ trick.description }}</div>
-                <div>{{ trick.level }}</div>
-                <div>{{ trick.mainPicture }}</div>
-                <div>{{ trick.createDate ? trick.createDate|date('Y-m-d H:i:s') : '' }}</div>
-                <div>{{ trick.lastUpdate ? trick.lastUpdate|date('Y-m-d H:i:s') : '' }}</div>
-                <a href="{{ path('app_trick_index') }}">back to list</a>
-                <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">edit</a>
-                {{ include('partials/_delete_form.html.twig') }}
+            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
+                <h1 class="text-center pb-5"> {{ trick.name }} </h1>
+                <div class="w-100" style="background-image: url('../assets/img/essai.jpg');
+                                                         height: 400px;
+                                                         background-size: cover;
+position: relative;">
+                    <div>
+                                           <span class="m-2" style="position: absolute;
+                                              top : 0;
+                                               right: 0;">
+                    <a href="{{ path('app_trick_edit', {'id': trick.id}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
+                    {{ include('partials/_delete_form.html.twig') }}
+                    </span>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-6 pt-5 text-center">
+                        <span class="subheading"> GROUPE : <strong>{{ trick.category.name }} </strong></span>
+                    </div>
+                    <div class="col-6 pt-5 text-center">
+                        <span class="subheading"> DIFFICULTE :
+                            {% for i in 1..trick.level  %}
+                            	<span style="font-size: 1.2em;"> ★</span>
+                            {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p> Espace pour photo</p>
+                    </div>
+                    <div class="col-6">
+                        <p> Espace pour videos</p>
+                    </div>
+
+                </div>
+                <div class="pt-3 pb-3">{{ trick.description }}</div>
                 <div>
+                    <small>
+                        Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }}
+                        {{ trick.lastUpdate ? ' Et modifié le ' ~trick.lastUpdate|date('d-m-Y') : '' }}
+                    </small>
+                </div>
+                <br/><br/><br/><br/>
+
+                <div class="text-center">
                     {% if comments|length > 0 %}
-                        <h4>Espace de discussion</h4>
+                        <h3>Espace de discussion</h3>
+                        <br/><br/>
+                        {#
+                            {% if users %}
+                            {{ include() }}
+                            {% endif %}
+                        #}
                         {% for comment in comments %}
-                            <div>
-                                <h6> [AUTHOR] a écrit a {{ comment.createDate|date() }}</h6>
-                                <p> {{ comment.content|raw }} </p>
+                            <div class="">
+                                <div class="p-3">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <img src="{{ asset('assets/img/user.jpg') }}" alt="" class="rounded-circle mt-1" style="height : 90px;">
+                                        </div>
+                                        <div class="col-9" style="position: relative">
+                                            <h6 class="text-left" style="position: absolute; left : 0 ; bottom: 5%;"> [AUTHOR] a écrit a {{ comment.createDate|date(('d-m-Y à H:i')) }}</h6>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 0.85em;">
+                                        <p> {{ comment.content|raw }} </p>
+                                    </div>
+                                </div>
+
                             </div>
                         {% endfor %}
                     {% endif %}
