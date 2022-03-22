@@ -22,7 +22,7 @@ class Trick
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'La figure doit avoir un nom')]
-    #[Assert\Length(min: 3, minMessage: 'Le nom n\'est pas assez long')]
+    #[Assert\Length(min: 3, minMessage: 'Le nom n\'est pas assez long', max: 35, maxMessage: 'Le nom doit être inferieur à 35 caractères')]
     private $name;
 
     #[ORM\Column(type: 'text')]
