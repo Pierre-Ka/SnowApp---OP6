@@ -1,7 +1,7 @@
 <div style="display: inline-block;">
     <form method="post" style="display: inline-block;" action="{{ path('app_trick_delete', {'id': trick.id}) }}" onsubmit="return confirm('Attention vouss allez supprimer cette figure. Confirmez-vous ?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
-        <button style="border: none; background-color: white;"> <img src="{{ asset('assets/icon/delete.png') }}" alt="" style="width:25px;"> </button>
+        <button style="border: none; background-color: transparent;"> <img src="{{ asset('assets/icon/delete.png') }}" alt="" style="width:25px;"> </button>
     </form>
 </div>
 

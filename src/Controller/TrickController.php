@@ -46,7 +46,7 @@ class TrickController extends AbstractController
             $trickRepository->add($trick);
             $id = $trick->getId();
             $this->addFlash('success', 'Figure créée avec succès');
-            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trick_index',[], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('trick/new.html.twig', [
             'trick' => $trick,
@@ -101,7 +101,6 @@ class TrickController extends AbstractController
             $trickRepository->remove($trick);
             $this->addFlash('info', 'Pin successfully deleted');
         }
-
         return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
     }
 }
