@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
@@ -72,9 +74,18 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/{page}', name: 'app_trick_show', methods: ['GET'])]
+    #[Route('/{id}/{page}', name: 'app_trick_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Trick $trick, CommentRepository $commentRepository, ?int $page): Response
     {
+        $comment = new Comment ;
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setTrick($trick);
+            $commentRepository->add($comment);
+        }
+
         $maxPage = $commentRepository->totalPaginationPages($trick);
         $actualPage = $page ?? 1;
         if (0 > $actualPage || $maxPage < $actualPage) {
@@ -91,10 +102,11 @@ class TrickController extends AbstractController
             'comments' => $comments,
             'max_page' => $maxPage,
             'actual_page' => $actualPage,
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/{id}', name: 'app_trick_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_trick_delete', methods: ['POST']) ]
     public function delete(Request $request, Trick $trick, TrickRepository $trickRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {

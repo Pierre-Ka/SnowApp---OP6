@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -18,6 +19,7 @@ class Comment
     private $id;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: 'Le commentaire doit avoir un contenu !')]
     private $content;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comments')]
