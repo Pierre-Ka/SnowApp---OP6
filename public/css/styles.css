@@ -4,6 +4,11 @@
 * Copyright 2013-2021 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
+#tricks{
+  padding: 90px;
+  text-shadow: 0.5px 0.5px 0.5px lightcoral;
+  font-weight: 600;
+}
 .blockcenter{
   background-color: white;
   z-index: 2;
@@ -31,7 +36,85 @@
    background-color : blue;
  }
 
+/******** ARRAW DOWN *************/
+.centerarrow {
+  margin-right: 15vw;
+  float: right;
+  display: flex;
+  height: 50vh;
+  align-items: center;
+  justify-content: center;
+}
 
+.roundarrow {
+  position: relative;
+  border: 4px solid #fff;
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+}
+
+#span1, #span2, #span3, #span4 {
+  z-index: 999;
+  height: 3px;
+  margin:1px;
+  width: 30px;
+  background: #fff;
+  transition: 0.4s ease;
+}
+
+#span1 {
+  display: block;
+  position: absolute;
+  transform: rotate(45deg);
+  left: 25%;
+  bottom: 35%;
+}
+
+#span2 {
+  display: block;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 45%;
+  bottom: 35%;
+}
+
+#span3 {
+  display: block;
+  position: absolute;
+  transform: rotate(45deg);
+  left: 25%;
+  bottom: 54%;
+}
+
+#span4
+{
+  display: block;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 45%;
+  bottom: 54%;
+}
+
+.roundarrow:hover #span1 {
+  transform: rotate(-135deg);
+}
+
+.roundarrow:hover #span2
+{
+  transform: rotate(135deg);
+}
+
+.roundarrow:hover #span3 {
+  transform: rotate(225deg);
+}
+
+.roundarrow:hover #span4 {
+  transform: rotate(-225deg);
+}
+/******** ARRAY UP **************/
+
+/******* DIVIDER ***************/
 .divider {								/* minor cosmetics */
   display: table;
   font-size: 24px;
@@ -65,7 +148,7 @@
   background-image: -o-linear-gradient(180deg, #000, transparent);
   background-image: linear-gradient(90deg, #000, transparent);
 }
-
+/*********************************************************************************************************/
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -11116,7 +11199,6 @@ blockquote {
   text-transform: uppercase;
 }
 #mainNav .navbar-nav > li.nav-item > a.nav-link {
-  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.0625em;
   text-transform: uppercase;
@@ -11134,6 +11216,8 @@ blockquote {
   }
   #mainNav .navbar-nav > li.nav-item > a.nav-link {
     color: #fff;
+    letter-spacing: 3px;
+    font-size: 0.8em;
   }
   #mainNav .navbar-nav > li.nav-item > a.nav-link:focus, #mainNav .navbar-nav > li.nav-item > a.nav-link:hover {
     color: rgba(255, 255, 255, 0.8);
