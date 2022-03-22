@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,8 +32,9 @@ class TrickType extends AbstractType
             ->add('level', null, [
                 'label' => 'Niveau de difficulté de la figure'
             ])
-            ->add('mainPicture', null, [
-                'label' => 'Image Principale ( optionnelle )'
+            ->add('mainPicture', FileType::class, [
+                'label' => 'Image Principale ( optionnelle )',
+                'required' => false
             ])
         ;
     }
