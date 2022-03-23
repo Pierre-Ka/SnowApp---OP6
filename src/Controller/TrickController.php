@@ -97,16 +97,16 @@ class TrickController extends AbstractController
     public function show(Request $request, Trick $trick, CommentRepository $commentRepository, ?int $page): Response
     {
         $comment = new Comment ;
-        $form = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
             $commentRepository->add($comment);
+            $this->addFlash('success', 'Commentaire rajouté avec succès');
         }
         if ($trick->getMainPicture()){
             $pictureName = preg_replace('/ /','%20', $trick->getMainPicture());
         } else { $pictureName = false; }
-
 
         $maxPage = $commentRepository->totalPaginationPages($trick);
         $actualPage = $page ?? 1;

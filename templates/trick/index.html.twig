@@ -51,7 +51,7 @@
                                         {% endfor %}</small>
                                     <span class="m-2" style="position: absolute; bottom : 2%; right: 2%;">
                                          <a href="{{ path('app_trick_edit', {'id': trick.id}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
-                                            {{ include('partials/_delete_form.html.twig') }}
+                                            {{ include('partials/delete/_delete_form.html.twig') }}
                                     </span>
                                 </div>
                             </article>
