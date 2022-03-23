@@ -14,7 +14,7 @@ class PictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('setPicture', FileType::class, [
+            ->add('setCollectionPicture', FileType::class, [
                 'label' => 'Ajouter une image pour cette figure',
                 'help' => 'Formats : png, jpg, jpeg.   Taille : max 8Mo ',
                 'mapped' => false,

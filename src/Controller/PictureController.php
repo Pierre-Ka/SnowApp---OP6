@@ -3,27 +3,67 @@
 namespace App\Controller;
 
 use App\Entity\Picture;
+use App\Entity\Trick;
+use App\Form\PictureType;
 use App\Repository\PictureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PictureController extends AbstractController
 {
-    #[Route('/picture/create', name: 'app_picture_create')]
-    public function create(): Response
+    #[Route('/picture/create/{id}', name: 'app_picture_create', methods: ['GET', 'POST'])]
+    public function create(Request $request, Trick $trick, PictureRepository $pictureRepository): Response
     {
-        return $this->render('picture/index.html.twig', [
-            'controller_name' => 'PictureController',
+        $form = $this->createForm(PictureType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $picture = new Picture();
+            $extension = $form['setCollectionPicture']->getData()->guessExtension();
+            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+            }
+            $file = $form['setCollectionPicture']->getData();
+            $setFileName = $trick->getId().'_'.rand(1, 99999).$extension ;
+            $file->move('../public/uploads/pictures/', $setFileName);
+            $picture->setTrick($trick);
+            $picture->setPath($setFileName);
+            $pictureRepository->add($picture);
+            $this->addFlash('success', 'Image ajoutée avec succès');
+            $id = $picture->getTrick()->getId();
+            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('picture/new.html.twig', [
+            'form' => $form,
         ]);
     }
 
-    #[Route('/picture/edit', name: 'app_picture_edit')]
-    public function edit(): Response
+    #[Route('/picture/{id}/edit', name: 'app_picture_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Picture $picture, PictureRepository $pictureRepository): Response
     {
-        return $this->render('picture/index.html.twig', [
-            'controller_name' => 'PictureController',
+        $form = $this->createForm(PictureType::class, $picture);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $extension = $form['setCollectionPicture']->getData()->guessExtension();
+            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+            }
+            $file = $form['setCollectionPicture']->getData();
+            $setFileName = $picture->getTrick()->getId().'_'.rand(1, 99999).$extension ;
+            $file->move('../public/uploads/pictures/', $setFileName);
+            $picture->setPath($setFileName);
+            $pictureRepository->add($picture);
+            $this->addFlash('success', 'Image modifiée avec succès');
+            $id = $picture->getTrick()->getId();
+            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('picture/edit.html.twig', [
+            'picture' => $picture,
+            'form' => $form,
         ]);
     }
 

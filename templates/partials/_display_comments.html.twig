@@ -1,0 +1,35 @@
+<div class="text-center">
+    <h3>Espace de discussion</h3>   <br/><br/>
+    {# {% if users %} #}
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            {{ include('partials/_form.html.twig', {'button_label': 'Valider'}) }}
+        </div>
+        <div class="col-md-3"></div>
+    </div>      <br/><br/>
+    {#  {% endif %} #}
+    {% if comments|length > 0 %}
+        {% for comment in comments %}
+            <div class="">
+                <div class="p-3">
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="{{ asset('assets/img/user.jpg') }}" alt="" class="rounded-circle mt-1" style="height : 90px;">
+                        </div>
+                        <div class="col-9" style="position: relative">
+                            <h6 class="text-left" style="position: absolute; left : 0 ; bottom: 25%;"> [AUTHOR] a écrit a {{ comment.createDate|date(('d-m-Y à H:i')) }}</h6>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.85em;">
+                        <p> {{ comment.content|raw }} </p>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+        {% block paging %}
+            {{ include('partials/_paging.html.twig') }}
+        {% endblock paging %}
+    {% endif %}
+</div>

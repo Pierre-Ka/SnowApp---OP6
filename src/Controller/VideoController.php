@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Video;
+use App\Form\VideoType;
 use App\Repository\VideoRepository;
+use App\Entity\Trick;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,19 +13,40 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VideoController extends AbstractController
 {
-    #[Route('/video/create', name: 'app_video_create')]
-    public function create(): Response
+    #[Route('/video/create/{id}', name: 'app_video_create', methods: ['GET', 'POST'])]
+    public function create(Request $request, Trick $trick, VideoRepository $videoRepository): Response
     {
-        return $this->render('picture/index.html.twig', [
-            'controller_name' => 'PictureController',
+        $video = new Video();
+        $form = $this->createForm(VideoType::class, $video);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $video->setTrick($trick);
+            $videoRepository->add($video);
+            $this->addFlash('success', 'Video ajoutée avec succès');
+            $id = $video->getTrick()->getId();
+            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('video/new.html.twig', [
+            'form' => $form,
         ]);
     }
 
-    #[Route('/video/edit', name: 'app_video_edit')]
-    public function edit(): Response
+    #[Route('/video/{id}/edit', name: 'app_video_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Video $video, VideoRepository $videoRepository): Response
     {
-        return $this->render('picture/index.html.twig', [
-            'controller_name' => 'PictureController',
+        $form = $this->createForm(VideoType::class, $video);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $videoRepository->add($video);
+            $this->addFlash('success', 'Video modifiée avec succès');
+            $id = $video->getTrick()->getId();
+            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('video/edit.html.twig', [
+            'video' => $video,
+            'form' => $form,
         ]);
     }
 
