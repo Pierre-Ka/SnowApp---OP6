@@ -105,7 +105,7 @@ class TrickController extends AbstractController
         }
         if ($trick->getMainPicture()){
             $pictureName = preg_replace('/ /','%20', $trick->getMainPicture());
-        }
+        } else { $pictureName = false; }
 
 
         $maxPage = $commentRepository->totalPaginationPages($trick);
