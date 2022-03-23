@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Picture;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\CommentType;
+use App\Form\PictureType;
 use App\Form\TrickType;
+use App\Form\VideoType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -104,9 +108,17 @@ class TrickController extends AbstractController
             $commentRepository->add($comment);
             $this->addFlash('success', 'Commentaire rajouté avec succès');
         }
+
         if ($trick->getMainPicture()){
             $pictureName = preg_replace('/ /','%20', $trick->getMainPicture());
         } else { $pictureName = false; }
+
+        $array_path = [];
+        foreach ($trick->getVideos() as $video)
+        {
+            $videoName = preg_replace('#embed/#' ,  'watch?v=', $video->getPath());
+            $array_path[$video->getId()] = $videoName ;
+        }
 
         $maxPage = $commentRepository->totalPaginationPages($trick);
         $actualPage = $page ?? 1;
@@ -120,6 +132,7 @@ class TrickController extends AbstractController
             4 * ($actualPage - 1)
         );
         return $this->render('trick/show.html.twig', [
+            'videoName' => $array_path,
             'pictureName' => $pictureName,
             'trick' => $trick,
             'comments' => $comments,

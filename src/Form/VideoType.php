@@ -15,7 +15,8 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('path', UrlType::class, [
-                'label' => 'lien de la video'
+                'label' => 'lien de la nouvelle video',
+                'help' => 'L\'url doit commencer par "https://"',
             ])
         ;
     }
