@@ -50,17 +50,20 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $extension = $form['setPicture']->getData()->guessExtension();
-            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
-                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+            if (($form['setPicture'])->getData() !== null)
+            {
+                $extension = $form['setPicture']->getData()->guessExtension();
+                if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+                    throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+                }
+
+                $nameTrickWithoutSpace = str_replace(" ", "", $trick->getName());
+                $nameTrickLower = strtolower($nameTrickWithoutSpace);
+                $setFileName = $nameTrickLower.'_MAIN_'.rand(1, 999).'.'.$extension ;
+                $form['setPicture']->getData()->move('../public/uploads/main/', $setFileName);
+                $trick->setMainPicture($setFileName);
             }
-            $file = $form['setPicture']->getData();
-            $setFileName = rand(1, 99999).'-'.$form['name']->getData().'.'.$extension ;
-            $file->move('../public/uploads/', $setFileName);
-            $trick->setMainPicture($setFileName);
-
             $trickRepository->add($trick);
-
             $this->addFlash('success', 'Figure créée avec succès');
             return $this->redirectToRoute('app_trick_index',[], Response::HTTP_SEE_OTHER);
         }
@@ -77,19 +80,18 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $extension = $form['setPicture']->getData()->guessExtension();
-            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
-                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+            if (($form['setPicture'])->getData() !== null)
+            {
+                $extension = $form['setPicture']->getData()->guessExtension();
+                if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+                    throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+                }
+                $nameFiles = $trick->getMainPicture();
+                $form['setPicture']->getData()->move('../public/uploads/main/', $nameFiles);
             }
-            $file = $form['setPicture']->getData();
-            $setFileName = rand(1, 99999).'-'.$trick->getName().'.'.$extension ;
-            $file->move('../public/uploads/', $setFileName);
-            $trick->setMainPicture($setFileName);
             $trickRepository->add($trick);
-
-            $id = $trick->getId();
             $this->addFlash('success', 'Figure modifiée avec succès');
-            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trick_show', ['id'=> $trick->getId(),'page'=> 1], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('trick/edit.html.twig', [
             'trick' => $trick,
@@ -110,15 +112,8 @@ class TrickController extends AbstractController
         }
 
         if ($trick->getMainPicture()){
-            $pictureName = preg_replace('/ /','%20', $trick->getMainPicture());
+            $pictureName = preg_replace('/\'/','\\\'', $trick->getMainPicture());
         } else { $pictureName = false; }
-
-        $array_path = [];
-        foreach ($trick->getVideos() as $video)
-        {
-            $videoName = preg_replace('#embed/#' ,  'watch?v=', $video->getPath());
-            $array_path[$video->getId()] = $videoName ;
-        }
 
         $maxPage = $commentRepository->totalPaginationPages($trick);
         $actualPage = $page ?? 1;
@@ -132,7 +127,6 @@ class TrickController extends AbstractController
             4 * ($actualPage - 1)
         );
         return $this->render('trick/show.html.twig', [
-            'videoName' => $array_path,
             'pictureName' => $pictureName,
             'trick' => $trick,
             'comments' => $comments,
