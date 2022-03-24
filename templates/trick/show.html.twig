@@ -26,14 +26,16 @@
                                 position: relative;
                                         ">
                     <div>
-                        <span class="m-2" style="position: absolute;
-                                              top : 0;
-                                              right: 0;
-                                                    ">
-                                <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
-                                <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
-                                {{ include('partials/delete/_delete_form.html.twig') }}
-                        </span>
+                        {% if app.user %}
+                            <span class="m-2" style="position: absolute;
+                                                  top : 0;
+                                                  right: 0;
+                                                        ">
+                                    <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
+                                    <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
+                                    {{ include('partials/delete/_delete_form.html.twig') }}
+                            </span>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row">
@@ -61,21 +63,25 @@
                                             </a>
                                         </div>
                                         <div class="">
-                                            <span style="float:right; margin-top: 10px;">
-                                                 <a href="{{ path('app_picture_edit', {'id':picture.id }) }}">
-                                                    <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
-                                                 </a>
-                                                {{ include('partials/delete/_delete_picture_form.html.twig') }}
-                                            </span>
+                                            {% if app.user %}
+                                                <span style="float:right; margin-top: 10px;">
+                                                     <a href="{{ path('app_picture_edit', {'id':picture.id }) }}">
+                                                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
+                                                     </a>
+                                                    {{ include('partials/delete/_delete_picture_form.html.twig') }}
+                                                </span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% endif %}
+                            {% if app.user %}
                             <div class="col-4">
                                 <a href="{{ path('app_picture_create', {'id':trick.id }) }}">
                                     <img height="125" src=" {{ asset('assets/icon/picture2.png') }}" alt="Ajouter une image">
                                 </a>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-6">
@@ -91,21 +97,25 @@
                                             </a>
                                         </div>
                                         <div class="">
+                                            {% if app.user %}
                                             <span style="float:right;">
                                                 <a href="{{ path('app_video_edit', {'id':video.id }) }}">
                                                     <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
                                                 </a>
                                                 {{ include('partials/delete/_delete_video_form.html.twig') }}
                                             </span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% endif %}
+                            {% if app.user %}
                             <div class="col-4">
                                 <a href="{{ path('app_video_create', {'id':trick.id }) }}">
                                     <img height="125" src="{{ asset('assets/icon/video.png') }}" alt="Ajouter une video">
                                 </a>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -36,8 +36,15 @@
  }
 .alert .alert-info {
    background-color : blue;
-  opacity: 1;
+    opacity: 1;
  }
+
+.trickimg img{
+  transition: transform 0.3s ease-out;}
+.trickimg img:hover {
+   transform: scale(1.075);
+ }
+
 /********* ARRAW UP *******************/
 #buttonToTheTop {
   display: inline-block;
