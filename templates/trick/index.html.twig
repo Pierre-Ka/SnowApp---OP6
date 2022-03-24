@@ -16,6 +16,7 @@
                 </div>
             </div>
         </div>
+        <!-- Arrow down-->
         <div class="centerarrow">
             <a href="{{ path('app_trick_index') }}#tricks">
                 <div class="roundarrow">
@@ -25,7 +26,6 @@
                     <span id="span4"></span>
                 </div>
             </a>
-
         </div>
     </header>
     <div class="container">
@@ -33,11 +33,10 @@
             <h1 id="tricks" class="text-center"> Voir les {{ all_tricks|length }} figures du site </h1>
             <!-- Divider-->
             <hr class="my-4" />
-
             {% for row in tricks|batch(4) %}
-                <div class="row mb-5 justify-content-between">
+                <div class="row mb-5 justify-content-around">
                     {% for trick in row %}
-                        <div class="col-md-3">
+                        <div class="col-sm-6 col-lg-3">
                             <article class="bg-white rounded shadow" style="height:350px; position: relative">
                                 <div class="mw-100 rounded-top overflow-hidden">
                                     <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">
@@ -64,15 +63,21 @@
             {% endfor %}
                 <!-- Pager-->
             {% if isIndex %}
-                <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_all_tricks') }}#tricks">Voir tous les tricks ↓</a>
+                <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_all_tricks') }}#tricks">Voir toutes les figures ↓</a>
                 </div>
             {% else %}
                 <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_trick_index') }}">Voir moins ↑</a>
                 </div>
             {% endif %}
         {% else %}
-            <p class="h2 mt-5 text-center"> No Trick yet <a href="{{ path('app_trick_create') }}"> Be the First to create a Trick !</a> </p>
+            <p class="h2 mt-5 text-center"> No Trick yet <a href="{{ path('app_trick_create') }}"> Soit le premier à créer une figure !</a> </p>
         {% endif %}
+    </div>
+    <!-- Back to top button -->
+    <div id="buttonToTheTop">
+        <a id="buttonToTheTop2" href="{{ path('app_trick_index') }}">
+            <img id="buttonToTheTop2" height="80px" src="{{ asset('assets/icon/arrow1.png') }}" alt="">
+        </a>
     </div>
 {% endblock %}
 

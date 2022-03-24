@@ -3,7 +3,7 @@
         {% for i in 1..max_page %}
 
             {% if i == actual_page %}
-                PAGE {{ i }} |
+                &vellip; PAGE {{ i }} &vellip;
             {% else %}
                 <a href="{{  path('app_trick_show', {'id': trick.id, 'page': i}) }}"> Page {{ i }} </a>
             {% endif %}

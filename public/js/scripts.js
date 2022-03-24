@@ -3,6 +3,23 @@
 * Copyright 2013-2021 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
+/* ********* ARRAY UP ************************** */
+var btntop = $('#buttonToTheTop');
+
+$(window).scroll(function() {
+    if ($(window).scrollTop() > 300) {
+        btntop.addClass('showbutton');
+    } else {
+        btntop.removeClass('showbutton');
+    }
+});
+
+btntop.on('click', function(e) {
+    e.preventDefault();
+    $('html, body').animate({scrollTop:0}, '300');
+});
+/* ************************* */
+
 window.addEventListener('DOMContentLoaded', () => {
     let scrollPos = 0;
     const mainNav = document.getElementById('mainNav');
