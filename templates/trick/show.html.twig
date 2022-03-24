@@ -109,11 +109,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="pt-3 pb-3">{{ trick.description }}</div>
+                <div class="p-5" style="letter-spacing: 1px;">{{ trick.description }}</div>
                 <div>
                     <small>
-                        Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }}
-                        {{ trick.lastUpdate ? ' Et modifié le ' ~trick.lastUpdate|date('d-m-Y') : '' }}
+                        <strong class="text-muted">
+                            Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }} par [AUTHOR] <br/>
+                            {{ trick.lastUpdate and  trick.createDate|date('d-m-Y') != trick.lastUpdate|date('d-m-Y')? ' Modifié le ' ~trick.lastUpdate|date('d-m-Y') : '' }} par [AUTHOR]
+                        </strong>
                     </small>
                 </div>
                 <br/><br/><br/><br/>

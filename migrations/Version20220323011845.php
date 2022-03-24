@@ -14,7 +14,7 @@ final class Version20220323011845 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add Picture and Video table';
     }
 
     public function up(Schema $schema): void
