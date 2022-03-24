@@ -38,6 +38,39 @@
    background-color : blue;
   opacity: 1;
  }
+/********* ARRAW UP *******************/
+#buttonToTheTop {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+#buttonToTheTop::after {
+  content: "\f077";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#buttonToTheTop:hover {
+  cursor: pointer;
+}
+#buttonToTheTop.showbutton {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+
 
 /******** ARRAW DOWN *************/
 .centerarrow {
