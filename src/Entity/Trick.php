@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['name'], message: 'Une figure possède dejà ce nom !')]
 class Trick
 {
     use Timestampable;
@@ -22,7 +24,7 @@ class Trick
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'La figure doit avoir un nom')]
-    #[Assert\Length(min: 3, minMessage: 'Le nom n\'est pas assez long', max: 35, maxMessage: 'Le nom doit être inferieur à 35 caractères')]
+    #[Assert\Length(min: 3, minMessage: 'Le nom n\'est pas assez long', max: 40, maxMessage: 'Le nom doit être inferieur à 40 caractères')]
     private $name;
 
     #[ORM\Column(type: 'text')]

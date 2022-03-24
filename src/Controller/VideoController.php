@@ -22,6 +22,8 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $video->setTrick($trick);
+            $videoPath = preg_replace('#watch\?v=#' ,  'embed/', $video->getPath());
+            $video->setPath($videoPath);
             $videoRepository->add($video);
             $this->addFlash('success', 'Video ajoutée avec succès');
             $id = $video->getTrick()->getId();
@@ -39,6 +41,8 @@ class VideoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $videoPath = preg_replace('#watch\?v=#' ,  'embed/', $video->getPath());
+            $video->setPath($videoPath);
             $videoRepository->add($video);
             $this->addFlash('success', 'Video modifiée avec succès');
             $id = $video->getTrick()->getId();

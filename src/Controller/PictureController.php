@@ -26,9 +26,12 @@ class PictureController extends AbstractController
             if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
                 throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
             }
-            $file = $form['setCollectionPicture']->getData();
-            $setFileName = $trick->getId().'_'.rand(1, 99999).$extension ;
-            $file->move('../public/uploads/pictures/', $setFileName);
+
+            $nameTrickWithoutSpace = str_replace(" ", "", $trick->getName());
+            $nameTrickLower = strtolower($nameTrickWithoutSpace);
+            $setFileName = $nameTrickLower.'_COLLECTION_'.rand(1, 99999).'.'.$extension ;
+            $form['setCollectionPicture']->getData()->move('../public/uploads/pictures/', $setFileName);
+
             $picture->setTrick($trick);
             $picture->setPath($setFileName);
             $pictureRepository->add($picture);
@@ -52,11 +55,8 @@ class PictureController extends AbstractController
             if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
                 throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
             }
-            $file = $form['setCollectionPicture']->getData();
-            $setFileName = $picture->getTrick()->getId().'_'.rand(1, 99999).$extension ;
-            $file->move('../public/uploads/pictures/', $setFileName);
-            $picture->setPath($setFileName);
-            $pictureRepository->add($picture);
+            $files = $form['setCollectionPicture']->getData();
+            $files->move('../public/uploads/pictures/', $picture->getPath());
             $this->addFlash('success', 'Image modifiée avec succès');
             $id = $picture->getTrick()->getId();
             return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
