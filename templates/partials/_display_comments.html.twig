@@ -18,7 +18,8 @@
                             <img src="{{ asset('assets/img/user.jpg') }}" alt="" class="rounded-circle mt-1" style="height : 90px;">
                         </div>
                         <div class="col-9" style="position: relative">
-                            <h6 class="text-left" style="position: absolute; left : 0 ; bottom: 25%;"> [AUTHOR] a écrit a {{ comment.createDate|date(('d-m-Y à H:i')) }}</h6>
+                            <h6 class="text-left" style="position: absolute; left : 0 ; bottom: 25%;"> {{ comment.user.fullname }}
+                                a écrit a {{ comment.createDate|date(('d-m-Y à H:i')) }}</h6>
                         </div>
                     </div>
                     <div style="font-size: 0.85em;">

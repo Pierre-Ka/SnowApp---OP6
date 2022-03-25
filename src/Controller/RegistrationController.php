@@ -18,27 +18,26 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Security\EmailHandler;
 /*
-        use App\Security\EmailVerifier;
         use Symfony\Component\Mime\Email;
 */
 
 class RegistrationController extends AbstractController
 {
-    /*
-    private EmailVerifier $emailVerifier;
-    public function __construct(EmailVerifier $emailVerifier)
+    private EmailHandler $emailHandler;
+    public function __construct(EmailHandler $emailHandler)
     {
-        $this->emailVerifier = $emailVerifier;
-    }*/
+        $this->emailHandler = $emailHandler;
+    }
 
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em,
            UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response
     {
-       /* if ($this->getUser()) {
-            $this->addFlash('error', 'Already logged in');
-            return $this->redirectToRoute('app_home'); }*/
+        if ($this->getUser()) {
+            $this->addFlash('error', 'Vous êtes déjà connecté');
+            return $this->redirectToRoute('app_trick_index'); }
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
@@ -49,12 +48,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setIsVerified('0');
             $em->persist($user);
             $em->flush();
 
             // generate a signed url and email it to the user
             /*
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailHandler->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address( $this->getParameter('app.mail_from_adress'),
                         $this->getParameter('app.mail_from_name')
@@ -64,7 +64,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('emails/registration/confirmation.html.twig')
             );
             */
-            // do anything else you need here, like send an email
+
 
             return $userAuthenticator->authenticateUser(
                 $user,

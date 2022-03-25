@@ -121,10 +121,10 @@
                 </div>
                 <div class="p-5" style="letter-spacing: 1px;">{{ trick.description }}</div>
                 <div>
-                    <small>
-                        <strong class="text-muted">
-                            Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }} par [AUTHOR] <br/>
-                            {{ trick.lastUpdate and  trick.createDate|date('d-m-Y') != trick.lastUpdate|date('d-m-Y')? ' Modifié le ' ~trick.lastUpdate|date('d-m-Y') : '' }} par [AUTHOR]
+                    <small style="letter-spacing: 1px;">
+                        <strong class="text-muted" >
+                            Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }} par {{ trick.user.fullname }} <br/>
+                            {{ trick.lastUpdate and  trick.createDate|date('d-m-Y') != trick.lastUpdate|date('d-m-Y')? ' Modifié le ' ~trick.lastUpdate|date('d-m-Y') : '' }}
                         </strong>
                     </small>
                 </div>
