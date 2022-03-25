@@ -89,6 +89,7 @@ class AppFixtures extends Fixture
             ->setEmail('johndoe@gmail.com')
             ->setPassword('$2y$13$QVXV3WraPNtdiMo7LHnbEeFiYeHCMFHBkgSjAcxUAjGqZKmcDGLzO')
             ->setRoles(['ROLE_USER'])
+            ->setIsVerified('1')
             ->setCreateDate($faker->dateTimeThisDecade());
         $user_array[] = $user1;
         $manager->persist($user1);
@@ -101,6 +102,7 @@ class AppFixtures extends Fixture
             ->setEmail('janedoe@gmail.com')
             ->setPassword('$2y$13$5NzVik5uqG9aDrANnbfQxuz03XQeoIU7QF35ZRXVj2HtH1orZCrjy')
             ->setRoles(['ROLE_USER'])
+            ->setIsVerified('0')
             ->setCreateDate($faker->dateTimeThisDecade());
         $user_array[] = $user2;
         $manager->persist($user2);
@@ -113,6 +115,7 @@ class AppFixtures extends Fixture
             ->setEmail('jammiedoe@gmail.com')
             ->setPassword('$2y$13$gT4bHf6aW9P4dayq2r5pg.Y5lMVBIUNMPw9UxQiauvZ2Nylm3SDWm')
             ->setRoles(['ROLE_USER'])
+            ->setIsVerified('0')
             ->setCreateDate($faker->dateTimeThisDecade());
         $user_array[] = $user3;
         $manager->persist($user3);
@@ -125,6 +128,7 @@ class AppFixtures extends Fixture
             ->setEmail('jareddoe@gmail.com')
             ->setPassword('$2y$13$n/EgqVDOGI0hlGxkJR8NPubAItY/.KOd7fBI4OXIgnoOGIZvCHxvy')
             ->setRoles(['ROLE_USER'])
+            ->setIsVerified('0')
             ->setCreateDate($faker->dateTimeThisDecade());
         $user_array[] = $user4;
         $manager->persist($user4);
@@ -137,6 +141,7 @@ class AppFixtures extends Fixture
             ->setEmail('jackiedoe@gmail.com')
             ->setPassword('$2y$13$ALjZE0JyqmoHTMFmEvqs1ucr2fj5nExese831f/rtx4qJLa67Pwya')
             ->setRoles(['ROLE_USER'])
+            ->setIsVerified('0')
             ->setCreateDate($faker->dateTimeThisDecade());
         $user_array[] = $user5;
         $manager->persist($user5);
