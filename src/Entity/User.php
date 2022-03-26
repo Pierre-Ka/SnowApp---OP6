@@ -53,6 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $token;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -156,13 +159,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+         $this->token = null;
     }
 
     /**
@@ -225,7 +239,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFullName(): string{
+    public function getFullName(): string
+    {
         return $this->firstName.' '.$this->lastName ;
     }
 }

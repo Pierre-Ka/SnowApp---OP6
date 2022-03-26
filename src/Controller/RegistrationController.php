@@ -2,42 +2,37 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Form\RegistrationType;
-use App\Security\LoginAuthenticator;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-
-
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Security\EmailHandler;
-/*
-        use Symfony\Component\Mime\Email;
-*/
+use App\Security\LoginAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
     private EmailHandler $emailHandler;
-    public function __construct(EmailHandler $emailHandler)
+    private Security $security;
+
+    public function __construct(EmailHandler $emailHandler, Security $security)
     {
         $this->emailHandler = $emailHandler;
+        $this->security = $security;
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em,
-           UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {
             $this->addFlash('error', 'Vous êtes déjà connecté');
-            return $this->redirectToRoute('app_trick_index'); }
+            return $this->redirectToRoute('app_trick_index');
+        }
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
@@ -48,24 +43,11 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setIsVerified('0');
+            $user->setIsVerified(false);
             $em->persist($user);
             $em->flush();
-
-            // generate a signed url and email it to the user
-            /*
-            $this->emailHandler->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address( $this->getParameter('app.mail_from_adress'),
-                        $this->getParameter('app.mail_from_name')
-                    ))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('emails/registration/confirmation.html.twig')
-            );
-            */
-
-
+            $this->emailHandler->sendConfirmationMail($user);
+            $this->addFlash('info', 'Un email vous a été envoyé pour confimer votre inscription');
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
@@ -77,26 +59,26 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    /*
-    #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    #[Route('/verify/email/', name: 'app_verify_email')]
+    public function verify(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
-            return $this->redirectToRoute('app_home');
+        $user = $this->security->getUser();
+        if ($user->getIsVerified() === true) {
+            $this->addFlash('info', 'Votre adresse email a dejà été vérifiée');
+            return $this->redirectToRoute('app_trick_index');
         }
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
-
-        return $this->redirectToRoute('app_home');
+        if ($request->query->get('email') !== $user->getEmail()) {
+            $this->addFlash('error', 'Votre adresse email n\'a pas été correctement vérifiée');
+            return $this->redirectToRoute('app_trick_index');
+        }
+        if ($request->query->get('token') !== $user->getToken()) {
+            $this->addFlash('error', 'Votre adresse email n\'a pas été correctement vérifiée');
+            return $this->redirectToRoute('app_trick_index');
+        }
+        $this->emailHandler->verifyUser($user);
+        $this->addFlash('success', 'Votre adresse email a été correctement vérifiée');
+        return $this->redirectToRoute('app_trick_index');
     }
-    */
 }
 
