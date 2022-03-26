@@ -1,6 +1,8 @@
 <div class="text-center">
     <h3>Espace de discussion</h3>   <br/><br/>
-    {% if app.user %}
+
+<!--------------------- User------------------------------------>
+    {% if app.user and app.user.isVerified == 1 %}
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
@@ -9,6 +11,8 @@
         <div class="col-md-3"></div>
     </div>      <br/><br/>
     {% endif %}
+<!--------------------- End User------------------------------------>
+
     {% if comments|length > 0 %}
         {% for comment in comments %}
             <div class="">

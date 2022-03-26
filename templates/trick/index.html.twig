@@ -48,12 +48,14 @@
                                     <small>Difficulté {% for i in 1..trick.level  %}
                                             <span style="font-size: 1.1em;">★</span>
                                         {% endfor %}</small>
-                                    {% if app.user %}
+                    <!--------------------- User------------------------------------>
+                                    {% if app.user and app.user.isVerified == 1 %}
                                     <span class="m-2" style="position: absolute; bottom : 2%; right: 2%;">
                                          <a href="{{ path('app_trick_edit', {'id': trick.id}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
                                             {{ include('partials/delete/_delete_form.html.twig') }}
                                     </span>
                                     {% endif %}
+                    <!---------------------End User------------------------------------>
                                 </div>
                             </article>
                         </div>
