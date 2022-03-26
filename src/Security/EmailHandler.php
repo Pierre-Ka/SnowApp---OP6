@@ -4,6 +4,7 @@ namespace App\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,16 +47,23 @@ class EmailHandler
         $this->em->persist($user);
         $this->em->flush();
         $extraParams['token'] = $token;
-        $extraParams['email'] = $user->getEmail();
+        $extraParams['key'] = ($user->getId()*11324);
         $uri = $this->router->generate($routeName, $extraParams, UrlGeneratorInterface::ABSOLUTE_URL);
         return $uri;
     }
 
-    public function verifyUser(UserInterface $user): void
+    public function verifyUser(Request $request, UserInterface $user): bool
     {
+        if ((int)$request->query->get('key') !== $user->getId()*11324) {
+            return false;
+        }
+        if ($request->query->get('token') !== $user->getToken()) {
+            return false;
+        }
         $user->setIsVerified(true);
         $user->eraseCredentials();
         $this->em->persist($user);
         $this->em->flush();
+        return true;
     }
 }

@@ -62,22 +62,20 @@ class RegistrationController extends AbstractController
     #[Route('/verify/email/', name: 'app_verify_email')]
     public function verify(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->security->getUser();
         if ($user->getIsVerified() === true) {
             $this->addFlash('info', 'Votre adresse email a dejà été vérifiée');
             return $this->redirectToRoute('app_trick_index');
         }
-        if ($request->query->get('email') !== $user->getEmail()) {
-            $this->addFlash('error', 'Votre adresse email n\'a pas été correctement vérifiée');
-            return $this->redirectToRoute('app_trick_index');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if ($this->emailHandler->verifyUser($request, $user))
+        {
+            $this->addFlash('success', 'Votre adresse email a été correctement vérifiée');
         }
-        if ($request->query->get('token') !== $user->getToken()) {
+        else
+        {
             $this->addFlash('error', 'Votre adresse email n\'a pas été correctement vérifiée');
-            return $this->redirectToRoute('app_trick_index');
         }
-        $this->emailHandler->verifyUser($user);
-        $this->addFlash('success', 'Votre adresse email a été correctement vérifiée');
         return $this->redirectToRoute('app_trick_index');
     }
 }
