@@ -40,6 +40,21 @@ class EmailHandler
         $this->mailer->send($email);
     }
 
+    public function sendForgottenPasswordMail(UserInterface $user)
+    {
+        $link = $this->generateUrlForEmailConfirmation('app_change_password_authenticator', $user);
+        $email = (new TemplatedEmail())
+            ->from('SnowTrick@noreply.com')
+            ->to($user->getEmail())
+            ->subject('Reinitialisation de votre mot de passe')
+            ->htmlTemplate('emails/reset_request.html.twig')
+            ->context([
+                'link' => $link,
+                'user' => $user,
+            ] );
+        $this->mailer->send($email);
+    }
+
     public function generateUrlForEmailConfirmation(string $routeName, UserInterface $user, array $extraParams = []): string
     {
         $token = $this->tokenGenerator->generateToken();
@@ -64,6 +79,13 @@ class EmailHandler
         $user->eraseCredentials();
         $this->em->persist($user);
         $this->em->flush();
+        return true;
+    }
+    public function verifyUserForResetPassword(Request $request, UserInterface $user): bool
+    {
+        if ($request->query->get('token') !== $user->getToken()) {
+            return false;
+        }
         return true;
     }
 }
