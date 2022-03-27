@@ -19,25 +19,10 @@
   box-shadow: 4px 5px 3px grey;
   background-color: gainsboro;
 }
-.alert {
-  padding: 10px;
-  color: white;
-  text-align:center;
-  margin: 0;
-  border: none;
-  border-radius: 0; }
-.alert .alert-success {
-   background-color : green;
-  opacity: 1;
- }
-.alert .alert-error {
-   background-color : red;
-  opacity: 1;
- }
-.alert .alert-info {
-   background-color : blue;
-    opacity: 1;
- }
+
+/**************** ALERT DEPLACER A LA SECTION ALERT : ligne 4924 ******************************************/
+
+/************* PICTURE TRICK INDEX ***********************************/
 
 .trickimg img{
   transition: transform 0.3s ease-out;}
@@ -75,9 +60,6 @@
   opacity: 1;
   visibility: visible;
 }
-
-
-
 
 /******** ARRAW DOWN *************/
 .centerarrow {
@@ -155,7 +137,6 @@
 .roundarrow:hover #span4 {
   transform: rotate(-225deg);
 }
-/******** ARRAY UP **************/
 
 /******* DIVIDER ***************/
 .divider {								/* minor cosmetics */
@@ -4920,6 +4901,33 @@ textarea.form-control-lg {
   position: relative;
   top: -1px;
 }
+/******************************************************************************************************************/
+.alert-error {
+  padding: 10px;
+  color: white;
+  background-color: red;
+  text-align:center;
+  margin: 0;
+  border: none;
+  border-radius: 0; }
+
+.alert-success {
+  padding: 10px;
+  color: white;
+  background-color: green;
+  text-align:center;
+  margin: 0;
+  border: none;
+  border-radius: 0; }
+
+.alert-info {
+  padding: 10px;
+  color: white;
+  background-color: blue;
+  text-align:center;
+  margin: 0;
+  border: none;
+  border-radius: 0; }
 
 .alert {
   position: relative;
@@ -4965,24 +4973,6 @@ textarea.form-control-lg {
   color: #34383c;
 }
 
-.alert-success {
-  color: #0f5132;
-  background-color: #d1e7dd;
-  border-color: #badbcc;
-}
-.alert-success .alert-link {
-  color: #0c4128;
-}
-
-.alert-info {
-  color: #087990;
-  background-color: #cff4fc;
-  border-color: #b6effb;
-}
-.alert-info .alert-link {
-  color: #066173;
-}
-
 .alert-warning {
   color: #997404;
   background-color: #fff3cd;
@@ -5018,6 +5008,8 @@ textarea.form-control-lg {
 .alert-dark .alert-link {
   color: #101214;
 }
+
+/*************************************************************************************************************/
 
 @-webkit-keyframes progress-bar-stripes {
   0% {

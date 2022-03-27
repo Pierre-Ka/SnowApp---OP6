@@ -7,12 +7,12 @@
     <div class="row">
         <div class="blockcenter">
             <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
                 <div style="margin : 0 10% ;">
                     <form method="post">
 
-                        {% if error %}
-                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                        {% endif %}
 
                         <h1 class="text-center my-5"> Connectez-vous</h1>
                         <label for="inputEmail">Votre Email</label>

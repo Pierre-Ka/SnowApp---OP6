@@ -7,27 +7,23 @@ use App\Form\ChangePasswordType;
 use App\Form\ForgetPasswordType;
 use App\Security\EmailHandler;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 #[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
 {
-    private $em;
+    private EntityManagerInterface $em;
     private EmailHandler $emailHandler;
 
     public function __construct(EntityManagerInterface $em, EmailHandler $emailHandler)
     {
-        $this->emailHandler = $emailHandler;
         $this->em = $em;
+        $this->emailHandler = $emailHandler;
     }
 
     #[Route('', name: 'app_forgot_password_request')]
@@ -43,24 +39,21 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->em->getRepository(User::class)->findOneByEmail($form['email']->getData());
-            if ($user->getToken() !== null) {
-                $this->addFlash('error', 'Vous devez confirmer votre email premierement !');
-                return $this->redirectToRoute('app_trick_index');
+            if (($user->getToken() === null) && ($user->getIsVerified() === true)) {
+                $this->emailHandler->sendForgottenPasswordMail($user);
+                $this->addFlash('info', 'Un email vous a été envoyé pour pour réinitialiser votre mot de passe');
+                return $this->render('security/sending_reset_request.html.twig');
             }
-            $this->emailHandler->sendForgottenPasswordMail($user);
-            $this->addFlash('info', 'Un email vous a été envoyé pour confirmer votre inscription');
-
-            return $this->render('security/sending_reset_request.html.twig', [
-            ]);
+            $this->addFlash('error', 'Un email de notre part vous a déjà été envoyé');
+            return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
         }
         return $this->render('security/forget_password.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-
     #[Route('/check-email', name: 'app_change_password_authenticator')]
-    public function checkEmail(Request $request) : Response
+    public function checkEmail(Request $request): Response
     {
         $idUser = ((int)$request->query->get('key') / 11324);
         $user = $this->em->getRepository(User::class)->findOneById($idUser);
@@ -71,7 +64,7 @@ class ResetPasswordController extends AbstractController
             $request->getSession()->set('token', $token);
             return $this->redirectToRoute('app_change_password', ['token' => $token]);
         } else {
-            $this->addFlash('error', 'Une erreur est survenu, veuillez réessayer');
+            $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer');
             return $this->redirectToRoute('app_forgot_password_request');
         }
     }
@@ -81,33 +74,36 @@ class ResetPasswordController extends AbstractController
     public function reset(Request $request, UserPasswordHasherInterface $userPasswordHasher,
                           string  $token): Response
     {
+
         if (!$request->getSession()->get('user')) {
+            $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer');
             return $this->redirectToRoute('app_forgot_password_request');
         }
-        $user = $request->getSession()->get('user');
+        $userSession = $request->getSession()->get('user');
+        $user = $this->em->getRepository(User::class)->findOneById($userSession->getId());
+
         if ($user->getToken() === $request->getSession()->get('token') && $user->getToken() === $token) {
-            $form = $this->createForm(ChangePasswordType::class);
+            $form = $this->createForm(ChangePasswordType::class, []);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                dd('yes!');
+                $encodedPassword = $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                );
+                $user->setPassword($encodedPassword);
+                $this->em->persist($user);
+                $this->em->flush();
+                $user->eraseCredentials();
+                $request->getSession()->clear();
+                $this->addFlash('success', 'Votre mot de passe a bien été modifié, veuillez vous connecter.');
+                return $this->redirectToRoute('app_login');
             }
-            /*$this->resetPasswordHelper->removeResetRequest($token);
-
-            // Encode(hash) the plain password, and set it.
-            $encodedPassword = $userPasswordHasher->hashPassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            );
-            $user->setPassword($encodedPassword);
-            $this->entityManager->flush();
-            $this->cleanSessionAfterReset();
-            $this->addFlash('success', 'Your password has been successfully reset. You can log in
-            with the new password;');
-            return $this->redirectToRoute('app_login');*/
+            return $this->render('security/reset_password.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
-        return $this->render('security/reset_password.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer');
+        return $this->redirectToRoute('app_forgot_password_request');
     }
 }
 

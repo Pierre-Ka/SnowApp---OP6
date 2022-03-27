@@ -30,7 +30,6 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {
-            $this->addFlash('error', 'Vous êtes déjà connecté');
             return $this->redirectToRoute('app_trick_index');
         }
         $user = new User();
@@ -48,14 +47,15 @@ class RegistrationController extends AbstractController
             $em->flush();
             $this->emailHandler->sendConfirmationMail($user);
             $this->addFlash('info', 'Un email vous a été envoyé pour confimer votre inscription');
-            return $userAuthenticator->authenticateUser(
+            $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
+            return $this->render('security/sending_signup_request.html.twig');
         }
         return $this->render('security/registration.html.twig', [
-            'form' => $form->createView(),
+            'registrationForm' => $form->createView(),
         ]);
     }
 
@@ -65,7 +65,7 @@ class RegistrationController extends AbstractController
         $user = $this->security->getUser();
         if ($user->getIsVerified() === true) {
             $this->addFlash('info', 'Votre adresse email a dejà été vérifiée');
-            return $this->redirectToRoute('app_trick_index');
+            return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
         }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->emailHandler->verifyUser($request, $user))
@@ -76,7 +76,7 @@ class RegistrationController extends AbstractController
         {
             $this->addFlash('error', 'Votre adresse email n\'a pas été correctement vérifiée');
         }
-        return $this->redirectToRoute('app_trick_index');
+        return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
     }
 }
 

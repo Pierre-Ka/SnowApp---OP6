@@ -11,7 +11,7 @@ https://symfony.com/blog/new-in-symfony-3-3-improved-flash-messages
 
 {% for label, messages in app.flashes(['success', 'error', 'info']) %}
     {% for message in messages %}
-        <div class="alert alert-{{ label }}" role="alert">
+        <div class="mb-5 alert alert-{{ label }}" role="alert">
             {{ message }}
         </div>
     {% endfor %}

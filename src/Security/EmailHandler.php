@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
+/*
+ * Email Generator and Authenticate Handler **
+ */
 class EmailHandler
 {
     private UrlGeneratorInterface $router;
@@ -63,6 +66,9 @@ class EmailHandler
         $this->em->flush();
         $extraParams['token'] = $token;
         $extraParams['key'] = ($user->getId()*11324);
+
+        $extraParams['expiresAt'] = (time() + 24*60*60);
+
         $uri = $this->router->generate($routeName, $extraParams, UrlGeneratorInterface::ABSOLUTE_URL);
         return $uri;
     }
@@ -75,6 +81,12 @@ class EmailHandler
         if ($request->query->get('token') !== $user->getToken()) {
             return false;
         }
+
+        if ($request->query->get('expiresAt') < time()) {
+        $user->eraseCredentials();
+            return false;
+        }
+
         $user->setIsVerified(true);
         $user->eraseCredentials();
         $this->em->persist($user);
@@ -84,6 +96,11 @@ class EmailHandler
     public function verifyUserForResetPassword(Request $request, UserInterface $user): bool
     {
         if ($request->query->get('token') !== $user->getToken()) {
+            return false;
+        }
+
+        if ($request->query->get('expiresAt') < time()) {
+            $user->eraseCredentials();
             return false;
         }
         return true;
