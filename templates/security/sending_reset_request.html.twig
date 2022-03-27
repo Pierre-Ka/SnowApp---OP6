@@ -1,22 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/main_frame.html.twig' %}
 
-{% block title 'Check your email' %}
-
-{% block body %}
-    {{ include('partials/_masthead.html.twig') }}
-    <div class="row">
-        <div class="blockcenter">
-            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
-                {{ include('partials/_flash_messages.html.twig') }}
-                <div style="margin : 0 10% ;">
-                    <p>
-                        Un email vient de vous être envoyé avec un lien de réinitialisation du mot de passe.
-                    </p>
-                    <p>
-                        Si aucun email n'est arrivé, verifier des vos spams ou
-                        <a href="{{ path('app_forgot_password_request') }}"> réessayer  </a>.</p>
-                </div>
-            </div>
-        </div>
+{% block content %}
+    <div style="margin : 0 10% ;">
+        <p>
+            Un email vient de vous être envoyé avec un lien de réinitialisation du mot de passe.
+        </p>
+        <p>
+            Si aucun email n'est arrivé, verifier des vos spams ou
+            <a href="{{ path('app_forgot_password_request') }}"> réessayer  </a>.</p>
     </div>
 {% endblock %}
+

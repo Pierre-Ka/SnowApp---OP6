@@ -1,149 +1,138 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/main_frame.html.twig' %}
 
-{% block title 'Show Trick' %}
+{% block content %}
+    <h1 class="text-center pb-5"> {{ trick.name|upper }} </h1>
+    <div class="w-100" style="
 
-{% block body %}
-    {{ include('partials/_masthead.html.twig') }}
-
+                    background-image: url(
+            {% if trick.mainPicture %}
+            {{ asset('uploads/main/'~pictureName) }}
+            {% else %}
+            {{ asset('assets/img/essai.jpg') }}
+            {% endif %}
+                        );
+                    height: 550px;
+                    background-size: cover;
+                    background-position-x: center;
+                    background-position-y: center;
+                    background-repeat: no-repeat;
+                    position: relative;
+                            ">
+        <div>
+    <!--------------------- User------------------------------------>
+            {% if app.user and app.user.isVerified == 1 %}
+                <span class="m-2" style="position: absolute;
+                                      top : 0;
+                                      right: 0;
+                                            ">
+                        <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
+                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
+                        {{ include('partials/delete/_delete_form.html.twig') }}
+                </span>
+            {% endif %}
+    <!--------------------- User------------------------------------>
+        </div>
+    </div>
     <div class="row">
-        <div class="blockcenter">
-            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
-                {{ include('partials/_flash_messages.html.twig') }}
-                <h1 class="text-center pb-5"> {{ trick.name|upper }} </h1>
-                <div class="w-100" style="
-
-                                background-image: url(
-                        {% if trick.mainPicture %}
-                        {{ asset('uploads/main/'~pictureName) }}
-                        {% else %}
-                        {{ asset('assets/img/essai.jpg') }}
-                        {% endif %}
-                                    );
-                                height: 550px;
-                                background-size: cover;
-                                background-position-x: center;
-                                background-position-y: center;
-                                background-repeat: no-repeat;
-                                position: relative;
-                                        ">
-                    <div>
-                <!--------------------- User------------------------------------>
-                        {% if app.user and app.user.isVerified == 1 %}
-                            <span class="m-2" style="position: absolute;
-                                                  top : 0;
-                                                  right: 0;
-                                                        ">
-                                    <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
-                                    <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
-                                    {{ include('partials/delete/_delete_form.html.twig') }}
-                            </span>
-                        {% endif %}
-                <!--------------------- User------------------------------------>
+        <div class="col-6 pt-5 text-center">
+            <span class="subheading"> GROUPE : <strong>{{ trick.category.name }} </strong></span>
+        </div>
+        <div class="col-6 pt-5 text-center">
+            <span class="subheading"> DIFFICULTE : </span>
+                {% for i in 1..trick.level  %}
+                    <span style="font-size: 1.2em;"> ★</span>
+                {% endfor %}
+        </div>
+    </div>
+    {# Display of collection #}
+    <div class="row mt-5">
+        <div class="col-6">
+            {# Display of pictures #}
+            <div class="row" style="background-color: transparent;">
+        <!--------------------- User------------------------------------>
+                {% if app.user and app.user.isVerified == 1 %}
+                    <div class="col-4">
+                        <a href="{{ path('app_picture_create', {'id':trick.id }) }}">
+                            <img height="125" src=" {{ asset('assets/icon/picture2.png') }}" alt="Ajouter une image">
+                        </a>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 pt-5 text-center">
-                        <span class="subheading"> GROUPE : <strong>{{ trick.category.name }} </strong></span>
-                    </div>
-                    <div class="col-6 pt-5 text-center">
-                        <span class="subheading"> DIFFICULTE : </span>
-                            {% for i in 1..trick.level  %}
-                            	<span style="font-size: 1.2em;"> ★</span>
-                            {% endfor %}
-                    </div>
-                </div>
-                {# Display of collection #}
-                <div class="row mt-5">
-                    <div class="col-6">
-                        {# Display of pictures #}
-                        <div class="row" style="background-color: transparent;">
+                {% endif %}
+        <!--------------------- End User------------------------------------>
+                {% if trick.pictures|length >0 %}
+                    {% for picture in trick.pictures %}
+                        <div class="col-4 mb-5">
+                            <div class="embed-responsive">
+                                <a href="{{ asset('uploads/pictures/'~picture.path ) }}">
+                                    <img width="100%" height="125" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
+                                </a>
+                            </div>
+                            <div class="">
                     <!--------------------- User------------------------------------>
-                            {% if app.user and app.user.isVerified == 1 %}
-                                <div class="col-4">
-                                    <a href="{{ path('app_picture_create', {'id':trick.id }) }}">
-                                        <img height="125" src=" {{ asset('assets/icon/picture2.png') }}" alt="Ajouter une image">
-                                    </a>
-                                </div>
-                            {% endif %}
+                                {% if app.user and app.user.isVerified == 1 %}
+                                    <span style="float:right; margin-top: 10px;">
+                                         <a href="{{ path('app_picture_edit', {'id':picture.id }) }}">
+                                            <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
+                                         </a>
+                                        {{ include('partials/delete/_delete_picture_form.html.twig') }}
+                                    </span>
+                                {% endif %}
                     <!--------------------- End User------------------------------------>
-                            {% if trick.pictures|length >0 %}
-                                {% for picture in trick.pictures %}
-                                    <div class="col-4 mb-5">
-                                        <div class="embed-responsive">
-                                            <a href="{{ asset('uploads/pictures/'~picture.path ) }}">
-                                                <img width="100%" height="125" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
-                                            </a>
-                                        </div>
-                                        <div class="">
-                                <!--------------------- User------------------------------------>
-                                            {% if app.user and app.user.isVerified == 1 %}
-                                                <span style="float:right; margin-top: 10px;">
-                                                     <a href="{{ path('app_picture_edit', {'id':picture.id }) }}">
-                                                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
-                                                     </a>
-                                                    {{ include('partials/delete/_delete_picture_form.html.twig') }}
-                                                </span>
-                                            {% endif %}
-                                <!--------------------- End User------------------------------------>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
+                            </div>
                         </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-6">
+            {# Display of videos #}
+            <div class="row">
+        <!--------------------- User------------------------------------>
+                {% if app.user and app.user.isVerified == 1 %}
+                    <div class="col-4">
+                        <a href="{{ path('app_video_create', {'id':trick.id }) }}">
+                            <img height="125" src="{{ asset('assets/icon/video.png') }}" alt="Ajouter une video">
+                        </a>
                     </div>
-                    <div class="col-6">
-                        {# Display of videos #}
-                        <div class="row">
+                {% endif %}
+        <!--------------------- End User------------------------------------>
+                {% if trick.videos|length >0 %}
+                    {% for video in trick.videos %}
+                        <div class="col-4 mb-5">
+                            <div class="embed-responsive">
+                                <a href="{{ video.path }}">
+                                    <iframe width="100%" height="125" src="{{ video.path }}">Video
+                                    </iframe>
+                                </a>
+                            </div>
+                            <div class="">
                     <!--------------------- User------------------------------------>
-                            {% if app.user and app.user.isVerified == 1 %}
-                                <div class="col-4">
-                                    <a href="{{ path('app_video_create', {'id':trick.id }) }}">
-                                        <img height="125" src="{{ asset('assets/icon/video.png') }}" alt="Ajouter une video">
+                                {% if app.user and app.user.isVerified == 1 %}
+                                <span style="float:right;">
+                                    <a href="{{ path('app_video_edit', {'id':video.id }) }}">
+                                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
                                     </a>
-                                </div>
-                            {% endif %}
+                                    {{ include('partials/delete/_delete_video_form.html.twig') }}
+                                </span>
+                                {% endif %}
                     <!--------------------- End User------------------------------------>
-                            {% if trick.videos|length >0 %}
-                                {% for video in trick.videos %}
-                                    <div class="col-4 mb-5">
-                                        <div class="embed-responsive">
-                                            <a href="{{ video.path }}">
-                                                <iframe width="100%" height="125" src="{{ video.path }}">Video
-                                                </iframe>
-                                            </a>
-                                        </div>
-                                        <div class="">
-                                <!--------------------- User------------------------------------>
-                                            {% if app.user and app.user.isVerified == 1 %}
-                                            <span style="float:right;">
-                                                <a href="{{ path('app_video_edit', {'id':video.id }) }}">
-                                                    <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
-                                                </a>
-                                                {{ include('partials/delete/_delete_video_form.html.twig') }}
-                                            </span>
-                                            {% endif %}
-                                <!--------------------- End User------------------------------------>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="p-5" style="letter-spacing: 1px;">{{ trick.description }}</div>
-                <div>
-                    <small style="letter-spacing: 1px;">
-                        <strong class="text-muted" >
-                            Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }} par {{ trick.user.fullname }} <br/>
-                            {{ trick.lastUpdate and  trick.createDate|date('d-m-Y') != trick.lastUpdate|date('d-m-Y')? ' Modifié le ' ~trick.lastUpdate|date('d-m-Y') : '' }}
-                        </strong>
-                    </small>
-                </div>
-                <br/><br/><br/><br/>
-                {{ include('partials/_display_comments.html.twig') }}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
+    <div class="p-5" style="letter-spacing: 1px;">{{ trick.description }}</div>
+    <div>
+        <small style="letter-spacing: 1px;">
+            <strong class="text-muted" >
+                Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }} par {{ trick.user.fullname }} <br/>
+                {{ trick.lastUpdate and  trick.createDate|date('d-m-Y') != trick.lastUpdate|date('d-m-Y')? ' Modifié le ' ~trick.lastUpdate|date('d-m-Y') : '' }}
+            </strong>
+        </small>
+    </div>
+    <br/><br/><br/><br/>
+    {{ include('partials/_display_comments.html.twig') }}
 {% endblock %}
 
 

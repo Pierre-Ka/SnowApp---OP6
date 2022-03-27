@@ -1,21 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/main_frame.html.twig' %}
 
-{% block title 'Edit Picture' %}
-
-{% block body %}
-    {{ include('partials/_masthead.html.twig') }}
-    <div class="row">
-        <div class="blockcenter">
-            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
-                {{ include('partials/_flash_messages.html.twig') }}
-                <h1 class="pb-3">Modifier cette image </h1>
-                <div style="margin : 30px 0; padding-left: 30%">
-                   <img class="mx-auto" height="200" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
-                </div>
-
-                {{ include('partials/_form.html.twig', {'button_label': 'Modifier'}) }}
-            </div>
-        </div>
+{% block content %}
+    <h1 class="pb-3">Modifier cette image </h1>
+    <div style="margin : 30px 0; padding-left: 30%">
+        <img class="mx-auto" height="200" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
     </div>
+
+    {{ include('partials/_form.html.twig', {'button_label': 'Modifier'}) }}
 {% endblock %}
+
 

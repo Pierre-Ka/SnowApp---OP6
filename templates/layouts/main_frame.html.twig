@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'SnowTricks |' %}
+
+{% block body %}
+    {{ include('partials/_masthead.html.twig') }}
+    <div class="row">
+        <div class="blockcenter">
+            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
+                {{ include('partials/_flash_messages.html.twig') }}
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CommentController extends AbstractController
 {
-    #[Route('/comment/create/{id}', name: 'app_comment_create')]
+    #[Route('/comment/create/{id<[0-9]+>}', name: 'app_comment_create')]
     public function create(Request $request, Trick $trick, CommentRepository $commentRepository): Response {
         return new Response();
     }

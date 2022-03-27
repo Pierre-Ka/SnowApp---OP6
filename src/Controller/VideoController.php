@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VideoController extends AbstractController
 {
-    #[Route('/video/create/{id}', name: 'app_video_create', methods: ['GET', 'POST'])]
+    #[Route('/video/create/{id<[0-9]+>}', name: 'app_video_create', methods: ['GET', 'POST'])]
     public function create(Request $request, Trick $trick, VideoRepository $videoRepository): Response
     {
         $video = new Video();
@@ -34,7 +34,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/video/{id}/edit', name: 'app_video_edit', methods: ['GET', 'POST'])]
+    #[Route('/video/{id<[0-9]+>}/edit', name: 'app_video_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Video $video, VideoRepository $videoRepository): Response
     {
         $form = $this->createForm(VideoType::class, $video);
@@ -54,7 +54,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/video/{id}/delete', name: 'app_video_delete', methods: ['POST']) ]
+    #[Route('/video/{id<[0-9]+>}/delete', name: 'app_video_delete', methods: ['POST']) ]
     public function delete(Request $request, Video $video, VideoRepository $videoRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {

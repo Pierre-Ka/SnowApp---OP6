@@ -1,20 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/main_frame.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block content %}
+    <h1 class="pb-3">Modifier votre profil "{{ user.fullName }}" </h1>
+    {{ form_start(form)  }}
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+    <div class="btn btn-secondary rounded mt-3 mb-5 p-2 shadow">
+        <a href="#" style="color:white">Modifier mon mot de passe </a>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg w-100" formnovalidate >Modifier</button>
+    {{ form_end(form)}}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Ikan Hiu/Desktop/Symfony/SnowApp/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Ikan Hiu/Desktop/Symfony/SnowApp/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>
-    </ul>
-</div>
 {% endblock %}

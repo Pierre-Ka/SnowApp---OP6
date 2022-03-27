@@ -1,22 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/main_frame.html.twig' %}
 
-{% block title 'Edit Video' %}
-
-{% block body %}
-    {{ include('partials/_masthead.html.twig') }}
-    <div class="row">
-        <div class="blockcenter">
-            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
-                {{ include('partials/_flash_messages.html.twig') }}
-                <h1 class="pb-3">Remplacer cette video par une nouvelle </h1>
-                <div style="margin : 30px 0; padding-left: 30%">
-                    <iframe class="mx-auto" height="200" src="{{ video.path }}">Video
-                    </iframe>
-                </div>
-
-                {{ include('partials/_form.html.twig', {'button_label': 'Modifier'}) }}
-            </div>
-        </div>
+{% block content %}
+    <h1 class="pb-3">Remplacer cette video par une nouvelle </h1>
+    <div style="margin : 30px 0; padding-left: 30%">
+        <iframe class="mx-auto" height="200" src="{{ video.path }}">Video
+        </iframe>
     </div>
+
+    {{ include('partials/_form.html.twig', {'button_label': 'Modifier'}) }}
 {% endblock %}
+
 
