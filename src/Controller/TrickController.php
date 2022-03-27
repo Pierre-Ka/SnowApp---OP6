@@ -30,6 +30,11 @@ class TrickController extends AbstractController
             'isIndex' => true,
         ]);
     }
+    /*
+    Redirection :
+    // generating a URL with a fragment (/all_tricks#tricks)
+        $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
+    */
 
     #[Route('/all_tricks', name: 'app_all_tricks', methods: ['GET'])]
     public function list(TrickRepository $trickRepository): Response
@@ -62,10 +67,12 @@ class TrickController extends AbstractController
                 $setFileName = $nameTrickLower.'_MAIN_'.rand(1, 999).'.'.$extension ;
                 $form['setPicture']->getData()->move('../public/uploads/main/', $setFileName);
                 $trick->setMainPicture($setFileName);
+                $user = $this->getUser();
+                $trick->setUser($user);
             }
             $trickRepository->add($trick);
             $this->addFlash('success', 'Figure créée avec succès');
-            return $this->redirectToRoute('app_trick_index',[], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('trick/new.html.twig', [
             'trick' => $trick,
@@ -85,6 +92,13 @@ class TrickController extends AbstractController
                 $extension = $form['setPicture']->getData()->guessExtension();
                 if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
                     throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+                }
+                if ($trick->getMainPicture() === null)
+                {
+                    $nameTrickWithoutSpace = str_replace(" ", "", $trick->getName());
+                    $nameTrickLower = strtolower($nameTrickWithoutSpace);
+                    $setFileName = $nameTrickLower.'_MAIN_'.rand(1, 999).'.'.$extension ;
+                    $trick->setMainPicture($setFileName);
                 }
                 $nameFiles = $trick->getMainPicture();
                 $form['setPicture']->getData()->move('../public/uploads/main/', $nameFiles);
@@ -107,6 +121,8 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
+            $user = $this->getUser();
+            $comment->setUser($user);
             $commentRepository->add($comment);
             $this->addFlash('success', 'Commentaire rajouté avec succès');
         }
@@ -141,8 +157,8 @@ class TrickController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
             $trickRepository->remove($trick);
-            $this->addFlash('info', 'Pin successfully deleted');
+            $this->addFlash('info', 'La figure a été supprimée avec succès');
         }
-        return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
     }
 }

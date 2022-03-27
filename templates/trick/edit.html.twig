@@ -7,6 +7,7 @@
     <div class="row">
         <div class="blockcenter">
             <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
+                {{ include('partials/_flash_messages.html.twig') }}
                 <h1 class="pb-3">Modifier la figure "{{ trick.name }}" </h1>
                 {{ include('partials/_form.html.twig', {'button_label': 'Modifier'}) }}
             </div>

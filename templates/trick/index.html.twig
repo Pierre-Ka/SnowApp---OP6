@@ -31,6 +31,7 @@
     <div class="container">
         {% if tricks|length > 0 %}
             <h1 id="tricks" class="text-center"> Voir les {{ all_tricks|length }} figures du site </h1>
+            {{ include('partials/_flash_messages.html.twig') }}
             <!-- Divider-->
             <hr class="my-4" />
             {% for row in tricks|batch(4) %}
@@ -40,7 +41,7 @@
                             <article class="bg-white rounded shadow" style="height:350px; position: relative">
                                 <div class="trickimg mw-100 rounded-top overflow-hidden">
                                     <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">
-                                        <img src="{{ trick.mainPicture ? asset('uploads/main/'~trick.mainPicture) : asset('assets/img/trick.jpg') }}" alt="{{ trick.name }}" class="w-100">
+                                        <img src="{{ trick.mainPicture ? asset('uploads/main/'~trick.mainPicture) : asset('assets/img/trick.jpg') }}" alt="{{ trick.name }}" width="320px;" height="250px;">
                                     </a>
                                 </div>
                                 <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>

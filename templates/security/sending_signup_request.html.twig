@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Change Password' %}
+{% block title 'Check your email' %}
 
 {% block body %}
     {{ include('partials/_masthead.html.twig') }}
@@ -9,8 +9,12 @@
             <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
                 {{ include('partials/_flash_messages.html.twig') }}
                 <div style="margin : 0 10% ;">
-                    <h1 class="text-center my-5"> Reinitialiser votre mot de passe</h1>
-                    {{ include('partials/_form.html.twig', {'button_label': 'Soumettre'}) }}
+                    <p>
+                        Un email vient de vous être envoyé avec un lien pour confimer votre mot de passe.
+                    </p>
+                    <p>
+                        Si aucun email n'est arrivé, verifier des vos spams ou
+                        <a href="{{ path('app_register') }}"> réessayer  </a>.</p>
                 </div>
             </div>
         </div>
