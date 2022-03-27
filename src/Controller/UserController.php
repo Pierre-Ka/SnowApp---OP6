@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user/edit', name: 'schtroumpf')]
+    #[Route('/user/edit', name: 'app_user_edit')]
     public function edit(Request $request, UserRepository $userRepository): Response
     {
 
@@ -25,6 +25,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }
         return $this->render('user/edit.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }

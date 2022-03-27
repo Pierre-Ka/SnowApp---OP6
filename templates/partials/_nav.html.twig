@@ -13,13 +13,13 @@
                 {% if app.user and app.user.isVerified == 1 %}
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_trick_index') }}"> Home </a></li>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_trick_create') }}"> Ajouter </a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('schtroumpf') }}"> Profil </a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_logout') }}">Deconnection</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_user_edit') }}"> Profil </a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_logout') }}">LogOut</a></li>
                 {% else %}
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_trick_index') }}"> Home </a></li>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_trick_index') }}#tricks">Figures</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_login') }}">Connection</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_register') }}">Creer un compte</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_login') }}">LogIn</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_register') }}">SignUp</a></li>
                 {% endif %}
         <!--------------------- End User------------------------------------>
 

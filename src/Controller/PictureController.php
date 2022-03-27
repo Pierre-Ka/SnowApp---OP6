@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PictureController extends AbstractController
 {
-    #[Route('/picture/create/{id}', name: 'app_picture_create', methods: ['GET', 'POST'])]
+    #[Route('/picture/create/{id<[0-9]+>}', name: 'app_picture_create', methods: ['GET', 'POST'])]
     public function create(Request $request, Trick $trick, PictureRepository $pictureRepository): Response
     {
         $form = $this->createForm(PictureType::class);
@@ -44,7 +44,7 @@ class PictureController extends AbstractController
         ]);
     }
 
-    #[Route('/picture/{id}/edit', name: 'app_picture_edit', methods: ['GET', 'POST'])]
+    #[Route('/picture/{id<[0-9]+>}/edit', name: 'app_picture_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Picture $picture, PictureRepository $pictureRepository): Response
     {
         $form = $this->createForm(PictureType::class, $picture);
@@ -67,7 +67,7 @@ class PictureController extends AbstractController
         ]);
     }
 
-    #[Route('/picture/{id}/delete', name: 'app_picture_delete', methods: ['POST']) ]
+    #[Route('/picture/{id<[0-9]+>}/delete', name: 'app_picture_delete', methods: ['POST']) ]
     public function delete(Request $request, Picture $picture, PictureRepository $pictureRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {

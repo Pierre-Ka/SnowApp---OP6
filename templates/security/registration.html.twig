@@ -1,34 +1,25 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/main_frame.html.twig' %}
 
-{% block title 'Register' %}
-
-{% block body %}
-    {{ include('partials/_masthead.html.twig') }}
-    <div class="row">
-        <div class="blockcenter">
-            <div class="blockcenter bgcenter col-lg-8 col-md-10 mx-auto p-5">
-                {{ include('partials/_flash_messages.html.twig') }}
-                <div style="margin : 0 10% ;">
-                    <h1 class="text-center my-5"> Creer un compte </h1>
-                    {{ form_start(registrationForm)  }}
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ form_row(registrationForm.firstName) }}
-                        </div>
-                        <div class="col-md-6">
-                            {{ form_row(registrationForm.lastName) }}
-                        </div>
-                    </div>
-                    {{ form_row(registrationForm.email) }}
-                    {{      form_row(registrationForm.plainPassword, { label: 'Votre mot de passe' })         }}
-                    {{ form_row(registrationForm.agreeTerms) }}
-                    <button type="submit" class="btn btn-primary btn-lg w-100" formnovalidate >Créer le compte</button>
-                    <p class="mt-5 mb-3 text-center text-muted">
-                        Vous êtes déjà inscrit ? <a href="{{ path('app_login') }}"> Connectez-vous </a>
-                    </p>
-                    {{ form_end(registrationForm) }}
-                </div>
+{% block content %}
+    <div style="margin : 0 10% ;">
+        <h1 class="text-center my-5"> Creer un compte </h1>
+        {{ form_start(registrationForm)  }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(registrationForm.firstName) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(registrationForm.lastName) }}
             </div>
         </div>
+        {{ form_row(registrationForm.email) }}
+        {{      form_row(registrationForm.plainPassword, { label: 'Votre mot de passe' })         }}
+        {{ form_row(registrationForm.agreeTerms) }}
+        <button type="submit" class="btn btn-primary btn-lg w-100" formnovalidate >Créer le compte</button>
+        <p class="mt-5 mb-3 text-center text-muted">
+            Vous êtes déjà inscrit ? <a href="{{ path('app_login') }}"> Connectez-vous </a>
+        </p>
+        {{ form_end(registrationForm) }}
     </div>
 {% endblock %}
+
