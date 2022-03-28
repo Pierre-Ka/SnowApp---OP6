@@ -34,7 +34,7 @@ class TrickType extends AbstractType
                 'label' => 'Description',
                 'attr' => [ 'rows' => 4,]
             ])
-            ->add('setPicture', FileType::class, [
+            ->add('setMainPicture', FileType::class, [
                 'label' => 'Image Principale ( optionnelle )',
                 'help' => 'Formats : png, jpg, jpeg.   Taille : max 8Mo ',
                 'required' => false,

@@ -75,7 +75,13 @@
                 </div>
             {% endif %}
         {% else %}
-            <p class="h2 mt-5 text-center"> No Trick yet <a href="{{ path('app_trick_create') }}"> Soit le premier à créer une figure !</a> </p>
+            <p class="h2 mt-5 text-center"> Il n'y a pas encore de figures ! <br/>
+                {% if app.user and app.user.isVerified == 1 %}
+                    <a href="{{ path('app_trick_create') }}"> Soit le premier à créer une figure !</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}"> Connecte toi et soit le premier à créer une figure !</a>
+                {% endif %}
+            </p>
         {% endif %}
     </div>
 {% endblock %}
