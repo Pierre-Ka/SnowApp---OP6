@@ -87,21 +87,25 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (($form['setPicture'])->getData() !== null)
+            if (($form['setMainPicture'])->getData() !== null)
             {
-                $extension = $form['setPicture']->getData()->guessExtension();
+                $extension = $form['setMainPicture']->getData()->guessExtension();
                 if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
                     throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
                 }
-                if ($trick->getMainPicture() === null)
+                $files = $form['setMainPicture']->getData();
+                if ($trick->getMainPicture())
+                {
+                    $files->move('../public/uploads/main/', $trick->getMainPicture());
+                }
+                else
                 {
                     $nameTrickWithoutSpace = str_replace(" ", "", $trick->getName());
                     $nameTrickLower = strtolower($nameTrickWithoutSpace);
                     $setFileName = $nameTrickLower.'_MAIN_'.rand(1, 999).'.'.$extension ;
                     $trick->setMainPicture($setFileName);
+                    $files->move('../public/uploads/main/', $trick->getMainPicture());
                 }
-                $nameFiles = $trick->getMainPicture();
-                $form['setPicture']->getData()->move('../public/uploads/main/', $nameFiles);
             }
             $trickRepository->add($trick);
             $this->addFlash('success', 'Figure modifiée avec succès');
@@ -156,7 +160,11 @@ class TrickController extends AbstractController
     public function delete(Request $request, Trick $trick, TrickRepository $trickRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
+            $fileName = $trick->getMainPicture();
             $trickRepository->remove($trick);
+            if ($fileName !== null){
+                unlink('../public/uploads/main/'.$fileName );
+            }
             $this->addFlash('info', 'La figure a été supprimée avec succès');
         }
         return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);

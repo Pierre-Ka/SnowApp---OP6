@@ -72,7 +72,9 @@ class PictureController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
             $idTrick = $picture->getTrick()->getId();
+            $picturePath = $picture->getPath();
             $pictureRepository->remove($picture);
+            unlink('../public/uploads/pictures/'.$picturePath);
             $this->addFlash('info', 'Image supprimée avec succès');
         }
         return $this->redirectToRoute('app_trick_show', ['id'=> $idTrick,'page'=> 1], Response::HTTP_SEE_OTHER);

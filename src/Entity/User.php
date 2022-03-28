@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $token;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $profilePicture;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -167,6 +170,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setToken(?string $token): self
     {
         $this->token = $token;
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
+
         return $this;
     }
 

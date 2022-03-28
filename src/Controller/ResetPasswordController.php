@@ -31,7 +31,7 @@ class ResetPasswordController extends AbstractController
     {
         if ($this->getUser()) {
             $this->addFlash('error', 'Vous etes déjà connecté');
-            return $this->redirectToRoute('app_trick_index');
+            return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
         }
 
         $form = $this->createForm(ForgetPasswordType::class);
@@ -39,6 +39,10 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->em->getRepository(User::class)->findOneByEmail($form['email']->getData());
+            if(!$user){
+                $this->addFlash('error', 'Aucun compte associé a l\'email entré !');
+                return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
+            }
             if (($user->getToken() === null) && ($user->getIsVerified() === true)) {
                 $this->emailHandler->sendForgottenPasswordMail($user);
                 $this->addFlash('info', 'Un email vous a été envoyé pour pour réinitialiser votre mot de passe');
@@ -83,7 +87,7 @@ class ResetPasswordController extends AbstractController
         $user = $this->em->getRepository(User::class)->findOneById($userSession->getId());
 
         if ($user->getToken() === $request->getSession()->get('token') && $user->getToken() === $token) {
-            $form = $this->createForm(ChangePasswordType::class, []);
+            $form = $this->createForm(ChangePasswordType::class, ['current_password_is_required'=> false ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $encodedPassword = $userPasswordHasher->hashPassword(
@@ -92,8 +96,8 @@ class ResetPasswordController extends AbstractController
                 );
                 $user->setPassword($encodedPassword);
                 $this->em->persist($user);
-                $this->em->flush();
                 $user->eraseCredentials();
+                $this->em->flush();
                 $request->getSession()->clear();
                 $this->addFlash('success', 'Votre mot de passe a bien été modifié, veuillez vous connecter.');
                 return $this->redirectToRoute('app_login');
