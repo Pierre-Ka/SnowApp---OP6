@@ -16,7 +16,8 @@ class UserType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'Prenom'
+                'label' => 'Prenom',
+                'empty_data'=>''
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom de famille'

@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $token;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $expiresToken;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $profilePicture;
 
@@ -173,6 +176,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getExpiresToken(): ?\DateTimeInterface
+    {
+        return $this->expiresToken;
+    }
+
+    public function setExpiresToken(?\DateTimeInterface $expiresToken): self
+    {
+        $this->expiresToken = $expiresToken;
+
+        return $this;
+    }
+
     public function getProfilePicture(): ?string
     {
         return $this->profilePicture;
@@ -192,6 +207,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
          $this->token = null;
+         $this->expiresToken = null;
     }
 
     /**

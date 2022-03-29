@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\UserRepository;
 use App\Security\EmailHandler;
 use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,11 +48,6 @@ class RegistrationController extends AbstractController
             $em->flush();
             $this->emailHandler->sendConfirmationMail($user);
             $this->addFlash('info', 'Un email vous a été envoyé pour confimer votre inscription');
-            $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
             return $this->render('security/sending_signup_request.html.twig');
         }
         return $this->render('security/registration.html.twig', [
@@ -59,17 +55,20 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email/', name: 'app_verify_email')]
-    public function verify(Request $request): Response
+    #[Route('/verify/email/{token}', name: 'app_verify_email')]
+    public function verify(Request $request, User $user, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator ): Response
     {
-        $user = $this->security->getUser();
         if ($user->getIsVerified() === true) {
             $this->addFlash('info', 'Votre adresse email a dejà été vérifiée');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
         }
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->emailHandler->verifyUser($request, $user))
         {
+            $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
             $this->addFlash('success', 'Votre adresse email a été correctement vérifiée');
         }
         else

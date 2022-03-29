@@ -66,14 +66,20 @@
                 <hr class="my-4" />
                 <br/><br/>
             {% endfor %}
+
+
                 <!-- Pager-->
+            {# Essai de JS ici : creation de la classe 'reloadData' #}
             {% if isIndex %}
-                <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_all_tricks') }}#tricks">Voir toutes les figures ↓</a>
+                <div class="reloadData d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_all_tricks') }}#tricks">Voir toutes les figures ↓</a>
                 </div>
             {% else %}
-                <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_trick_index') }}">Voir moins ↑</a>
+                <div class="reloadData d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_trick_index') }}">Voir moins ↑</a>
                 </div>
             {% endif %}
+
+
+                <!-- No tricks -->
         {% else %}
             <p class="h2 mt-5 text-center"> Il n'y a pas encore de figures ! <br/>
                 {% if app.user and app.user.isVerified == 1 %}
