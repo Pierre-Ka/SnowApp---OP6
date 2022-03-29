@@ -3,6 +3,30 @@
 * Copyright 2013-2021 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
+
+/* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
+
+let reloadData = document.getElementById('reloadData');
+reloadData.onclick = loadData();
+async function loadData(){
+    displayElement.textContent = await getData(/limit/)
+}
+$trickRepo
+async function getData($url) {
+    let res = await fetch(url)
+        .then( async (response) => {
+            if (!response.ok) {
+                throw new Error('error');
+            }
+            return response.text().then((data) => {
+                return $data;
+             });
+        })
+        .catch((error) => {
+            console.log('error');})
+        return res;
+}
+
 /* ********* ARRAY UP ************************** */
 var btntop = $('#buttonToTheTop');
 

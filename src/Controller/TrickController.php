@@ -58,9 +58,9 @@ class TrickController extends AbstractController
             if (($form['setPicture'])->getData() !== null)
             {
                 $extension = $form['setPicture']->getData()->guessExtension();
-                if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
-                    throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
-                }
+//                if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+//                    throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+//                }
 
                 $nameTrickWithoutSpace = str_replace(" ", "", $trick->getName());
                 $nameTrickLower = strtolower($nameTrickWithoutSpace);
@@ -90,9 +90,9 @@ class TrickController extends AbstractController
             if (($form['setMainPicture'])->getData() !== null)
             {
                 $extension = $form['setMainPicture']->getData()->guessExtension();
-                if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
-                    throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
-                }
+//                if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+//                    throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+//                }
                 $files = $form['setMainPicture']->getData();
                 if ($trick->getMainPicture())
                 {
@@ -109,7 +109,7 @@ class TrickController extends AbstractController
             }
             $trickRepository->add($trick);
             $this->addFlash('success', 'Figure modifiée avec succès');
-            return $this->redirectToRoute('app_trick_show', ['id'=> $trick->getId(),'page'=> 1], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trick_show', ['id'=> $trick->getId(),'page'=> 1]);
         }
         return $this->renderForm('trick/edit.html.twig', [
             'trick' => $trick,

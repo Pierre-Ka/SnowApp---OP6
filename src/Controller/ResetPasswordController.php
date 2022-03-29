@@ -56,37 +56,17 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    #[Route('/check-email', name: 'app_change_password_authenticator')]
-    public function checkEmail(Request $request): Response
-    {
-        $idUser = ((int)$request->query->get('key') / 11324);
-        $user = $this->em->getRepository(User::class)->findOneById($idUser);
-
-        if ($this->emailHandler->verifyUserForResetPassword($request, $user)) {
-            $token = $request->query->get('token');
-            $request->getSession()->set('user', $user);
-            $request->getSession()->set('token', $token);
-            return $this->redirectToRoute('app_change_password', ['token' => $token]);
-        } else {
-            $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer');
-            return $this->redirectToRoute('app_forgot_password_request');
-        }
-    }
-
-
     #[Route('/reset/{token}', name: 'app_change_password')]
-    public function reset(Request $request, UserPasswordHasherInterface $userPasswordHasher,
+    public function reset(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher,
                           string  $token): Response
     {
-
-        if (!$request->getSession()->get('user')) {
+        if (!$user) // INUTILE A CAUSE DU PARAM CONVERTER ?
+        {
             $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer');
-            return $this->redirectToRoute('app_forgot_password_request');
+            return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
         }
-        $userSession = $request->getSession()->get('user');
-        $user = $this->em->getRepository(User::class)->findOneById($userSession->getId());
-
-        if ($user->getToken() === $request->getSession()->get('token') && $user->getToken() === $token) {
+        if ($this->emailHandler->verifyUserForResetPassword($request, $user))
+        {
             $form = $this->createForm(ChangePasswordType::class, ['current_password_is_required'=> false ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -95,10 +75,8 @@ class ResetPasswordController extends AbstractController
                     $form->get('plainPassword')->getData()
                 );
                 $user->setPassword($encodedPassword);
-                $this->em->persist($user);
                 $user->eraseCredentials();
                 $this->em->flush();
-                $request->getSession()->clear();
                 $this->addFlash('success', 'Votre mot de passe a bien été modifié, veuillez vous connecter.');
                 return $this->redirectToRoute('app_login');
             }

@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +47,7 @@ class EmailHandler
 
     public function sendForgottenPasswordMail(UserInterface $user)
     {
-        $link = $this->generateUrlForEmailConfirmation('app_change_password_authenticator', $user);
+        $link = $this->generateUrlForEmailConfirmation('app_change_password', $user);
         $email = (new TemplatedEmail())
             ->from('SnowTrick@noreply.com')
             ->to($user->getEmail())
@@ -62,44 +64,29 @@ class EmailHandler
     {
         $token = $this->tokenGenerator->generateToken();
         $user->setToken($token);
-        $this->em->persist($user);
+        $user->setExpiresToken(new \DateTime('+1 week'));
         $this->em->flush();
         $extraParams['token'] = $token;
-        $extraParams['key'] = ($user->getId()*11324);
-
-        $extraParams['expiresAt'] = (time() + 24*60*60);
-
         $uri = $this->router->generate($routeName, $extraParams, UrlGeneratorInterface::ABSOLUTE_URL);
         return $uri;
     }
 
     public function verifyUser(Request $request, UserInterface $user): bool
     {
-        if ((int)$request->query->get('key') !== $user->getId()*11324) {
+        $now = new \Datetime;
+        if ($user->getExpiresToken() < $now) {
+            $user->eraseCredentials();
             return false;
         }
-        if ($request->query->get('token') !== $user->getToken()) {
-            return false;
-        }
-
-        if ($request->query->get('expiresAt') < time()) {
-        $user->eraseCredentials();
-            return false;
-        }
-
         $user->setIsVerified(true);
         $user->eraseCredentials();
-        $this->em->persist($user);
         $this->em->flush();
         return true;
     }
     public function verifyUserForResetPassword(Request $request, UserInterface $user): bool
     {
-        if ($request->query->get('token') !== $user->getToken()) {
-            return false;
-        }
-
-        if ($request->query->get('expiresAt') < time()) {
+        $now = new \Datetime;
+        if ($user->getExpiresToken() < $now) {
             $user->eraseCredentials();
             return false;
         }
