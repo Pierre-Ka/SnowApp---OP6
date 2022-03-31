@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ChangePasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,9 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode:404)]
+#[Route('/user/edit')]
 class UserController extends AbstractController
 {
-    #[Route('/user/edit', name: 'app_user_edit')]
+    #[Route('', name: 'app_user_edit')]
     public function edit(Request $request, UserRepository $userRepository): Response
     {
         $user = $this->getUser();
@@ -51,9 +54,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/edit/password', name: 'app_user_edit_password')]
+    #[Route('password', name: 'app_user_edit_password')]
     public function editPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $form = $this->createForm(ChangePasswordType::class, [], ['current_password_is_required'=> true ]);
         $form->handleRequest($request);

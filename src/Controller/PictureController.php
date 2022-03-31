@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+#[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode:404)]
 class PictureController extends AbstractController
 {
     #[Route('/picture/create/{id<[0-9]+>}', name: 'app_picture_create', methods: ['GET', 'POST'])]

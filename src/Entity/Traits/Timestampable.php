@@ -29,10 +29,10 @@ trait Timestampable
     {
         $this->createDate = new \DateTime();
     }
-//    public function setCreateDate($createDate): void
-//    {
-//        $this->createDate = $createDate;
-//    }
+    public function setCreateDate($createDate): void
+    {
+        $this->createDate = $createDate;
+    }
 
     public function getLastUpdate(): ?\DateTimeInterface
     {
@@ -44,8 +44,8 @@ trait Timestampable
     {
         $this->lastUpdate = new \DateTime();
     }
-//    public function setLastUpdate($lastUpdate): void
-//    {
-//        $this->lastUpdate = $lastUpdate;
-//    }
+    public function setLastUpdate($lastUpdate): void
+    {
+        $this->lastUpdate = $lastUpdate;
+    }
 }

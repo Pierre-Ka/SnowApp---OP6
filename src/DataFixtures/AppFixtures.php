@@ -158,6 +158,7 @@ class AppFixtures extends Fixture
                 ->setName($faker->sentence(3))
                 ->setDescription($faker->sentence(40))
                 ->setCategory($group_array[0])
+                ->setSlug()
                 ->setUser($user_array[0])
                 ->setLevel($faker->numberBetween(1,5))
                 ->setCreateDate($faker->dateTimeThisDecade());

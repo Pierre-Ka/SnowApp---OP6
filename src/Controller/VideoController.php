@@ -6,11 +6,13 @@ use App\Entity\Video;
 use App\Form\VideoType;
 use App\Repository\VideoRepository;
 use App\Entity\Trick;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode:404)]
 class VideoController extends AbstractController
 {
     #[Route('/video/create/{id<[0-9]+>}', name: 'app_video_create', methods: ['GET', 'POST'])]
