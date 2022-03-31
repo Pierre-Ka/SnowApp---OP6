@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
+use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\VideoType;
 use App\Repository\VideoRepository;
-use App\Entity\Trick;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

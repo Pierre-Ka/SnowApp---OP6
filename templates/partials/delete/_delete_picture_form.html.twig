@@ -1,20 +1,8 @@
-<div style="display: inline-block;">
-    <form method="post" style="display: inline-block;" action="{{ path('app_picture_delete', {'id': picture.id}) }}" onsubmit="return confirm('Supprimer cette image ?');">
+<div class="d-inline-block">
+    <form method="post" class="d-inline-block" action="{{ path('app_picture_delete', {'id': picture.id}) }}" onsubmit="return confirm('Supprimer cette image ?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ picture.id) }}">
-        <button style="border: none; background-color: transparent;"> <img src="{{ asset('assets/icon/delete.png') }}" alt="" style="width:25px;"> </button>
+        <button class="bg-transparent border-none">
+            <img src="{{ asset('assets/icon/delete.png') }}" class="width-edit-icon" alt=""> </button>
     </form>
 </div>
 
-
-
-{#
-
-<a href="#" class="btn btn-light"
-   onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-pin-delete-form').submit() ">
-    Delete</a>
-<form id="js-pin-delete-form" method="post" action="{{ path('app_pins_delete', {id: pin.id}) }}" style="display:none;">
-    <input type="text" name="_method" value="DELETE"/>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token('pin' ~ pin.id) }}"/>
-</form>
-
-#}

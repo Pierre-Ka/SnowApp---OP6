@@ -2,31 +2,19 @@
 
 {% block content %}
     <h1 class="text-center pb-5"> {{ trick.name|upper }} </h1>
-    <div class="w-100" style="
-
-                    background-image: url(
-            {% if trick.mainPicture %}
-            {{ asset('uploads/main/'~pictureName) }}
-            {% else %}
-            {{ asset('assets/img/essai.jpg') }}
-            {% endif %}
-                        );
-                    height: 550px;
-                    background-size: cover;
-                    background-position-x: center;
-                    background-position-y: center;
-                    background-repeat: no-repeat;
-                    position: relative;
-                            ">
+    <div class="w-100 main-picture-on-show" style="  background-image: url(
+                                    {% if trick.mainPicture %}
+                                    {{ asset('uploads/main/'~pictureName) }}
+                                    {% else %}
+                                    {{ asset('assets/img/essai.jpg') }}
+                                    {% endif %}
+                                                );  ">
         <div>
     <!--------------------- User------------------------------------>
             {% if app.user and app.user.isVerified == 1 %}
-                <span class="m-2" style="position: absolute;
-                                      top : 0;
-                                      right: 0;
-                                            ">
+                <span class="m-2 icon-on-the-corner">
                         <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
-                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
+                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" class="width-edit-icon"/></a>
                         {{ include('partials/delete/_delete_form.html.twig') }}
                 </span>
             {% endif %}
@@ -40,7 +28,7 @@
         <div class="col-6 pt-5 text-center">
             <span class="subheading"> DIFFICULTE : </span>
                 {% for i in 1..trick.level  %}
-                    <span style="font-size: 1.2em;"> ★</span>
+                    <span class="star-size-medium"> ★</span>
                 {% endfor %}
         </div>
     </div>
@@ -49,7 +37,7 @@
         <div class="col-6">
             {# Display of pictures #}
             <h6 class="text-center mb-4"> IMAGES : </h6>
-            <div class="row" style="background-color: transparent;">
+            <div class="row bg-transparent">
         <!--------------------- User------------------------------------>
                 {% if app.user and app.user.isVerified == 1 %}
                     <div class="col-4">
@@ -70,9 +58,9 @@
                             <div class="">
                     <!--------------------- User------------------------------------>
                                 {% if app.user and app.user.isVerified == 1 %}
-                                    <span style="float:right; margin-top: 10px;">
+                                    <span class="float-right mt-2">
                                          <a href="{{ path('app_picture_edit', {'id':picture.id }) }}">
-                                            <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
+                                            <img src="{{ asset('assets/icon/edit.png') }}" alt="" class="width-edit-icon"/>
                                          </a>
                                         {{ include('partials/delete/_delete_picture_form.html.twig') }}
                                     </span>
@@ -109,9 +97,9 @@
                             <div class="">
                     <!--------------------- User------------------------------------>
                                 {% if app.user and app.user.isVerified == 1 %}
-                                <span style="float:right;">
+                                <span class="float-right">
                                     <a href="{{ path('app_video_edit', {'id':video.id }) }}">
-                                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/>
+                                        <img src="{{ asset('assets/icon/edit.png') }}" alt="" class="width-edit-icon"/>
                                     </a>
                                     {{ include('partials/delete/_delete_video_form.html.twig') }}
                                 </span>
@@ -124,9 +112,9 @@
             </div>
         </div>
     </div>
-    <div class="p-5" style="letter-spacing: 1px;">{{ trick.description }}</div>
+    <div class="p-5 letter-spacing">{{ trick.description }}</div>
     <div>
-        <small style="letter-spacing: 1px;">
+        <small class="letter-spacing">
             <strong class="text-muted" >
                 Créé le {{ trick.createDate ? trick.createDate|date('d-m-Y') : '' }} par {{ trick.user.fullname }} <br/>
                 {{ trick.lastUpdate and  trick.createDate|date('d-m-Y') != trick.lastUpdate|date('d-m-Y')? ' Dernière modification le ' ~trick.lastUpdate|date('d-m-Y') : '' }}
