@@ -5,7 +5,7 @@
             {% if i == actual_page %}
                 &vellip; PAGE {{ i }} &vellip;
             {% else %}
-                <a href="{{  path('app_trick_show', {'id': trick.id, 'page': i}) }}"> Page {{ i }} </a>
+                <a href="{{  path('app_trick_show', {'slug': trick.slug, 'page': i}) }}"> Page {{ i }} </a>
             {% endif %}
 
         {% endfor %}

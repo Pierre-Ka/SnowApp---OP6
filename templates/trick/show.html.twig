@@ -25,7 +25,7 @@
                                       top : 0;
                                       right: 0;
                                             ">
-                        <a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
+                        <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
                         <img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
                         {{ include('partials/delete/_delete_form.html.twig') }}
                 </span>

@@ -28,8 +28,8 @@ class VideoController extends AbstractController
             $video->setPath($videoPath);
             $videoRepository->add($video);
             $this->addFlash('success', 'Video ajoutée avec succès');
-            $id = $video->getTrick()->getId();
-            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+            $slug = $video->getTrick()->getSlug();
+            return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('video/new.html.twig', [
             'form' => $form,
@@ -47,8 +47,8 @@ class VideoController extends AbstractController
             $video->setPath($videoPath);
             $videoRepository->add($video);
             $this->addFlash('success', 'Video modifiée avec succès');
-            $id = $video->getTrick()->getId();
-            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+            $slug = $video->getTrick()->getSlug();
+            return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('video/edit.html.twig', [
             'video' => $video,
@@ -60,10 +60,10 @@ class VideoController extends AbstractController
     public function delete(Request $request, Video $video, VideoRepository $videoRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
-            $idTrick = $video->getTrick()->getId();
+            $slug = $video->getTrick()->getSlug();
             $videoRepository->remove($video);
             $this->addFlash('info', 'Video supprimée avec succès');
         }
-        return $this->redirectToRoute('app_trick_show', ['id'=> $idTrick,'page'=> 1], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
     }
 }

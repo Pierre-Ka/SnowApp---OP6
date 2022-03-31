@@ -25,21 +25,15 @@ class PictureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $picture = new Picture();
             $extension = $form['setCollectionPicture']->getData()->guessExtension();
-            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
-                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
-            }
-
-            $nameTrickWithoutSpace = str_replace(" ", "", $trick->getName());
-            $nameTrickLower = strtolower($nameTrickWithoutSpace);
-            $setFileName = $nameTrickLower.'_COLLECTION_'.rand(1, 99999).'.'.$extension ;
+            $setFileName = $trick->getSlug() . '_COLLECTION_' . rand(1, 99999) . '.' . $extension;
             $form['setCollectionPicture']->getData()->move('../public/uploads/pictures/', $setFileName);
 
             $picture->setTrick($trick);
             $picture->setPath($setFileName);
             $pictureRepository->add($picture);
             $this->addFlash('success', 'Image ajoutée avec succès');
-            $id = $picture->getTrick()->getId();
-            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+            $slug = $picture->getTrick()->getSlug();
+            return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('picture/new.html.twig', [
             'form' => $form,
@@ -54,14 +48,14 @@ class PictureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $extension = $form['setCollectionPicture']->getData()->guessExtension();
-            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
-                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
-            }
+//            if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
+//                throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
+//            }
             $files = $form['setCollectionPicture']->getData();
             $files->move('../public/uploads/pictures/', $picture->getPath());
             $this->addFlash('success', 'Image modifiée avec succès');
-            $id = $picture->getTrick()->getId();
-            return $this->redirectToRoute('app_trick_show', ['id'=> $id,'page'=> 1], Response::HTTP_SEE_OTHER);
+            $slug = $picture->getTrick()->getSlug();
+            return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('picture/edit.html.twig', [
             'picture' => $picture,
@@ -73,13 +67,12 @@ class PictureController extends AbstractController
     public function delete(Request $request, Picture $picture, PictureRepository $pictureRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
-            $idTrick = $picture->getTrick()->getId();
+            $slug = $picture->getTrick()->getSlug();
             $picturePath = $picture->getPath();
             $pictureRepository->remove($picture);
             unlink('../public/uploads/pictures/'.$picturePath);
             $this->addFlash('info', 'Image supprimée avec succès');
         }
-        return $this->redirectToRoute('app_trick_show', ['id'=> $idTrick,'page'=> 1], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
     }
-
 }

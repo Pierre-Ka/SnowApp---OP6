@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity(fields: ['name'], message: 'Une figure possède dejà ce nom !')]
+#[UniqueEntity(fields: ['slug'], message: 'Une figure possède dejà ce nom !')]
 class Trick
 {
     use Timestampable;
@@ -60,7 +60,7 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $slug;
 
     public function __construct()
@@ -245,8 +245,7 @@ class Trick
     public function setSlug(): self
     {
         $slugger = new AsciiSlugger();
-        $this->slug = $slugger->slug(strtolower($this->name), '-');
-
+        $this->slug = (string) $slugger->slug((string) $this->name)->lower();
         return $this;
     }
 }
