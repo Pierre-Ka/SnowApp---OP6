@@ -12,6 +12,7 @@ use App\Form\TrickType;
 use App\Form\VideoType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,7 @@ class TrickController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode:404)]
     #[Route('/create', name: 'app_trick_create', methods: ['GET', 'POST'])]
     public function create(Request $request, TrickRepository $trickRepository): Response
     {
@@ -67,9 +69,9 @@ class TrickController extends AbstractController
                 $setFileName = $nameTrickLower.'_MAIN_'.rand(1, 999).'.'.$extension ;
                 $form['setPicture']->getData()->move('../public/uploads/main/', $setFileName);
                 $trick->setMainPicture($setFileName);
-                $user = $this->getUser();
-                $trick->setUser($user);
             }
+            $user = $this->getUser();
+            $trick->setUser($user);
             $trickRepository->add($trick);
             $this->addFlash('success', 'Figure créée avec succès');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
@@ -80,6 +82,7 @@ class TrickController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode:404)]
     #[Route('/{id<[0-9]+>}/edit', name: 'app_trick_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Trick $trick, TrickRepository $trickRepository): Response
     {
@@ -156,6 +159,7 @@ class TrickController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode:404)]
     #[Route('/{id<[0-9]+>}', name: 'app_trick_delete', methods: ['POST']) ]
     public function delete(Request $request, Trick $trick, TrickRepository $trickRepository): Response
     {
