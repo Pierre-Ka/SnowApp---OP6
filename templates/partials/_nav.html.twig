@@ -27,13 +27,3 @@
         </div>
     </div>
 </nav>
-                {#
-                        <a class="nav-link" aria-current="page" href=" {{ path('app_trick_create') }}">New Pin</a>
-                        <a class="nav-link" href="{{ path('app_account') }}">Account</a>
-                        <a class="nav-link" href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit();">Logout</a>
-                    <form id="js-logout-form" method="post" action="{{ path('app_logout') }}" style="display:none;">
-                        <input type="hidden" value="{{ csrf_token('logout') }}" name="_csrf_token">
-                    </form>
-                        <a class="nav-link" href=" {{ path('app_login') }}">Login</a>
-                        <a class="nav-link" href="{{ path('app_register') }}" >Register</a>
-                 #}
