@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user/edit')]
 class UserController extends AbstractController
 {
-    #[Route('', name: 'app_user_edit')]
+    #[Route('/profile', name: 'app_user_edit')]
     public function edit(Request $request, UserRepository $userRepository): Response
     {
         $user = $this->getUser();
@@ -54,7 +54,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('password', name: 'app_user_edit_password')]
+    #[Route('/password', name: 'app_user_edit_password')]
     public function editPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

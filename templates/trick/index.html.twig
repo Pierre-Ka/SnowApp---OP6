@@ -40,11 +40,11 @@
                         <div class="col-sm-6 col-lg-3">
                             <article class="bg-white rounded shadow" style="height:350px; position: relative">
                                 <div class="trickimg mw-100 rounded-top overflow-hidden">
-                                    <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}">
+                                    <a href="{{ path('app_trick_show', {'slug':trick.slug,'page':1}) }}">
                                         <img src="{{ trick.mainPicture ? asset('uploads/main/'~trick.mainPicture) : asset('assets/img/trick.jpg') }}" alt="{{ trick.name }}" width="320px;" height="250px;">
                                     </a>
                                 </div>
-                                <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'id':trick.id,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
+                                <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'slug':trick.slug,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
                                 <div class="pl-5 pb-3 text-muted" style="padding-left:25px;">
                                     <small>Difficulté {% for i in 1..trick.level  %}
                                             <span style="font-size: 1.1em;">★</span>
@@ -52,7 +52,7 @@
                     <!--------------------- User------------------------------------>
                                     {% if app.user and app.user.isVerified == 1 %}
                                     <span class="m-2" style="position: absolute; bottom : 2%; right: 2%;">
-                                         <a href="{{ path('app_trick_edit', {'id': trick.id}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
+                                         <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
                                             {{ include('partials/delete/_delete_form.html.twig') }}
                                     </span>
                                     {% endif %}

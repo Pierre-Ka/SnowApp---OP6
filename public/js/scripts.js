@@ -5,7 +5,7 @@
 */
 
 /* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
-
+/*
 let reloadData = document.getElementById('reloadData');
 reloadData.onclick = loadData();
 async function loadData(){
@@ -26,7 +26,7 @@ async function getData($url) {
             console.log('error');})
         return res;
 }
-
+*/
 /* ********* ARRAY UP ************************** */
 var btntop = $('#buttonToTheTop');
 
