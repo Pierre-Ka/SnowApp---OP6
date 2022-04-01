@@ -11428,3 +11428,18 @@ header.masthead .site-heading .h1 {
     font-size: 2.25rem;
   }
 }
+
+/************************ MEDIA QUERIES PERSO *********************************************/
+@media (max-width: 576px) {
+
+  #mainNav .navbar-nav > li.nav-item > a.nav-link {
+    font-size: 0.7em;
+  }
+
+  header.masthead .page-heading h1,
+  header.masthead .page-heading .h1,
+  header.masthead .site-heading h1,
+  header.masthead .site-heading .h1 {
+    font-size: 2rem;
+  }
+}

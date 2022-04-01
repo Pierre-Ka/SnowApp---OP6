@@ -54,6 +54,9 @@ class UserFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         foreach (self::USERS as $key => $USER) {
             $user = new User();
+            $user->setFirstName($USER['firstName']);
+            $user->setLastName($USER['lastName']);
+            $user->setEmail($USER['email']);
             $password = $this->hasher->hashPassword($user, 'secret');
             $user->setPassword($password);
             $user->setIsVerified(true);
