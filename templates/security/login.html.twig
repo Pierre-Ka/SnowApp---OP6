@@ -4,10 +4,8 @@
     {% if error %}
         <div class="alert alert-error text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-    <div style="margin : 0 10% ;">
+    <div class="small-margin-on-main-content">
         <form method="post">
-
-
             <h1 class="text-center my-5"> Connectez-vous</h1>
             <label for="inputEmail">Votre Email</label>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-3" autocomplete="email" required autofocus>
@@ -15,13 +13,13 @@
             <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
 
-            <div class=" mt-4 mb-3 d-flex justify-content-between">
+            <div class=" mt-4 mb-3 d-sm-flex justify-content-between">
                 <div class="checkbox mb-3">
                     <label>
                         <input type="checkbox" name="_remember_me"> Connexion automatique
                     </label>
                 </div>
-                <a style="text-decoration: underline; color: blue;" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+                <a class="link-to-forgotten-password" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
             </div>
 
             <button class="btn btn-lg btn-primary w-100" type="submit">

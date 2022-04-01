@@ -5,28 +5,30 @@
 */
 
 /* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
-/*
-let reloadData = document.getElementById('reloadData');
-reloadData.onclick = loadData();
-async function loadData(){
-    displayElement.textContent = await getData(/limit/)
-}
-$trickRepo
-async function getData($url) {
-    let res = await fetch(url)
-        .then( async (response) => {
+
+async function getData($compte) {
+    let res = await fetch('https://localhost:8000//reload_tricks/'.$compte)
+        .then(async (response) => {
             if (!response.ok) {
                 throw new Error('error');
             }
             return response.text().then((data) => {
                 return $data;
-             });
+            });
         })
         .catch((error) => {
-            console.log('error');})
-        return res;
+            console.log('error');
+        })
+    return res;
 }
-*/
+var $compte = 1;
+let reloadData = document.getElementById('reloadData');
+reloadData.onclick = loadData();
+async function loadData(){
+    $compte += 1;
+    displayElement.textContent = await getData($compte);
+}
+
 /* ********* ARRAY UP ************************** */
 var btntop = $('#buttonToTheTop');
 

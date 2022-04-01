@@ -4,13 +4,12 @@
 
 {% block body %}
     <!-- Page Header-->
-    <header class="masthead" style="background-image: url('assets/img/home2-bg.jpg');
-                                     height: 722px; ">
+    <header class="masthead height-of-masthead-index" style="background-image: url('assets/img/home2-bg.jpg');">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading mt-5">
-                        <h1>SnowTricks</h1>
+                        <h1 class="">SnowTricks</h1>
                         <span class="subheading"><strong>La référence des figures de Snow</strong></span>
                     </div>
                 </div>
@@ -37,22 +36,24 @@
             {% for row in tricks|batch(4) %}
                 <div class="row mb-5 justify-content-around">
                     {% for trick in row %}
-                        <div class="col-sm-6 col-lg-3">
-                            <article class="bg-white rounded shadow" style="height:350px; position: relative">
+                        <div class="col-md-6 col-xxl-3">
+                            <article class="mb-5 bg-white rounded shadow dimention-of-article-index mx-auto">
                                 <div class="trickimg mw-100 rounded-top overflow-hidden">
                                     <a href="{{ path('app_trick_show', {'slug':trick.slug,'page':1}) }}">
                                         <img src="{{ trick.mainPicture ? asset('uploads/main/'~trick.mainPicture) : asset('assets/img/trick.jpg') }}" alt="{{ trick.name }}" width="320px;" height="250px;">
                                     </a>
                                 </div>
-                                <h2 class="h5 pl-5 pt-3" style="padding-left:25px;"> <a href="{{ path('app_trick_show', {'slug':trick.slug,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
-                                <div class="pl-5 pb-3 text-muted" style="padding-left:25px;">
+                                <h2 class="h5 pl-5 pt-3 padding-left-index" > <a href="{{ path('app_trick_show', {'slug':trick.slug,'page':1}) }}" class="text-secondary text-muted text-decoration-none"> {{ trick.name }} </a> </h2>
+                                <div class="pl-5 pb-3 text-muted padding-left-index">
                                     <small>Difficulté {% for i in 1..trick.level  %}
-                                            <span style="font-size: 1.1em;">★</span>
+                                            <span class="star-size-small">★</span>
                                         {% endfor %}</small>
                     <!--------------------- User------------------------------------>
                                     {% if app.user and app.user.isVerified == 1 %}
-                                    <span class="m-2" style="position: absolute; bottom : 2%; right: 2%;">
-                                         <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}"><img src="{{ asset('assets/icon/edit.png') }}" alt="" style="width:25px;"/></a>
+                                    <span class="m-2 icon-on-the-bottom" >
+                                         <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
+                                             <img src="{{ asset('assets/icon/edit.png') }}" alt="" class="width-edit-icon"/>
+                                         </a>
                                             {{ include('partials/delete/_delete_form.html.twig') }}
                                     </span>
                                     {% endif %}
@@ -71,7 +72,9 @@
                 <!-- Pager-->
             {# Essai de JS ici : creation de la classe 'reloadData' #}
             {% if isIndex %}
-                <div class="reloadData d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_all_tricks') }}#tricks">Voir toutes les figures ↓</a>
+        {# <div class="reloadData d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_all_tricks') }}#tricks">Voir toutes les figures ↓</a> #}
+                <div class="reloadData d-flex justify-content-center mb-4">
+                    <button class="btn btn-primary text-uppercase">Voir toutes les figures ↓</button>
                 </div>
             {% else %}
                 <div class="reloadData d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_trick_index') }}">Voir moins ↑</a>
