@@ -16,13 +16,17 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
         for ($i = 0; $i <= 1000; $i++) {
-            $trickKey = rand(0, count(TrickFixtures::TRICKS) - 1);
+
+            dd($this->getReference('trick_2'));
+            //$trickKey = rand(0, (count(TrickFixtures::TRICKS) - 1);
+
+
             /** @var Trick $trick */
             $trick = $this->getReference('trick_' . $trickKey);
 
             $userKey = rand(0, count(UserFixtures::USERS) - 1);
             /** @var User $user */
-            $user = $this->getReference('user' . $userKey);
+            $user = $this->getReference('user_' . $userKey);
 
             $body = '<p>' . implode('</p><p>', $faker->paragraphs(3)) . '</p>';
             $comment = new Comment();

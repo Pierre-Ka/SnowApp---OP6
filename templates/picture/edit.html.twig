@@ -3,7 +3,7 @@
 {% block content %}
     <h1 class="pb-3">Modifier cette image </h1>
     <div class="form-format">
-        <img class="mx-auto" height="200" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
+        <img class="mx-md-auto" height="200" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
     </div>
 
     {{ include('partials/_form.html.twig', {'button_label': 'Modifier'}) }}
