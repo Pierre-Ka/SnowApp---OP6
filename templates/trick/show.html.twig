@@ -4,7 +4,7 @@
     <h1 class="title-on-show text-center pb-5"> {{ trick.name|upper }} </h1>
     <div class="w-100 main-picture-on-show" style="  background-image: url(
                                     {% if trick.mainPicture %}
-                                    {{ asset('uploads/main/'~pictureName) }}
+                                    {{ asset('uploads/main/'~trick.mainPicture) }}
                                     {% else %}
                                     {{ asset('assets/img/essai.jpg') }}
                                     {% endif %}

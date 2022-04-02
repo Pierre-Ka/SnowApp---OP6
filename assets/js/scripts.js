@@ -5,7 +5,7 @@
 */
 
 /* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
-
+/*
 async function getData($compte) {
     let res = await fetch('https://localhost:8000//reload_tricks/'.$compte)
         .then(async (response) => {
@@ -28,7 +28,7 @@ async function loadData(){
     $compte += 1;
     displayElement.textContent = await getData($compte);
 }
-
+*/
 /* ********* ARRAY UP ************************** */
 var btntop = $('#buttonToTheTop');
 

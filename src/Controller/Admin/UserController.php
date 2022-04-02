@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Form\ChangePasswordType;
 use App\Form\UserType;
+use App\Manager\UserManager;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/profile', name: 'app_user_edit')]
-    public function edit(Request $request, UserRepository $userRepository): Response
+    public function edit(Request $request, UserRepository $userRepository, UserManager $userManager): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
@@ -26,25 +27,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (($form['setProfilePicture'])->getData() !== null)
             {
-                $extension = $form['setProfilePicture']->getData()->guessExtension();
-                if (!$extension || !in_array($extension, ["jpg", "png", "jpeg"])) {
-                    throw new UploadException('Seuls les formats jpg, png et jpeg sont acceptés');
-                }
-                $files = $form['setProfilePicture']->getData();
-                if ($user->getProfilePicture())
-                {
-                    $files->move('../public/uploads/user/', $user->getProfilePicture());
-                }
-                else
-                {
-                    $nameUserWithoutSpace = str_replace(" ", "", $user->getFullName());
-                    $nameUserLower = strtolower($nameUserWithoutSpace);
-                    $setFileName = $nameUserLower.'_USER_'.rand(1, 999).'.'.$extension ;
-                    $user->setProfilePicture($setFileName);
-                    $files->move('../public/uploads/user/', $user->getProfilePicture());
-                }
+                $formData = $form['setProfilePicture']->getData();
+                $userManager->defineProfilePicture($formData, $user);
             }
-            $userRepository->add($user);
+            $userManager->edit($user);
             $this->addFlash('success', 'Profil modifiée avec succès');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }
@@ -55,7 +41,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/password', name: 'app_user_edit_password')]
-    public function editPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function editPassword(Request $request, UserManager $userManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
@@ -66,8 +52,7 @@ class UserController extends AbstractController
                 $user,
                 $form->get('plainPassword')->getData()
             );
-            $user->setPassword($encodedPassword);
-            $userRepository->add($user);
+            $userManager->editPassword($user, $encodedPassword);
             $this->addFlash('success', 'Mot de passe modifié avec succès');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }

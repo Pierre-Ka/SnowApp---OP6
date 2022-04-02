@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordType;
 use App\Form\ForgetPasswordType;
+use App\Manager\UserManager;
 use App\Security\EmailHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,11 +20,13 @@ class ResetPasswordController extends AbstractController
 {
     private EntityManagerInterface $em;
     private EmailHandler $emailHandler;
+    private UserManager $userManager;
 
-    public function __construct(EntityManagerInterface $em, EmailHandler $emailHandler)
+    public function __construct(EntityManagerInterface $em, EmailHandler $emailHandler, UserManager $userManager)
     {
         $this->em = $em;
         $this->emailHandler = $emailHandler;
+        $this->userManager = $userManager;
     }
 
     #[Route('', name: 'app_forgot_password_request')]
@@ -65,7 +68,7 @@ class ResetPasswordController extends AbstractController
             $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
         }
-        if ($this->emailHandler->verifyUserForResetPassword($request, $user))
+        if ($this->userManager->verifyUserForResetPassword($user))
         {
             $form = $this->createForm(ChangePasswordType::class, ['current_password_is_required'=> false ]);
             $form->handleRequest($request);
@@ -74,9 +77,7 @@ class ResetPasswordController extends AbstractController
                     $user,
                     $form->get('plainPassword')->getData()
                 );
-                $user->setPassword($encodedPassword);
-                $user->eraseCredentials();
-                $this->em->flush();
+                $this->userManager->editPassword($user, $encodedPassword);
                 $this->addFlash('success', 'Votre mot de passe a bien été modifié, veuillez vous connecter.');
                 return $this->redirectToRoute('app_login');
             }

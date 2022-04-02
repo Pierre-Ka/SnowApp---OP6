@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Manager\UserManager;
 use App\Repository\UserRepository;
 use App\Security\EmailHandler;
 use App\Security\LoginAuthenticator;
@@ -20,15 +21,17 @@ class RegistrationController extends AbstractController
 {
     private EmailHandler $emailHandler;
     private Security $security;
+    private UserManager $userManager;
 
-    public function __construct(EmailHandler $emailHandler, Security $security)
+    public function __construct(EmailHandler $emailHandler, Security $security, UserManager $userManager)
     {
         $this->emailHandler = $emailHandler;
         $this->security = $security;
+        $this->userManager = $userManager;
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_trick_index');
@@ -43,9 +46,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setIsVerified(false);
-            $em->persist($user);
-            $em->flush();
+            $this->userManager->create($user);
             $this->emailHandler->sendConfirmationMail($user);
             $this->addFlash('info', 'Un email vous a été envoyé pour confimer votre inscription');
             return $this->render('security/sending_signup_request.html.twig');
@@ -62,7 +63,7 @@ class RegistrationController extends AbstractController
             $this->addFlash('info', 'Votre adresse email a dejà été vérifiée');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
         }
-        if ($this->emailHandler->verifyUser($request, $user))
+        if ($this->userManager->verifyUser($request, $user))
         {
             $userAuthenticator->authenticateUser(
                 $user,

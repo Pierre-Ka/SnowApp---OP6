@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Manager\UserManager;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -19,14 +20,14 @@ class EmailHandler
 {
     private UrlGeneratorInterface $router;
     private MailerInterface $mailer;
-    private EntityManagerInterface $em;
+    private UserManager $userManager;
     private TokenGeneratorInterface $tokenGenerator;
 
-    public function __construct(UrlGeneratorInterface $router, MailerInterface $mailer, EntityManagerInterface $manager, TokenGeneratorInterface $generator)
+    public function __construct(UrlGeneratorInterface $router, MailerInterface $mailer, UserManager $userManager, TokenGeneratorInterface $generator)
     {
         $this->mailer = $mailer;
         $this->router = $router;
-        $this->em = $manager;
+        $this->userManager = $userManager;
         $this->tokenGenerator = $generator;
     }
 
@@ -63,33 +64,9 @@ class EmailHandler
     public function generateUrlForEmailConfirmation(string $routeName, UserInterface $user, array $extraParams = []): string
     {
         $token = $this->tokenGenerator->generateToken();
-        $user->setToken($token);
-        $user->setExpiresToken(new \DateTime('+1 week'));
-        $this->em->flush();
+        $this->userManager->defineTokenRelatedProperties($user, $token);
         $extraParams['token'] = $token;
         $uri = $this->router->generate($routeName, $extraParams, UrlGeneratorInterface::ABSOLUTE_URL);
         return $uri;
-    }
-
-    public function verifyUser(Request $request, UserInterface $user): bool
-    {
-        $now = new \Datetime;
-        if ($user->getExpiresToken() < $now) {
-            $user->eraseCredentials();
-            return false;
-        }
-        $user->setIsVerified(true);
-        $user->eraseCredentials();
-        $this->em->flush();
-        return true;
-    }
-    public function verifyUserForResetPassword(Request $request, UserInterface $user): bool
-    {
-        $now = new \Datetime;
-        if ($user->getExpiresToken() < $now) {
-            $user->eraseCredentials();
-            return false;
-        }
-        return true;
     }
 }
