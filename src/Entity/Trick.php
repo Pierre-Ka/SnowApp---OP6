@@ -61,7 +61,7 @@ class Trick
     private $user;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private $slug;
+    private ?string $slug;
 
     public function __construct()
     {

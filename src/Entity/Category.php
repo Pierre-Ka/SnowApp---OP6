@@ -13,7 +13,7 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private  $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $name;

@@ -12,7 +12,7 @@ class Video
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private  $id;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'videos')]
     #[ORM\JoinColumn(nullable: false)]

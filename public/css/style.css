@@ -1,0 +1,391 @@
+/********** STYLE GENERAUX **************************/
+*
+{	
+	font-family: 'Georgia', sans-serif;
+}
+a
+{
+	color : #236EAF;
+	text-decoration: none ;
+}
+.background-outside
+{
+	background-color: rgba(85,172,222,0.5);
+}
+.background-inside
+{
+	background-color: white;
+}
+/********** PAGE D'ACCUEIL **************************/
+
+
+/* Changement lié au menu fixe */
+#cachemenu
+{
+	height: 150px;
+}
+#headertop
+{
+	position :fixed;
+	z-index: 1;
+}
+/* Affichage du Master Visuel */
+
+.jumbotron
+{
+	padding-top : 20px;
+	min-height: 470px ;
+	height: 470px;
+	background-image: url("../mastervisuelnew.jpg") ;
+	background-position: center ;
+	border : 1px solid black;
+}
+.affichage-gd-resolution
+{
+	display:none;
+}
+.h2
+{
+	font-weight: bold ;
+	background-color: rgba(0,0,0,0.9); 
+	text-align: center ;
+	display : inline-block;
+	letter-spacing: 1px;
+	color :white;
+}
+.top-titre
+{
+	margin-top :20px;
+}
+
+#cinema
+{
+	padding : 5px 10px;
+}
+#parc
+{
+	padding : 5px 10px;
+	margin-left: 25%;
+}
+#aout, #entree
+{
+	padding:5px 0px;
+}
+.middle
+{
+	height : 245px;
+}
+
+/* Affichage des reseaux sociaux */
+
+#reseau
+{ 
+	padding-top: 40px ;
+	padding-bottom: 40px ;
+	display: flex ;
+	justify-content: center;
+}
+.element
+{
+	margin : 0px 5%;
+}
+
+/* Affichage du Titre du calendrier*/
+
+#special
+{
+	padding-top: 60px;
+	min-width: 400px;
+}
+
+.div-du-titreh3
+{
+	padding: 60px 0px;
+}
+.h3
+{
+	font-size:35px;
+	text-shadow: 1px 1px 2px black;
+}
+#div-pdf
+{
+	display: flex ;
+	width :330px;
+	margin: auto;
+}
+#text-pdf
+{
+	padding:8px 8px;
+	text-decoration: underline ;
+	word-wrap: break-word;
+}
+
+/* Affichage du calendrier */
+
+.span
+{
+	padding-right :25%;
+	padding-left: 20%;
+}
+.img-card-bottom
+{
+	margin-bottom: 60px;
+	margin-top: 10px;
+}
+.card-title
+{
+	text-transform: uppercase;
+	font-weight: bolder;
+}
+
+/* Affichage de la video */
+
+.embed-responsive
+{
+	max-width:500px;
+	margin:100px auto;
+}
+
+/* Affichage des actualités*/
+
+#news-bloc
+{
+	margin-top :50px;
+}
+.actu-div
+{
+	padding : 5%;
+	word-wrap: break-word;
+}
+.img-actu
+{
+	border : 2px solid black;
+}
+
+/* Affichage de l'équipe */
+
+.card, .img-card-top
+{
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 60px; /* Added */
+}
+
+/* Affichage du footer */
+
+.blocfooter
+{
+	padding : 60px 50px 20px 50px;
+}
+#emailing
+{
+	width : 200px;
+	background-color: white;
+	padding-left: 5px;
+}
+.textarea
+{
+	margin : 8px 0px 15px 0px;
+	width : 280px ;
+}
+#lasso, #presse, #apropos
+{
+	margin-top: 40px ;
+	border-left :3px solid white;
+}
+.h6
+{
+	display: inline-block;
+	margin-left: 8%;
+	color :white;
+	font-weight: 12px;
+	padding : 0px 7px;
+}
+#design
+{
+	font-family: sans-serif;
+	color : #A09D7C;
+	width : 300px;
+	margin : auto;
+	padding-top: 25px;
+}
+/*********** PAGE DE CONTACT ****************/
+
+.titre-autre
+{
+	margin-left: 5% ;
+	padding-top : 25px;
+	margin-bottom: 25px;
+}
+#textarea
+{
+	margin-left: 3%;
+	border:1px solid black;
+}
+#div-email
+{
+	margin-left: 3%;
+}
+#emailing2
+{
+	margin-top :5px;
+}
+#envoyer
+{
+	margin-top : 30px;
+	margin-left: 5%;
+}
+#pied-de-section
+{
+	height :20px;
+}
+/*********** PAGE DE localisation ****************/
+
+#map
+{
+	border: 1px solid black;
+}
+#adresse 
+{
+	padding: 30px;
+}
+/*********** MODALS ****************/
+.modal-title
+{
+	color: #A09D7C;
+}
+.title-detail
+{
+	margin-top :20px;
+	margin-bottom: 15px ;
+	font-size: 20px;
+}
+.modal-div
+{
+	display: inline-block;
+	margin :25px 10% 25px 10%;
+	background-color: white ;
+	padding: 5px 20px ;
+}
+.modal-div2, .modal-div3
+{
+	display: inline-block;
+	margin :25px 10% 25px 10%;
+	background-color: white ;
+	padding: 0px 0px ;
+	border: 1px solid #A09D7C;
+	margin-bottom: 15%;
+}
+.bouton-modal
+{
+	font-size: 18px ;
+	box-shadow: 4px 4px 0px black;
+}
+.modal-p
+{
+	background-color: #A09D7C;
+}
+
+/*********** PAGE DE PROGRAMMATION ****************/
+/* PDF Télécharge */
+#div-pdf-prog
+{
+	display: flex ;
+	width :330px;
+	padding-top :50px;
+	margin-bottom :50px;
+	margin-left: 20px ;
+}
+/* Date-titre */
+
+.display-6
+{
+	padding-bottom :70px;
+	font-weight: bold ;
+}
+.underline,
+.underline:hover,
+.underlinet:focus,
+.underline:active
+{
+  color: #ef7e60; /** couleur du texte par défaut **/
+  text-decoration:none;
+}
+ 
+.underline 
+{
+    width: 100px;
+    height: 3px;
+    margin: 0px auto;
+    border-bottom: 3px solid black;
+    transition:.2s ease-in all;
+    overflow:hidden;
+}
+ 
+.underline:hover
+{
+    width: 90%;
+    height: 3px;
+    margin: 0px auto;
+    border-bottom: 3px solid rgba(239,126,96);
+    transition:.8s ease all;
+    overflow:hidden;
+}
+
+/* Bloc Films Squelette */ 
+
+.card-img-center
+{
+	margin-bottom: 20px;
+	width: 420px;
+	object-fit: cover;
+	height:450px ;
+}
+
+.titre-film
+{
+	margin-top :30px ;
+	margin-bottom:30px ;
+}
+.bouton
+{
+	display: flex;
+	padding-bottom: 80px;
+	margin: auto;
+	max-width: 420px;
+	justify-content: space-around;
+}
+.btn
+{
+	border : 2px solid black;
+	box-shadow: 6px 6px 3px grey;
+	padding : 0px 10px 4px 10px;
+}
+
+
+/* MEDIA QUERIES POUR PORTABLES JUSQU'A 320PX ***********************/
+
+@media screen and (max-width:420px)
+{
+	.card-img-center
+	{
+		margin-bottom: 20px;
+		object-fit: cover;
+		width: 310px;
+		height:332px ;
+		padding-left: 0;
+	}
+	#emailing1
+	{
+		width: 200px;
+	}
+	#text-pdf
+	{
+		font-size: 13px;
+	}
+	#map
+	{
+		width:auto;
+		height:auto;
+	}
+}

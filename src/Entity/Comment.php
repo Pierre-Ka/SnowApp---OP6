@@ -16,7 +16,7 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private  $id;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank(message: 'Le commentaire doit avoir un contenu !')]
