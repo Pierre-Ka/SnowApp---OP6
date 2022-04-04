@@ -5475,7 +5475,7 @@ textarea.form-control-lg {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #fff;
+  background-color: #323539;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   outline: 0;
@@ -11429,7 +11429,7 @@ header.masthead .site-heading .h1 {
   }
 }
 
-/************************ MEDIA QUERIES PERSO *********************************************/
+/************************ MEDIA QUERIES PERSO ON BOOTSTRAP COMPONENT *********************************************/
 @media (max-width: 576px) {
 
   #mainNav .navbar-nav > li.nav-item > a.nav-link {

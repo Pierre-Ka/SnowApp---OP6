@@ -340,8 +340,15 @@
         bottom: 88%;
         right: -2%;
     }
+    .picture-edit {
+        width: 100%;
+    }
 }
 /********************** DESIGN DU MODAL ************************************/
 .modal-title{
     color:white;
 }
+.modal-media {
+    margin: 0 auto;
+    width: fit-content;
+ }

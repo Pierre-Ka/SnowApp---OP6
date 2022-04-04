@@ -1,10 +1,8 @@
-<div class="bouton w-75">
-    <button type="button" class="btn btn-lg" data-toggle="modal" data-target="#Détail-1">Détails</button>
-</div>
-<!--**************MODAL DETAILS FILM NUMERO 1 ******************!-->
+
+<!--**************MODAL  ******************!-->
 <div class="modal fade" id="medias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content bg-dark">
+        <div class="modal-content ">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Détails</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,9 +10,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="modal-title title-detail">Images : </div>
+                <div class="modal-title title-detail mb-3">Images : </div>
                 <div class="text-center">
-                    <h6 class="text-center mb-4"> IMAGES : </h6>
                     <div class="main-div-collection row bg-transparent">
                         <!--------------------- User------------------------------------>
                         {% if app.user and app.user.isVerified == 1 %}
@@ -27,10 +24,10 @@
                         <!--------------------- End User------------------------------------>
                         {% if trick.pictures|length >0 %}
                             {% for picture in trick.pictures %}
-                                <div class="col-12">
-                                    <div class="embed-responsive w-auto" >
+                                <div class="col-12 mb-5">
+                                    <div class="modal-media embed-responsive mb-1">
                                         <a href="{{ asset('uploads/pictures/'~picture.path ) }}">
-                                            <img width="100%" height="125" class="text-center" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
+                                            <img width="100%" height="150" class="text-center" src=" {{ asset('uploads/pictures/'~picture.path ) }}" alt=""/>
                                         </a>
                                     </div>
                                     <div class="">
@@ -50,10 +47,8 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="modal-title title-detail">Videos: </div>
+                <div class="modal-title title-detail mb-3">Videos: </div>
                 <div class="text-center">
-
-                    <h6 class="text-center my-4"> VIDEOS : </h6>
                     <div class="row main-div-collection">
                         <!--------------------- User------------------------------------>
                         {% if app.user and app.user.isVerified == 1 %}
@@ -67,9 +62,9 @@
                         {% if trick.videos|length >0 %}
                             {% for video in trick.videos %}
                                 <div class="col-12 mx-auto mb-5">
-                                    <div class="embed-responsive">
+                                    <div class="modal-media embed-responsive" >
                                         <a href="{{ video.path }}">
-                                            <iframe width="100%" height="125" src="{{ video.path }}">Video
+                                            <iframe width="100%" height="150" src="{{ video.path }}">Video
                                             </iframe>
                                         </a>
                                     </div>
