@@ -24,40 +24,45 @@ btntop.on('click', function(e) {
 /* ********** FIN ARRAY UP *************** */
 /* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
 
-async function getData($compte) {
-    let res = await fetch('/reload_tricks/'+ numberOfClic)
-        .then(async (response) => {
-            if (!response.ok) {
-                throw new Error('error');
-            }
-            return response.text().then((data) => {
-                return data;
-            });
-        })
-        .catch((error) => {
-            console.log('error');
-        })
-    return res;
-}
-let numberOfClic = 0;
-async function loadData(){
-    console.log('ici');
-    numberOfClic ++;
-    const displayElement = document.getElementById("content-tricks");
-    displayElement.innerHTML += await getData(numberOfClic);
-    /* Uncaught (in promise) ReferenceError: displayElement is not defined */
-}
-const $reloadData = document.getElementById('reload-data');
-console.log($reloadData);
- /* Uncaught TypeError: Cannot set properties of null (setting 'onclick') */
-// $reloadData.click(function () {
-//     loadData();
-// });
-$reloadData.onclick = loadData();
+// async function getData(page) {
+//     let res = await fetch('/reload_tricks/'+ page)
+//         .then(async (response) => {
+//             if (!response.ok) {
+//                 throw new Error('error');
+//             }
+//             return response.text().then((data) => {
+//                 return data;
+//             });
+//         })
+//     return res;
+// }
+// let page = 1;
+// async function loadDataForward(){
+//     page ++;
+//     const displayElement = document.getElementById("content-tricks");
+//     displayElement.innerHTML = await getData(page);
+// }
+// async function loadDataBackward(){
+//     page --;
+//     const displayElement = document.getElementById("content-tricks");
+//     displayElement.innerHTML = await getData(page);
+// }
 
-// $reloadData.on("click", function() {
+// const $reloadData = document.getElementById('reload-data');
 //
+// $reloadData.click(function () {
+//     loadDataForward();
 // });
+//
+// $reloadData.onclick = loadDataForward();
+//
+// $reloadData.on("click", function() {
+//      loadDataForward();
+// });
+//
+// $reloadData.addEventListener("click", function() {
+//     loadDataForward();
+//  });
 
 
 /* ************ FIN DU MODAL ****************** */
