@@ -39,23 +39,10 @@
         {{ include('partials/_modal_media.html.twig') }}
     {% endif %}
 
-    {# Explication des differents appel : La présence de bootstrap.min.js dans Webpack provoque l'eereur :
-     ERROR  Failed to compile with 2 errors                                                                                                                                         16:20:58
-            Module build failed: Module not found:
-                "./assets/js/bootstrap.min.js" contains a reference to the file "jquery".
-                This file can not be found, please check it for typos or update it if the file got moved.
-                "./assets/js/bootstrap.min.js" contains a reference to the file "popper.js".
-                This file can not be found, please check it for typos or update it if the file got moved.
-    #}
-    {# La suppression de ce jquery entraine l'absence de la fleche 'arrow top' + le non-fonctionnement du modal #}
-        <script src="../js/jquery.js"></script>
-    {# La suppression de ce bootstrap entraine l'absence de la fleche 'arrow top' + le non-fonctionnement du modal #}
-        <script src="../js/bootstrap.min.js"></script>
+    {# La suppression de ces fichiers entraine le non-fonctionnement du modal #}
+        <script type ="text/javascript" src="../js/jquery.js"></script>
+        <script type ="text/javascript" src="../js/bootstrap.min.js"></script>
+    {# La suppression de ces fichiers entraine le non-fonctionnement du modal #}
 
-    {# La combinaison de ces 3 appels permet de faire réapparaitre la fleche 'arrow top' qui disparaissait
-     + fonctionnement du menu #}
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script>
     </body>
 </html>

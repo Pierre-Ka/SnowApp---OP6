@@ -5,36 +5,11 @@
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
 
-/* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
-/*
-async function getData($compte) {
-    let res = await fetch('https://localhost:8000//reload_tricks/'.$compte)
-        .then(async (response) => {
-            if (!response.ok) {
-                throw new Error('error');
-            }
-            return response.text().then((data) => {
-                return $data;
-            });
-        })
-        .catch((error) => {
-            console.log('error');
-        })
-    return res;
-}
-var $compte = 1;
-let reloadData = document.getElementById('reloadData');
-reloadData.onclick = loadData();
-async function loadData(){
-    $compte += 1;
-    displayElement.textContent = await getData($compte);
-}
-*/
 /* ********* ARRAY UP ************************** */
 var btntop = $('#buttonToTheTop');
 
 $(window).scroll(function() {
-    if ($(window).scrollTop() > 300) {
+    if ($(window).scrollTop() > 900) {
         btntop.addClass('showbutton');
     } else {
         btntop.removeClass('showbutton');
@@ -43,31 +18,46 @@ $(window).scroll(function() {
 
 btntop.on('click', function(e) {
     e.preventDefault();
-    $('html, body').animate({scrollTop:0}, '300');
+    $('html, body').animate({scrollTop:0}, '900');
 });
-/* ************************* */
 
-window.addEventListener('DOMContentLoaded', () => {
-    let scrollPos = 0;
-    const mainNav = document.getElementById('mainNav');
-    const headerHeight = mainNav.clientHeight;
-    window.addEventListener('scroll', function() {
-        const currentTop = document.body.getBoundingClientRect().top * -1;
-        if ( currentTop < scrollPos) {
-            // Scrolling Up
-            if (currentTop > 0 && mainNav.classList.contains('is-fixed')) {
-                mainNav.classList.add('is-visible');
-            } else {
-                console.log(123);
-                mainNav.classList.remove('is-visible', 'is-fixed');
+/* ********** FIN ARRAY UP *************** */
+/* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
+
+async function getData($compte) {
+    let res = await fetch('/reload_tricks/'+ numberOfClic)
+        .then(async (response) => {
+            if (!response.ok) {
+                throw new Error('error');
             }
-        } else {
-            // Scrolling Down
-            mainNav.classList.remove(['is-visible']);
-            if (currentTop > headerHeight && !mainNav.classList.contains('is-fixed')) {
-                mainNav.classList.add('is-fixed');
-            }
-        }
-        scrollPos = currentTop;
-    });
-})
+            return response.text().then((data) => {
+                return data;
+            });
+        })
+        .catch((error) => {
+            console.log('error');
+        })
+    return res;
+}
+let numberOfClic = 0;
+async function loadData(){
+    console.log('ici');
+    numberOfClic ++;
+    const displayElement = document.getElementById("content-tricks");
+    displayElement.innerHTML += await getData(numberOfClic);
+    /* Uncaught (in promise) ReferenceError: displayElement is not defined */
+}
+const $reloadData = document.getElementById('reload-data');
+console.log($reloadData);
+ /* Uncaught TypeError: Cannot set properties of null (setting 'onclick') */
+// $reloadData.click(function () {
+//     loadData();
+// });
+$reloadData.onclick = loadData();
+
+// $reloadData.on("click", function() {
+//
+// });
+
+
+/* ************ FIN DU MODAL ****************** */
