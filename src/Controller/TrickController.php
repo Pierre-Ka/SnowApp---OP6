@@ -28,10 +28,10 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/reload_tricks/{limit}', name: 'app_reload_tricks', methods: ['GET'])]
-    public function listReload(TrickRepository $trickRepository, ?int $limit): Response
+    #[Route('/reload_tricks/{page}', name: 'app_reload_tricks', methods: ['GET'])]
+    public function listReload(TrickRepository $trickRepository, ?int $page): Response
     {
-        $tricks = $trickRepository->findBy([], ['createDate' => 'DESC'], $limit * 12);
+        $tricks = $trickRepository->findBy([], ['createDate' => 'DESC'], 12, ($page-1) * 12);
         return $this->render('trick/index.html.twig', [
             'all_tricks' => $trickRepository->findAll(),
             'tricks' => $tricks,
