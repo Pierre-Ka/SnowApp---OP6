@@ -66,9 +66,6 @@ async function loadDataForward(){
     page ++;
     const displayElement = document.getElementById("content-tricks");
     displayElement.innerHTML = await getData(page);
-    window.location.hash = "#tricks";
-    location.hash = "next";
-
     document.getElementById("load-data-backward").classList.remove("btn-light");
     document.getElementById("load-data-backward").classList.add("btn-primary");
     document.getElementById("load-data-backward").classList.remove("text-muted");
@@ -79,14 +76,13 @@ async function loadDataForward(){
         document.getElementById("load-data-forward").classList.add("text-muted");
         document.getElementById("load-data-forward").classList.add("pe-none");
     }
+    window.location.hash = "#tricks";
+    location.hash = "next";
 }
 async function loadDataBackward(){
     page --;
     const displayElement = document.getElementById("content-tricks");
     displayElement.innerHTML = await getData(page);
-    window.location.hash = "#tricks";
-    location.hash = "previous";
-
     document.getElementById("load-data-forward").classList.remove("btn-light");
     document.getElementById("load-data-forward").classList.remove("text-muted");
     document.getElementById("load-data-forward").classList.remove("pe-none");
@@ -96,6 +92,8 @@ async function loadDataBackward(){
         document.getElementById("load-data-backward").classList.add("text-muted");
         document.getElementById("load-data-backward").classList.add("pe-none");
     }
+    window.location.hash = "#tricks";
+    location.hash = "previous";
 }
 
 const $reloadDataForward = document.getElementById('load-data-forward');

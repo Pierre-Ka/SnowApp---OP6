@@ -24,11 +24,22 @@ class PictureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form['setCollectionPicture']->getData();
-            $pictureManager->create($formData, $picture, $trick);
-            $this->addFlash('success', 'Image ajoutée avec succès');
-            $slug = $picture->getTrick()->getSlug();
+            $formDatas = $form['setCollectionPicture']->getData();
+            foreach ($formDatas as $formData) {
+                $picture = new Picture();
+                $pictureManager->create($formData, $picture, $trick);
+            }
+            $this->addFlash('success', 'Image(s) ajoutée(s) avec succès');
+            $slug = $trick->getSlug();
             return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
+
+//              UNE SEULE IMAGE TELECHARGEE
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $formData = $form['setCollectionPicture']->getData();
+//            $pictureManager->create($formData, $picture, $trick);
+//            $this->addFlash('success', 'Image ajoutée avec succès');
+//            $slug = $picture->getTrick()->getSlug();
+//            return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('picture/new.html.twig', [
             'form' => $form,
