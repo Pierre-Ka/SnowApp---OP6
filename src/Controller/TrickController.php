@@ -5,11 +5,9 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
-use App\Form\TrickType;
 use App\Manager\CommentManager;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +19,15 @@ class TrickController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         $tricks = $trickRepository->findBy([], ['createDate' => 'DESC'], 12);
+        $tricksCount = $trickRepository->count([]);
+        $pageCount = round($tricksCount / 12);
+
         return $this->render('trick/index.html.twig', [
             'all_tricks' => $trickRepository->findAll(),
             'page' => 1,
             'tricks' => $tricks,
             'isIndex' => true,
+            'pageCount' => $pageCount,
         ]);
     }
 
@@ -33,9 +35,9 @@ class TrickController extends AbstractController
     public function listReload(TrickRepository $trickRepository, ?int $page): Response
     {
         $tricks = $trickRepository->findBy([], ['createDate' => 'DESC'], 12, ($page-1) * 12);
+
         return $this->render('partials/index/_list.html.twig', [
             'tricks' => $tricks,
-//            'page' => $page,
         ]);
     }
 
