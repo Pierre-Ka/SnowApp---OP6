@@ -4,6 +4,31 @@
 * Copyright 2013-2021 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
+/* **************** JS HERITER DU THEME BOOTSTRAP ************************* */
+window.addEventListener('DOMContentLoaded', () => {
+    let scrollPos = 0;
+    const mainNav = document.getElementById('mainNav');
+    const headerHeight = mainNav.clientHeight;
+    window.addEventListener('scroll', function() {
+        const currentTop = document.body.getBoundingClientRect().top * -1;
+        if ( currentTop < scrollPos) {
+            // Scrolling Up
+            if (currentTop > 0 && mainNav.classList.contains('is-fixed')) {
+                mainNav.classList.add('is-visible');
+            } else {
+                console.log(123);
+                mainNav.classList.remove('is-visible', 'is-fixed');
+            }
+        } else {
+            // Scrolling Down
+            mainNav.classList.remove(['is-visible']);
+            if (currentTop > headerHeight && !mainNav.classList.contains('is-fixed')) {
+                mainNav.classList.add('is-fixed');
+            }
+        }
+        scrollPos = currentTop;
+    });
+})
 
 /* ********* ARRAY UP ************************** */
 var btntop = $('#buttonToTheTop');
@@ -21,48 +46,65 @@ btntop.on('click', function(e) {
     $('html, body').animate({scrollTop:0}, '900');
 });
 
-/* ********** FIN ARRAY UP *************** */
-/* *********** ESSAI JS DU BOUTON LOAD TRICKS ************ */
 
-// async function getData(page) {
-//     let res = await fetch('/reload_tricks/'+ page)
-//         .then(async (response) => {
-//             if (!response.ok) {
-//                 throw new Error('error');
-//             }
-//             return response.text().then((data) => {
-//                 return data;
-//             });
-//         })
-//     return res;
-// }
-// let page = 1;
-// async function loadDataForward(){
-//     page ++;
-//     const displayElement = document.getElementById("content-tricks");
-//     displayElement.innerHTML = await getData(page);
-// }
-// async function loadDataBackward(){
-//     page --;
-//     const displayElement = document.getElementById("content-tricks");
-//     displayElement.innerHTML = await getData(page);
-// }
+/* *********** LOAD MORE BUTTON ************ */
 
-// const $reloadData = document.getElementById('reload-data');
-//
-// $reloadData.click(function () {
-//     loadDataForward();
-// });
-//
-// $reloadData.onclick = loadDataForward();
-//
-// $reloadData.on("click", function() {
-//      loadDataForward();
-// });
-//
-// $reloadData.addEventListener("click", function() {
-//     loadDataForward();
-//  });
+async function getData(page) {
+    let res = await fetch('/reload_tricks/'+ page)
+        .then(async (response) => {
+            if (!response.ok) {
+                console.log('erreur');
+            }
+            return response.text().then((data) => {
+                return data;
+            });
+        })
+    return res;
+}
+let page = 1;
+async function loadDataForward(){
+    page ++;
+    const displayElement = document.getElementById("content-tricks");
+    displayElement.innerHTML = await getData(page);
+    window.location.hash = "#tricks";
+    location.hash = "next";
 
+    document.getElementById("load-data-backward").classList.remove("btn-light");
+    document.getElementById("load-data-backward").classList.add("btn-primary");
+    document.getElementById("load-data-backward").classList.remove("text-muted");
+    document.getElementById("load-data-backward").classList.remove("pe-none");
+    const pageCount = document.getElementById("load-data").getAttribute("data-page-count");
+    if (pageCount <= page) {
+        document.getElementById("load-data-forward").classList.add("btn-light");
+        document.getElementById("load-data-forward").classList.add("text-muted");
+        document.getElementById("load-data-forward").classList.add("pe-none");
+    }
+}
+async function loadDataBackward(){
+    page --;
+    const displayElement = document.getElementById("content-tricks");
+    displayElement.innerHTML = await getData(page);
+    window.location.hash = "#tricks";
+    location.hash = "previous";
 
-/* ************ FIN DU MODAL ****************** */
+    document.getElementById("load-data-forward").classList.remove("btn-light");
+    document.getElementById("load-data-forward").classList.remove("text-muted");
+    document.getElementById("load-data-forward").classList.remove("pe-none");
+    if (1 >= page) {
+        document.getElementById("load-data-backward").classList.remove("btn-primary");
+        document.getElementById("load-data-backward").classList.add("btn-light");
+        document.getElementById("load-data-backward").classList.add("text-muted");
+        document.getElementById("load-data-backward").classList.add("pe-none");
+    }
+}
+
+const $reloadDataForward = document.getElementById('load-data-forward');
+const $reloadDataBackward = document.getElementById('load-data-backward');
+
+$reloadDataForward.addEventListener("click", function() {
+    loadDataForward();
+ });
+$reloadDataBackward.addEventListener("click", function() {
+    loadDataBackward();
+ });
+
