@@ -1,0 +1,75 @@
+{{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    {{ form_widget(form._token) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.category) }}
+    {{ form_row(form.level) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.setMainPicture) }}
+
+
+<fieldset class="mt-4">
+    <legend class="text-center w-auto px-3" style="font-style: italic;font-size: 1em">{{ form_label(form.videos) }}</legend>
+    {{ form_errors(form.videos) }}
+    <div class="mx-5 mb-5 mt-3">
+        <table class="row px-4 js-media-wrapper mt-4" id="global_prototype_videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"
+               data-index="{{ form.videos|length }}">
+            <a href="#new_video" class="js-media-add mb-5" id="new_video">
+                <span class="fa fa-plus-circle mx-2" style="font-size: 1.1em"></span>
+                Ajouter une nouvelle video
+            </a>
+            {#            {% for videoField in form.videos %}#}
+            {#                <tr>#}
+            {#                    {{ form_errors(videoField) }}#}
+            {#                    {{ form_widget(videoField) }}#}
+            {#                    <span class="fa fa-times-circle"> Supprimer l'entrée </span>#}
+            {#                </tr>#}
+            {#            {% endfor %}#}
+        </table>
+    </div>
+</fieldset>
+
+<fieldset class="mt-4">
+    <legend class="text-center w-auto px-3" style="font-style: italic;font-size: 1em">{{ form_label(form.pictures) }}</legend>
+    {{ form_errors(form.pictures) }}
+    <div class="mx-5 mb-5 mt-3">
+        <table class="row px-4 js-media-wrapper mt-4" id="global_prototype_pictures" data-prototype="{{ form_widget(form.pictures.vars.prototype)|e('html_attr') }}"
+               data-index="{{ form.pictures|length }}">
+            <a href="#new_picture" class="js-media-add mb-5" id="new_picture">
+                <span class="fa fa-plus-circle mx-2" style="font-size: 1.1em"></span>
+                  Ajouter une nouvelle image
+            </a>
+{#            {% for pictureField in form.pictures %}#}
+{#                <tr>#}
+{#                    {{ form_errors(pictureField) }}#}
+{#                    {{ form_widget(pictureField) }}#}
+{#                    <span class="fa fa-times-circle"> Supprimer l'entrée </span>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+        </table>
+    </div>
+</fieldset>
+
+{# ECRITURE THOMAS BOILEAU #}
+<script>
+    const VideosCollectionHolder = document.querySelector("#global_prototype_videos");
+    let indexVideos = VideosCollectionHolder.querySelectorAll("fieldset").length;
+    const addNewVideo = () => {
+        VideosCollectionHolder.innerHTML += VideosCollectionHolder.dataset.prototype.replace(/__name__/g, indexVideos);
+        indexVideos ++;
+    };
+    document.querySelector("#new_video").addEventListener('click', addNewVideo);
+    const PicturesCollectionHolder = document.querySelector("#global_prototype_pictures");
+    let indexPictures = PicturesCollectionHolder.querySelectorAll("fieldset").length;
+    const addNewPicture = () => {
+        console.log(PicturesCollectionHolder.dataset.prototype);
+        PicturesCollectionHolder.innerHTML += PicturesCollectionHolder.dataset.prototype.replace(/__name__/g, indexPictures);
+        indexPictures ++;
+    };
+    document.querySelector("#new_picture").addEventListener('click', addNewPicture);
+</script>
+
+<button class="btn btn-primary w-100 mt-4"  formnovalidate>{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form, {render_rest:false}) }}

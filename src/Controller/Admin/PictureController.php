@@ -20,7 +20,9 @@ class PictureController extends AbstractController
     public function create(Request $request, Trick $trick, PictureManager $pictureManager): Response
     {
         $picture = new Picture();
-        $form = $this->createForm(PictureType::class);
+        $form = $this->createForm(PictureType::class, null, [
+            'multiples_upload' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

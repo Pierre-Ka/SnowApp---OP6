@@ -16,7 +16,7 @@ class Video
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'videos')]
     #[ORM\JoinColumn(nullable: false)]
-    private $trick;
+    private Trick $trick;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Le lien doit avoir un contenu')]

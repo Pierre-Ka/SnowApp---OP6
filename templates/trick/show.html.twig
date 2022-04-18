@@ -39,7 +39,7 @@
     </div>
     {# Display of collection #}
     <div class="d-none d-sm-block">
-        {{ include('partials/_collections.html.twig') }}
+        {{ include('partials/show/_collections.html.twig') }}
     </div>
 
     <div class="p-3 p-md-5 letter-spacing">{{ trick.description }}</div>
@@ -52,7 +52,7 @@
         </small>
     </div>
     <br/><br/><br/><br/>
-    {{ include('partials/_display_comments.html.twig') }}
+    {{ include('partials/show/_display_comments.html.twig') }}
 
 {% endblock %}
 

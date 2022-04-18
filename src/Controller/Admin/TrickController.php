@@ -2,13 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Comment;
+use App\Entity\Picture;
 use App\Entity\Trick;
-use App\Form\CommentType;
-use App\Form\TrickType;
+use App\Entity\Video;
+use App\Form\TrickAddType;
+use App\Form\TrickEditType;
+use App\Manager\PictureManager;
 use App\Manager\TrickManager;
-use App\Repository\CommentRepository;
-use App\Repository\TrickRepository;
+use App\Manager\VideoManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends AbstractController
 {
     #[Route('/create', name: 'app_trick_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, TrickManager $trickManager): Response
+    public function create(Request $request, TrickManager $trickManager, VideoManager $videoManager, PictureManager $pictureManager): Response
     {
         $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickAddType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -33,6 +34,23 @@ class TrickController extends AbstractController
             }
             $user = $this->getUser();
             $trickManager->create($trick, $user);
+            if (($form['videos'])->getData() !== null) {
+                foreach ($form->get('videos') as $data) {
+                    if ($data['path']->getData() !== null) {
+                        $video = new Video();
+                        $video->setPath($data['path']->getData());
+                        $videoManager->edit($video, $trick);
+                    }
+                }
+            }
+            $pictures = $form->get('pictures') ?? null;
+            if ($pictures) {
+                foreach ($pictures as $dataPicture) {
+                    $formData = $dataPicture['setCollectionPicture']->getData();
+                    $picture = new Picture();
+                    $pictureManager->create($formData, $picture, $trick);
+                }
+            }
             $this->addFlash('success', 'Figure créée avec succès');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }
@@ -45,7 +63,7 @@ class TrickController extends AbstractController
     #[Route('/{slug}/edit', name: 'app_trick_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Trick $trick, TrickManager $trickManager): Response
     {
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickEditType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

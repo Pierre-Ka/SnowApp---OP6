@@ -15,7 +15,7 @@ class Picture
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'pictures')]
     #[ORM\JoinColumn(nullable: false)]
-    private $trick;
+    private Trick $trick;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $path;
