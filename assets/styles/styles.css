@@ -568,11 +568,11 @@ fieldset {
   min-width: 0;
   padding: 0;
   margin: 0;
-  border: 0;
+  border: 3;    /* CHANGEMENT DE 0 A 3  */
 }
 
 legend {
-  float: left;
+  float: none;  /* CHANGEMENT DE left A none  */
   width: 100%;
   padding: 0;
   margin-bottom: 0.5rem;

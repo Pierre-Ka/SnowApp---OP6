@@ -50,11 +50,11 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true)]
-    private $videos;
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private ?Collection $videos = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Picture::class, orphanRemoval: true)]
-    private $pictures;
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Picture::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private ?Collection $pictures = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]

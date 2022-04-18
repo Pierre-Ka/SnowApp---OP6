@@ -13,9 +13,7 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+
     </head>
     <body>
     <!-- Back to top button -->
@@ -41,6 +39,9 @@
         {{ include('partials/_modal_media.html.twig') }}
     {% endif %}
 
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
     {# La suppression de ces fichiers entraine le non-fonctionnement du modal #}
         <script type ="text/javascript" src="../js/jquery.js"></script>
         <script type ="text/javascript" src="../js/bootstrap.min.js"></script>
