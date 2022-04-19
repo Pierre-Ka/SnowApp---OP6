@@ -63,46 +63,29 @@ async function getData(page) {
 let page = 1;
 async function loadDataForward(){
     page ++;
+    console.log(page);
     const displayElement = document.getElementById("content-tricks");
-    displayElement.innerHTML = await getData(page);
-    document.getElementById("load-data-backward").classList.remove("btn-light");
-    document.getElementById("load-data-backward").classList.add("btn-primary");
-    document.getElementById("load-data-backward").classList.remove("text-muted");
-    document.getElementById("load-data-backward").classList.remove("pe-none");
+    displayElement.innerHTML += await getData(page);
     const pageCount = document.getElementById("load-data").getAttribute("data-page-count");
+    console.log(pageCount);
     if (pageCount <= page) {
+        console.log('oui je suis ici');
+        document.getElementById("load-data-forward").classList.remove("btn-dark");
         document.getElementById("load-data-forward").classList.add("btn-light");
         document.getElementById("load-data-forward").classList.add("text-muted");
         document.getElementById("load-data-forward").classList.add("pe-none");
+        document.getElementById("load-all-data").classList.add("d-none");
+        document.getElementsByClassName("loaderTricks").classList.add("d-none");
+        console.log('oui je finis de lire ici');
     }
-    window.location.hash = "#tricks";
+    window.location.hash = "article :last-child";
     location.hash = "next";
-}
-async function loadDataBackward(){
-    page --;
-    const displayElement = document.getElementById("content-tricks");
-    displayElement.innerHTML = await getData(page);
-    document.getElementById("load-data-forward").classList.remove("btn-light");
-    document.getElementById("load-data-forward").classList.remove("text-muted");
-    document.getElementById("load-data-forward").classList.remove("pe-none");
-    if (1 >= page) {
-        document.getElementById("load-data-backward").classList.remove("btn-primary");
-        document.getElementById("load-data-backward").classList.add("btn-light");
-        document.getElementById("load-data-backward").classList.add("text-muted");
-        document.getElementById("load-data-backward").classList.add("pe-none");
-    }
-    window.location.hash = "#tricks";
-    location.hash = "previous";
 }
 
 const $reloadDataForward = document.getElementById('load-data-forward');
-const $reloadDataBackward = document.getElementById('load-data-backward');
 
 $reloadDataForward.addEventListener("click", function() {
     loadDataForward();
- });
-$reloadDataBackward.addEventListener("click", function() {
-    loadDataBackward();
  });
 
 /* *********************************** COLLECTION ON TRICK CREATE ***************************************** */

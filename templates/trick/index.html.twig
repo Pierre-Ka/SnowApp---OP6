@@ -40,59 +40,21 @@
 
              <!-- Pager-->
             {% if isIndex %}
-                <div id="load-data" class="d-flex justify-content-center mb-4" data-page-count="{{ pageCount }}">
 
-                    <button id="load-data-backward" class="btn btn-light text-uppercase rounded m-5 text-muted pe-none" onclick="loadDataBackward()" >
-                        Page précedente
-                    </button>
-
-{#                    {% if tricks|length is same as 12  %}#}
-                    <button id="load-data-forward" class="btn btn-primary text-uppercase rounded m-5" onclick="loadDataForward()">
-                        Page suivante
-                    </button>
-{#                    {% endif %}#}
-                </div>
-            {#
-                <script>
-                    async function getData(page) {
-                        let res = await fetch('/reload_tricks/'+ page)
-                            .then(async (response) => {
-                                if (!response.ok) {
-                                    console.log('erreur');
-                                }
-                                return response.text().then((data) => {
-                                    return data;
-                                });
-                            })
-                        return res;
-                    }
-                    let page = 1;
-                    async function loadDataForward(){
-
-                        page ++;
-                        const displayElement = document.getElementById("content-tricks");
-                        displayElement.innerHTML = await getData(page);
-                        window.location.hash = "#tricks";
-                        location.hash = "recharge";
-                    }
-                    async function loadDataBackward(){
-                        page --;
-                        const displayElement = document.getElementById("content-tricks");
-                        displayElement.innerHTML = await getData(page);
-                        window.location.hash = "#tricks";
-                        location.hash = "recharge";
-                    }
-                </script>
-            #}
-
-                <div class="reloadData d-flex justify-content-center my-4">
-                    <a class="btn btn-md btn-secondary text-uppercase rounded mt-5" href="{{ path('app_all_tricks') }}#tricks">
-                        Voir les toutes les figures ({{ all_tricks|length }}) ↓
-                    </a>
-                </div>
+                    <div id="load-data" class="d-flex justify-content-center mb-4" data-page-count="{{ pageCount }}">
+                        <button id="load-data-forward" style="vertical-align: center" class="btn btn-dark text-uppercase rounded m-5" onclick="loadDataForward()">
+                            <div class="loaderTricks" style="display: inline-block"></div>
+                            <span style="font-size: 1.2em; vertical-align: super; margin-left: 5px;"> Charger Plus </span>
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-center my-4" id="load-all-data">
+                        <a class="btn btn-md btn-secondary text-uppercase rounded mt-5" href="{{ path('app_all_tricks') }}#tricks">
+                            Voir les toutes les figures ({{ all_tricks|length }}) ↓
+                        </a>
+                    </div>
             <!-- All Tricks-->
             {% else %}
-                <div class="reloadData d-flex justify-content-center mb-4">
+                <div class=" d-flex justify-content-center mb-4">
                     <a class="btn btn-md btn-secondary text-uppercase rounded" href="{{ path('app_trick_index') }}">
                         Voir moins ↑
                     </a>
