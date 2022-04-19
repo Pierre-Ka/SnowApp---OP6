@@ -1,5 +1,7 @@
 {% extends 'layouts/main_frame.html.twig' %}
 
+{% block title parent()~' Edit' %}
+
 {% block content %}
         <h1 class="pb-3">Modifier la figure "{{ trick.name }}" </h1>
         {{ include('partials/_form.html.twig', {'button_label': 'Modifier'}) }}

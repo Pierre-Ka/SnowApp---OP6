@@ -39,10 +39,9 @@
              <!-- Pager-->
             {% if is_index %}
                 <div id="load-data" class="d-flex justify-content-center mb-4" data-page-count="{{ page_count }}">
-                    {# Attention : la console nous dit : loadDataForward() est non défini. Mais si on supprime le onclick on se retrouve avec un problème au niveau du listener js #}
-                    <button id="load-data-forward" style="vertical-align: center; background-color: #444; color:white;" class="btn btn-dark text-uppercase rounded m-5" onclick="loadDataForward()">
-                        <span class="loaderTricks" style="display: inline-block"></span>
-                        <span style="font-size: 1.5em; vertical-align: super; margin-left: 5px;"> Charger Plus </span>
+                    <button id="load-data-forward" class="btn text-uppercase rounded m-5" onclick="loadDataForward()">
+                        <span class="loaderTricks" ></span>
+                        <span class="label-loaderTricks" > Charger Plus </span>
                     </button>
                 </div>
                 <div class="d-flex justify-content-center my-4" id="load-all-data">
