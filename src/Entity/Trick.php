@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['slug'], message: 'Une figure possède dejà ce nom !')]
+#[UniqueEntity(fields: ['name'], message: 'Une figure possède dejà ce nom !')]
 class Trick
 {
     use Timestampable;

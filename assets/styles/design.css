@@ -355,14 +355,20 @@
 /********************************** CSS LOADER TRICK **************************/
 .loaderTricks {
     margin: auto;
-    border: 3px solid #EAF0F6;
+    border: 3.5px solid #EAF0F6;
     border-radius: 50%;
-    border-top: 3px solid darkorange;
+    border-top: 3.5px solid orangered;
     width: 30px;
     height: 30px;
-    animation: spinner 4s linear infinite;
+    animation: spinner 2s linear infinite;
 }
 @keyframes spinner {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+button:hover .loaderTricks {
+    border-top: 4px solid red;
+    animation: spinner 0.9s linear infinite;
+    width: 35px;
+    height: 35px;
 }

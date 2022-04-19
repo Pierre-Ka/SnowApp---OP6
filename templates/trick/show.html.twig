@@ -2,13 +2,13 @@
 
 {% block content %}
     <h1 class="title-on-show text-center pb-5"> {{ trick.name|upper }} </h1>
-    <div class="w-100 main-picture-on-show" style="  background-image: url(
+    <div class="w-100 main-picture-on-show" style="background-image: url(
                                     {% if trick.mainPicture %}
                                     {{ asset('uploads/main/'~trick.mainPicture) }}
                                     {% else %}
-                                    {{ asset('assets/img/essai.jpg') }}
+                                    {{ asset('assets/img/essai1.jpg') }}
                                     {% endif %}
-                                                );  ">
+                                                );">
         <div>
     <!--------------------- User------------------------------------>
             {% if app.user and app.user.isVerified == 1 %}

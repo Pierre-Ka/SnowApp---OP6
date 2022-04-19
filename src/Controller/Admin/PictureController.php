@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Picture;
 use App\Entity\Trick;
+use App\Form\MultiplePictureType;
 use App\Form\PictureType;
 use App\Manager\PictureManager;
 use App\Repository\PictureRepository;
@@ -20,9 +21,7 @@ class PictureController extends AbstractController
     public function create(Request $request, Trick $trick, PictureManager $pictureManager): Response
     {
         $picture = new Picture();
-        $form = $this->createForm(PictureType::class, null, [
-            'multiples_upload' => true,
-        ]);
+        $form = $this->createForm(MultiplePictureType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

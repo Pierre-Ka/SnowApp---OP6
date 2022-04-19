@@ -4,7 +4,7 @@
 
 {% block body %}
     <!-- Page Header-->
-    <header class="masthead height-of-masthead-index" style="background-image: url('assets/img/home2-bg.jpg');">
+    <header class="masthead height-of-masthead-index" style="background-image: url({{ asset('assets/img/home.jpg') }});">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -32,26 +32,24 @@
         {{ include('partials/_flash_messages.html.twig') }}
         <!-- Divider-->
         <hr class="my-4"/>
-
         {% if tricks|length > 0 %}
             <div id="content-tricks">
                 {{ include('partials/index/_list.html.twig') }}
             </div>
-
              <!-- Pager-->
-            {% if isIndex %}
-
-                    <div id="load-data" class="d-flex justify-content-center mb-4" data-page-count="{{ pageCount }}">
-                        <button id="load-data-forward" style="vertical-align: center" class="btn btn-dark text-uppercase rounded m-5" onclick="loadDataForward()">
-                            <div class="loaderTricks" style="display: inline-block"></div>
-                            <span style="font-size: 1.2em; vertical-align: super; margin-left: 5px;"> Charger Plus </span>
-                        </button>
-                    </div>
-                    <div class="d-flex justify-content-center my-4" id="load-all-data">
-                        <a class="btn btn-md btn-secondary text-uppercase rounded mt-5" href="{{ path('app_all_tricks') }}#tricks">
-                            Voir les toutes les figures ({{ all_tricks|length }}) ↓
-                        </a>
-                    </div>
+            {% if is_index %}
+                <div id="load-data" class="d-flex justify-content-center mb-4" data-page-count="{{ page_count }}">
+                    {# Attention : la console nous dit : loadDataForward() est non défini. Mais si on supprime le onclick on se retrouve avec un problème au niveau du listener js #}
+                    <button id="load-data-forward" style="vertical-align: center; background-color: #444; color:white;" class="btn btn-dark text-uppercase rounded m-5" onclick="loadDataForward()">
+                        <span class="loaderTricks" style="display: inline-block"></span>
+                        <span style="font-size: 1.5em; vertical-align: super; margin-left: 5px;"> Charger Plus </span>
+                    </button>
+                </div>
+                <div class="d-flex justify-content-center my-4" id="load-all-data">
+                    <a class="btn btn-md btn-secondary text-uppercase rounded mt-5" href="{{ path('app_all_tricks') }}#tricks">
+                        Voir les toutes les figures ({{ all_tricks|length }}) ↓
+                    </a>
+                </div>
             <!-- All Tricks-->
             {% else %}
                 <div class=" d-flex justify-content-center mb-4">

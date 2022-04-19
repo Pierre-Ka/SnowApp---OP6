@@ -26,8 +26,8 @@ class TrickController extends AbstractController
             'all_tricks' => $trickRepository->findAll(),
             'page' => 1,
             'tricks' => $tricks,
-            'isIndex' => true,
-            'pageCount' => $pageCount,
+            'is_index' => true,
+            'page_count' => $pageCount,
         ]);
     }
 
@@ -51,10 +51,11 @@ class TrickController extends AbstractController
     public function list(TrickRepository $trickRepository): Response
     {
         $tricks = $trickRepository->findBy([], ['createDate' => 'DESC']);
+
         return $this->render('trick/index.html.twig', [
             'all_tricks' => $trickRepository->findAll(),
             'tricks' => $tricks,
-            'isIndex' => false,
+            'is_index' => false,
         ]);
     }
 
@@ -82,6 +83,7 @@ class TrickController extends AbstractController
             4,
             4 * ($actualPage - 1)
         );
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'comments' => $comments,
