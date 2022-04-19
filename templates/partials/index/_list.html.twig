@@ -3,8 +3,7 @@
         <div class="row mb-5 justify-content-around">
             {% for trick in row %}
                 <div class="col-md-6 col-xxl-3">
-                    <article
-                            class="mb-5 bg-white rounded shadow dimention-of-article-index mx-auto overflow-hidden">
+                    <article class="articles mb-5 bg-white rounded shadow dimention-of-article-index mx-auto overflow-hidden">
                         <div class="trickimg mw-100 rounded-top">
                             <a href="{{ path('app_trick_show', {'slug':trick.slug,'page':1}) }}">
                                 <img src="{{ trick.mainPicture ? asset('uploads/main/'~trick.mainPicture) : asset('assets/img/trick.jpg') }}"

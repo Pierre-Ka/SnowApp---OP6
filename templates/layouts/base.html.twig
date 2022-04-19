@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>{% block title %} SnowTrick {% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
-        <!-- Footer Fa-stack-->
+        <!-- Fa Fa-stack-->
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
@@ -13,28 +13,25 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
     </head>
     <body>
     <!-- Back to top button -->
     <a id="buttonToTheTop">
         <img height="80px" src="{{ asset('assets/icon/arrow3.png') }}" alt="">
     </a>
-
+    <!-- Nav -->
     {{ include('partials/_nav.html.twig') }}
-
+    <!-- Main -->
     <main role="main">
         {% block body %}{% endblock %}
     </main>
-
-
     <!-- Divider-->
         <div class="divider"><span></span><span>
           Suivez-nous
         </span><span></span></div>
-
+    <!-- Footer -->
     {{ include('partials/_footer.html.twig') }}
-
+    <!-- Modals -->
     {% if app.request.attributes.get('_route') is same as 'app_trick_show' %}
         {{ include('partials/_modal_media.html.twig') }}
     {% endif %}
@@ -46,6 +43,5 @@
         <script type ="text/javascript" src="../js/jquery.js"></script>
         <script type ="text/javascript" src="../js/bootstrap.min.js"></script>
     {# La suppression de ces fichiers entraine le non-fonctionnement du modal #}
-
     </body>
 </html>
