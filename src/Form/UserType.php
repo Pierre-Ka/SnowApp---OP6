@@ -24,12 +24,12 @@ class UserType extends AbstractType
             ])
             ->add('setProfilePicture', FileType::class, [
                 'label' => 'Definir une image de profil',
-                'help' => 'Formats : png, jpg, jpeg.   Taille : max 8Mo ',
+                'help' => 'Formats : png, jpg, jpeg.   Taille : max 1Mo ',
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '9000k',       // 1024 kB = 1 MB, 8192 kB = 8 MB
+                        'maxSize' => '2000k',       // 1024 kB = 1 MB, 8192 kB = 8 MB
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',

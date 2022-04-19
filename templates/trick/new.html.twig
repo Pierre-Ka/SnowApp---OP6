@@ -1,5 +1,7 @@
 {% extends 'layouts/main_frame.html.twig' %}
 
+{% block title parent()~' Add' %}
+
 {% block content %}
     <h1 class="pb-3">Creer une nouvelle figure</h1>
     {{ include('partials/add_trick/_specific_form.html.twig', {'button_label': 'Publier'}) }}

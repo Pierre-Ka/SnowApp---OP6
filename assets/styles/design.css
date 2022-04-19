@@ -6,6 +6,7 @@
 */
 
 /***************** BASIC DESIGN ********************************************/
+
 #tricks{
     padding: 90px;
     text-shadow: 0.5px 0.5px 0.5px lightcoral;
@@ -101,7 +102,32 @@
     left : 0 ;
     bottom: 25%;
 }
+#load-data-forward {
+    vertical-align: center;
+    background-color: #323539;
+    color:white;
+}
+.loaderTricks {
+    display: inline-block;
+}
+.label-loaderTricks {
+    font-size: 1.5em;
+    vertical-align: super;
+    margin-left: 5px;
+}
 
+.legend-addtrick {
+    font-style: italic;
+    font-size: 1em;
+}
+
+#new_video, #new_picture {
+    border:none;
+}
+
+.fa-plus-circle{
+    font-size: 1.1em;
+}
 /**************** ALERT DEPLACER A LA SECTION ALERT : ligne 4924 ******************************************/
 
 /************* PICTURE TRICK INDEX ***********************************/
@@ -352,7 +378,7 @@
     margin: 0 auto;
     width: fit-content;
  }
-/********************************** CSS LOADER TRICK **************************/
+/********************************** CSS LOADMORE TRICK **************************/
 .loaderTricks {
     margin: auto;
     border: 3.5px solid #EAF0F6;

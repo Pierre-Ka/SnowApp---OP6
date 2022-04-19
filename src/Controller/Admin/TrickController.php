@@ -36,7 +36,7 @@ class TrickController extends AbstractController
             $trickManager->create($trick, $user);
             if (($form['videos'])->getData() !== null) {
                 foreach ($form->get('videos') as $data) {
-                    if ($data['path']->getData() !== null) {
+                    if (str_starts_with($data['path']->getData(), 'https://www.youtube.com/watch?')) {
                         $video = new Video();
                         $video->setPath($data['path']->getData());
                         $videoManager->edit($video, $trick);
@@ -46,9 +46,12 @@ class TrickController extends AbstractController
             $pictures = $form->get('pictures') ?? null;
             if ($pictures) {
                 foreach ($pictures as $dataPicture) {
-                    $formData = $dataPicture['setCollectionPicture']->getData();
-                    $picture = new Picture();
-                    $pictureManager->create($formData, $picture, $trick);
+                    if ($dataPicture['setCollectionPicture']->getData() !== null)
+                    {
+                        $formData = $dataPicture['setCollectionPicture']->getData();
+                        $picture = new Picture();
+                        $pictureManager->create($formData, $picture, $trick);
+                    }
                 }
             }
             $this->addFlash('success', 'Figure créée avec succès');
