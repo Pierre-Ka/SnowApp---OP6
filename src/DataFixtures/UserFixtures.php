@@ -18,27 +18,27 @@ class UserFixtures extends Fixture
             //'password' => '$2y$13$QVXV3WraPNtdiMo7LHnbEeFiYeHCMFHBkgSjAcxUAjGqZKmcDGLzO'
         ],
         [
-            'firstName' => 'Jane',
-            'lastName' => 'Doe',
-            'email' => 'janedoe@gmail.com',
+            'firstName' => 'Wim',
+            'lastName' => 'Hoff',
+            'email' => 'iceman@gmail.com',
             //'password' => '$2y$13$5NzVik5uqG9aDrANnbfQxuz03XQeoIU7QF35ZRXVj2HtH1orZCrjy'
         ],
         [
-            'firstName' => 'Jammie',
-            'lastName' => 'Doe',
-            'email' => 'jammiedoe@gmail.com',
+            'firstName' => 'Eva',
+            'lastName' => 'Thunberg',
+            'email' => 'smoothie_ice@gmail.com',
             //'password' => '$2y$13$gT4bHf6aW9P4dayq2r5pg.Y5lMVBIUNMPw9UxQiauvZ2Nylm3SDWm'
         ],
         [
-            'firstName' => 'Jared',
-            'lastName' => 'Doe',
-            'email' => 'jareddoe@gmail.com',
+            'firstName' => 'Marion',
+            'lastName' => 'McAllister',
+            'email' => 'mcallister76@gmail.com',
             //'password' => '$2y$13$n/EgqVDOGI0hlGxkJR8NPubAItY/.KOd7fBI4OXIgnoOGIZvCHxvy'
         ],
         [
-            'firstName' => 'Jackie',
-            'lastName' => 'Doe',
-            'email' => 'jackiedoe@gmail.com',
+            'firstName' => 'Thona',
+            'lastName' => 'Scott',
+            'email' => 'travis1996@gmail.com',
             //'password' => '$2y$13$ALjZE0JyqmoHTMFmEvqs1ucr2fj5nExese831f/rtx4qJLa67Pwya'
         ],
     ];
@@ -57,6 +57,7 @@ class UserFixtures extends Fixture
             $user->setFirstName($USER['firstName']);
             $user->setLastName($USER['lastName']);
             $user->setEmail($USER['email']);
+            $user->setProfilePicture(($key+1).'.jpg');
             $password = $this->hasher->hashPassword($user, 'secret');
             $user->setPassword($password);
             $user->setIsVerified(true);

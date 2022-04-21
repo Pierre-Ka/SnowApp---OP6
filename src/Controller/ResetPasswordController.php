@@ -48,7 +48,7 @@ class ResetPasswordController extends AbstractController
             }
             if (($user->getToken() === null) && ($user->getIsVerified() === true)) {
                 $this->emailHandler->sendForgottenPasswordMail($user);
-                $this->addFlash('info', 'Un email vous a été envoyé pour pour réinitialiser votre mot de passe');
+                $this->addFlash('info', 'Un email vous a été envoyé pour réinitialiser votre mot de passe');
                 return $this->render('security/sending_reset_request.html.twig');
             }
             $this->addFlash('error', 'Un email de notre part vous a déjà été envoyé');
