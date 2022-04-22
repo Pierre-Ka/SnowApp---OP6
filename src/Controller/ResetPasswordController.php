@@ -60,8 +60,12 @@ class ResetPasswordController extends AbstractController
     }
 
     #[Route('/reset/{token}', name: 'app_change_password')]
-    public function reset(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher,
-                          string  $token): Response
+    public function reset(
+        Request                     $request,
+        User                        $user,
+        UserPasswordHasherInterface $userPasswordHasher,
+        string                      $token
+    ): Response
     {
         if (!$user) // INUTILE A CAUSE DU PARAM CONVERTER ?
         {

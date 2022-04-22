@@ -18,12 +18,13 @@ class TrickController extends AbstractController
     #[Route('/', name: 'app_trick_index', methods: ['GET'])]
     public function index(TrickRepository $trickRepository): Response
     {
+        $totalTricks = $trickRepository->count([]);
         $tricks = $trickRepository->findBy([], ['createDate' => 'DESC'], 12);
         $tricksCount = $trickRepository->count([]);
         $pageCount = round($tricksCount / 12);
 
         return $this->render('trick/index.html.twig', [
-            'all_tricks' => $trickRepository->findAll(),
+            'totalTricks' => $totalTricks,
             'page' => 1,
             'tricks' => $tricks,
             'is_index' => true,
@@ -41,19 +42,14 @@ class TrickController extends AbstractController
         ]);
     }
 
-    /*
-    Redirection :
-    // generating a URL with a fragment (/all_tricks#tricks)
-        $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
-    */
-
     #[Route('/all_tricks', name: 'app_all_tricks', methods: ['GET'])]
     public function list(TrickRepository $trickRepository): Response
     {
         $tricks = $trickRepository->findBy([], ['createDate' => 'DESC']);
+        $totalTricks = count($tricks);
 
         return $this->render('trick/index.html.twig', [
-            'all_tricks' => $trickRepository->findAll(),
+            'totalTricks' => $totalTricks,
             'tricks' => $tricks,
             'is_index' => false,
         ]);
