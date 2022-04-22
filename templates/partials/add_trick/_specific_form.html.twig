@@ -8,22 +8,21 @@
     {{ form_row(form.level) }}
     {{ form_row(form.description) }}
     {{ form_row(form.setMainPicture) }}
+
     <fieldset class="mt-4">
         <legend class="legend-addtrick text-center w-auto px-3">{{ form_label(form.videos) }}</legend>
         {{ form_errors(form.videos) }}
         <div class="mx-5 mb-5 mt-3">
-            <table class="row px-4 js-media-wrapper mt-4" id="global_prototype_videos"
-                   data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"
-                   data-index="{{ form.videos|length }}">
-                <button  type="button" class="js-media-add mb-5 bg-transparent" id="new_video">
-                    <span class="fa fa-plus-circle mx-2" ></span>
+            <button  type="button" class="mb-3 bg-transparent" id="new_video">
+                <span class="fa fa-plus-circle mx-2" ></span>
                     Ajouter une nouvelle video
-                </button>
+            </button>
+            <table class="row px-4 mt-4" id="space_where_prototype_videos_is_added"
+                   data-prototype=
+                   "{{ include('partials/add_trick/_collection_form.html.twig', {form: form.videos.vars.prototype})|e('html_attr') }}"
+                   data-index="{{ form.pictures|length }}">
                 {% for videoField in form.videos %}
-                    <tr>
-                        {{ form_errors(videoField) }}
-                        {{ form_widget(videoField) }}
-                    </tr>
+                    {{ include('partials/add_trick/_collection_form.html.twig', {form: form.pictures}) }}
                 {% endfor %}
             </table>
         </div>
@@ -32,18 +31,16 @@
         <legend class="legend-addtrick text-center w-auto px-3">{{ form_label(form.pictures) }}</legend>
         {{ form_errors(form.pictures) }}
         <div class="mx-5 mb-5 mt-3">
-            <table class="row px-4 js-media-wrapper mt-4" id="global_prototype_pictures"
-                   data-prototype="{{ form_widget(form.pictures.vars.prototype)|e('html_attr') }}"
+            <button type="button" class="mb-5 bg-transparent" id="new_picture" >
+                <span class="fa fa-plus-circle mx-2"></span>
+                    Ajouter une nouvelle image
+            </button>
+            <table class="row px-4 mt-4" id="space_where_prototype_pictures_is_added"
+                   data-prototype=
+                   "{{ include('partials/add_trick/_collection_form.html.twig', {form: form.pictures.vars.prototype})|e('html_attr') }}"
                    data-index="{{ form.pictures|length }}">
-                <button  type="button" class="js-media-add mb-5 bg-transparent" id="new_picture" >
-                    <span class="fa fa-plus-circle mx-2"></span>
-                      Ajouter une nouvelle image
-                </button>
                 {% for pictureField in form.pictures %}
-                    <tr>
-                        {{ form_errors(pictureField) }}
-                        {{ form_widget(pictureField) }}
-                    </tr>
+                    {{ include('partials/add_trick/_collection_form.html.twig', {form: form.pictures}) }}
                 {% endfor %}
             </table>
         </div>
