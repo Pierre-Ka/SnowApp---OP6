@@ -42,8 +42,7 @@ class TrickController extends AbstractController
     }
 
     /*
-    Redirection :
-    // generating a URL with a fragment (/all_tricks#tricks)
+        Redirection :  // generating a URL with a fragment (/all_tricks#tricks)
         $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
     */
 

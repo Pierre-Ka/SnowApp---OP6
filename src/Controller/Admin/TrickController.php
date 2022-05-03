@@ -46,8 +46,7 @@ class TrickController extends AbstractController
             $pictures = $form->get('pictures') ?? null;
             if ($pictures) {
                 foreach ($pictures as $dataPicture) {
-                    if ($dataPicture['setCollectionPicture']->getData() !== null)
-                    {
+                    if ($dataPicture['setCollectionPicture']->getData() !== null) {
                         $formData = $dataPicture['setCollectionPicture']->getData();
                         $picture = new Picture();
                         $pictureManager->create($formData, $picture, $trick);
@@ -55,8 +54,10 @@ class TrickController extends AbstractController
                 }
             }
             $this->addFlash('success', 'Figure créée avec succès');
+
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }
+
         return $this->renderForm('trick/new.html.twig', [
             'trick' => $trick,
             'form' => $form,
@@ -77,8 +78,10 @@ class TrickController extends AbstractController
             }
             $trickManager->create($trick);
             $this->addFlash('success', 'Figure modifiée avec succès');
+
             return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug(), 'page' => 1]);
         }
+
         return $this->renderForm('trick/edit.html.twig', [
             'trick' => $trick,
             'form' => $form,
@@ -92,6 +95,7 @@ class TrickController extends AbstractController
             $trickManager->delete($trick);
             $this->addFlash('info', 'La figure a été supprimée avec succès');
         }
+
         return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
     }
 }

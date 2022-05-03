@@ -7,14 +7,13 @@ use App\Entity\Trick;
 use App\Form\MultiplePictureType;
 use App\Form\PictureType;
 use App\Manager\PictureManager;
-use App\Repository\PictureRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode:404)]
+#[Security("is_granted('ROLE_USER') && user.getIsVerified() === true", message: 'Page Introuvable', statusCode: 404)]
 class PictureController extends AbstractController
 {
     #[Route('/picture/create/{id<[0-9]+>}', name: 'app_picture_create', methods: ['GET', 'POST'])]
@@ -32,8 +31,9 @@ class PictureController extends AbstractController
             }
             $this->addFlash('success', 'Image(s) ajoutée(s) avec succès');
             $slug = $trick->getSlug();
-            return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trick_show', ['slug' => $slug, 'page' => 1], Response::HTTP_SEE_OTHER);
         }
+
         return $this->renderForm('picture/new.html.twig', [
             'form' => $form,
         ]);
@@ -50,22 +50,24 @@ class PictureController extends AbstractController
             $pictureManager->edit($formData, $picture);
             $this->addFlash('success', 'Image modifiée avec succès');
             $slug = $picture->getTrick()->getSlug();
-            return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trick_show', ['slug' => $slug, 'page' => 1], Response::HTTP_SEE_OTHER);
         }
+
         return $this->renderForm('picture/edit.html.twig', [
             'picture' => $picture,
             'form' => $form,
         ]);
     }
 
-    #[Route('/picture/{id<[0-9]+>}/delete', name: 'app_picture_delete', methods: ['POST']) ]
+    #[Route('/picture/{id<[0-9]+>}/delete', name: 'app_picture_delete', methods: ['POST'])]
     public function delete(Request $request, Picture $picture, PictureManager $pictureManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $picture->getId(), $request->request->get('_token'))) {
             $slug = $picture->getTrick()->getSlug();
             $pictureManager->delete($picture);
             $this->addFlash('info', 'Image supprimée avec succès');
         }
-        return $this->redirectToRoute('app_trick_show', ['slug'=> $slug,'page'=> 1], Response::HTTP_SEE_OTHER);
+
+        return $this->redirectToRoute('app_trick_show', ['slug' => $slug, 'page' => 1], Response::HTTP_SEE_OTHER);
     }
 }

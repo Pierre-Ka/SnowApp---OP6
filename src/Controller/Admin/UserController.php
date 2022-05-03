@@ -34,6 +34,7 @@ class UserController extends AbstractController
             $this->addFlash('success', 'Profil modifiée avec succès');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }
+
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
@@ -56,6 +57,7 @@ class UserController extends AbstractController
             $this->addFlash('success', 'Mot de passe modifié avec succès');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
         }
+
         return $this->render('security/reset_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),

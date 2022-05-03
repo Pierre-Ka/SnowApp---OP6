@@ -63,7 +63,7 @@ class ResetPasswordController extends AbstractController
     public function reset(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher,
                           string  $token): Response
     {
-        if (!$user) // INUTILE A CAUSE DU PARAM CONVERTER ?
+        if (!$user)
         {
             $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer');
             return $this->redirectToRoute('app_all_tricks', ['_fragment' => 'tricks']);
